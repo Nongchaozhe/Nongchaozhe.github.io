@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>Hello,Hexo | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##hello test">
-<meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
+  <meta name="description" content="hello test">
+<meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hello,Hexo">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/07/25/Hello-Hexo/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="##hello test">
+<meta property="og:description" content="hello test">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-07-25T14:33:58.000Z">
+<meta property="og:updated_time" content="2018-07-26T15:25:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hello,Hexo">
-<meta name="twitter:description" content="##hello test">
+<meta name="twitter:description" content="hello test">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -73,14 +73,14 @@
     			
             
     			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">true</a>
+    			
             
 		</nav>
 		<nav class="header-nav">
 			<div class="social">
 				
 					<a class="github" target="_blank" href="https://github.com/Nongchaozhe" title="github"><i class="icon-github"></i></a>
-		        
-					<a class="weixin" target="_blank" href="/nczzsk" title="weixin"><i class="icon-weixin"></i></a>
 		        
 					<a class="mail" target="_blank" href="mailto:zhushengkeng@163.com" title="mail"><i class="icon-mail"></i></a>
 		        
@@ -118,8 +118,6 @@
 				<div class="social">
 					
 						<a class="github" target="_blank" href="https://github.com/Nongchaozhe" title="github"><i class="icon-github"></i></a>
-			        
-						<a class="weixin" target="_blank" href="/nczzsk" title="weixin"><i class="icon-weixin"></i></a>
 			        
 						<a class="mail" target="_blank" href="mailto:zhushengkeng@163.com" title="mail"><i class="icon-mail"></i></a>
 			        
@@ -165,8 +163,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##hello test</p>
-
+        <h2 id="hello-test"><a href="#hello-test" class="headerlink" title="hello test"></a>hello test</h2>
       
 
       
@@ -200,6 +197,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -330,7 +338,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -352,6 +360,8 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
       
     
       
+      
+      
     
     
 
@@ -359,11 +369,13 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     
       
-      <li style="width: 100%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
       
         
       
         
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">true</a></li>
       
         
     </ul>
@@ -382,6 +394,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -428,6 +444,12 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
 
     
 
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一个人如果没有梦想&lt;br&gt;跟无忧无虑有什么区别呢？&lt;br&gt;&lt;br&gt;如果你笑了&lt;br&gt;那就太好啦~</div>
+  	  	
+    	</section>
     
   </div>
   
