@@ -6,16 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>Archives | NCZ的博客</title>
+  <title>Method Swizzling与JSPatch探究（一） | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NCZ的博客">
-<meta property="og:url" content="https://nongchaozhe.github.io/archives/index.html">
+  <meta name="description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝 目录： 1、从[receiver message]说">
+<meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Method Swizzling与JSPatch探究（一）">
+<meta property="og:url" content="https://nongchaozhe.github.io/2018/08/01/Method-Swizzling与JSPatch探究（一）/index.html">
 <meta property="og:site_name" content="NCZ的博客">
+<meta property="og:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝 目录： 1、从[receiver message]说">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png">
+<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifqwmojuhe4tmzdbmuzdambqgyyde_608x158.png">
+<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifrdanbwgbrtmzdbmuzdambqmeyde_626x298.png">
+<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ie4tqzlfmjstmzdbmuzdambqgqyde_612x426.png">
+<meta property="og:image" content="http://s16.mogucdn.com/p1/170316/idid_ie4tsnzqgjstmzdbmuzdambqgqyde_678x486.png">
+<meta property="og:image" content="http://s16.mogucdn.com/p1/170316/idid_ifqwczrxmm2wizdbmuzdambqgyyde_656x180.png">
+<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifrtqnzugm3gizdbmuzdambqhayde_746x252.png">
+<meta property="og:updated_time" content="2018-08-01T15:20:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NCZ的博客">
+<meta name="twitter:title" content="Method Swizzling与JSPatch探究（一）">
+<meta name="twitter:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝 目录： 1、从[receiver message]说">
+<meta name="twitter:image" content="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -139,114 +151,224 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Method-Swizzling与JSPatch探究（一）" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Method Swizzling与JSPatch探究（一）
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" class="archive-article-date">
+
+        
+        <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" class="archive-article-date">
   	<time datetime="2018-08-01T15:19:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">Method Swizzling与JSPatch探究（一）</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
+<hr>
+<ul>
+<li>用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研)</li>
+<li><p>如果看此文之前，对这两者有些概念那就最好啦😝</p>
+<pre><code>目录：
+1、从[receiver message]说起
+2、Method Swizzling hook过程
+3、JSPatch hook过程
+4、各种case兼容性
+5、结论
+6、拓展
+7、也许你有疑问的地方(主要针对3中可能产生的问题)
+</code></pre></li>
+<li><p>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞</p>
+</li>
+</ul>
+<h5 id="1、进入正文之前，从-receiver-message-说起"><a href="#1、进入正文之前，从-receiver-message-说起" class="headerlink" title="1、进入正文之前，从[receiver message]说起"></a>1、进入正文之前，从[receiver message]说起</h5><h6 id="OC-动态语言"><a href="#OC-动态语言" class="headerlink" title="OC 动态语言"></a>OC 动态语言</h6><p>执行函数的过程就是发送消息的过程，根据message生成selector。简化版流程图如下：<br><img src="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png" style="zoom:40%"><br>说明： </p>
+<ul>
+<li>发送消息，根据<code>message</code>生成selector  </li>
+<li>根据selector寻找指向函数实现的指针IMP，存在直接执行<br>不存在进入<strong>消息转发机制</strong>  </li>
+<li><code>resolveInstanceMethod</code>：<strong>动态方法解析</strong>-常用于给类/对象动态添加一个相应的实现  </li>
+<li><code>forwardingTargetForSelector</code>：<strong>备用接收者</strong>-将消息转发给其他对象处理  </li>
+<li><code>forwardInvocation</code>：<strong>完整转发</strong>-最后一次将消息转发给其他对象，包含一个表示消息的<code>NSInvocation</code>的对象，包含尚未处理的消息的全部细节，包括<code>selector</code>、<code>target</code>、<code>params</code></li>
+<li>以上都没完成转发，则<code>doesNotRecognizeSelector</code>，此时就会看到我们常见的<code>unrecognize sent to selector balabala</code>之类的错误</li>
+</ul>
+<h5 id="2、-Method-Swizzling"><a href="#2、-Method-Swizzling" class="headerlink" title="2、 Method Swizzling"></a>2、 Method Swizzling</h5><p>以<code>method_exchangeImplementations</code>为例  </p>
+<ul>
+<li>hook关键：<strong>未进入消息转发机制时</strong>，直接从IMP hook，交换2个方法的IMP</li>
+</ul>
+<p>以<code>selORIG</code>为原方法，<code>IMPORIG</code>为对应指向函数实现的指针  </p>
+<ul>
+<li><p>原始方法<br><img src="http://s17.mogucdn.com/p1/170316/idid_ifqwmojuhe4tmzdbmuzdambqgyyde_608x158.png" style="zoom:40%">  </p>
+</li>
+<li><p>hook selORIG 一次<br><img src="http://s17.mogucdn.com/p1/170316/idid_ifrdanbwgbrtmzdbmuzdambqmeyde_626x298.png" style="zoom:40%">  </p>
+</li>
+<li><p>hook selORIG 两次，先A后B<br><img src="http://s17.mogucdn.com/p1/170316/idid_ie4tqzlfmjstmzdbmuzdambqgqyde_612x426.png" style="zoom:40%"><br>第二次hook，实质上已经跟<code>selA</code>无关，是<code>selORIG</code>和<code>selB</code>对应的<code>IMP</code>的交换，因此<code>selB</code>对应<code>IMPA</code>，<code>selORIG</code>对应<code>IMPB</code>。而<code>selA</code>不受影响仍然是<code>IMPORIG</code></p>
+</li>
+<li>hook selORIG 三次，顺序为：A、B、C<br><img src="http://s16.mogucdn.com/p1/170316/idid_ie4tsnzqgjstmzdbmuzdambqgqyde_678x486.png" style="zoom:40%"><br>经过两次hook的解释，应该懂它的套路了   </li>
+</ul>
+<p>以上：不同的hook，是在不同的地方实现<br>先后顺序的保证：由于<code>Method Swizzling</code>都是写在<code>+(void)load</code>方法中的，<code>compile Sources</code>的顺序就是load方法的调用顺序(注意这里是已分类的形式的情况下，如果存在父类和子类同时swizzle，是先执行父类的<code>+load</code>，这也是一个坑-后续再讨论)</p>
+<p><strong>关于<code>Method Swizzling</code>如何实现，自行Google，😝</strong> </p>
+<h5 id="3、JSPatch"><a href="#3、JSPatch" class="headerlink" title="3、JSPatch"></a>3、JSPatch</h5><p>相当普及的热修复库，虽然目前iOSer都收到苹果爸爸的警告邮件了，这个框架的未来走势还有待观察，但是智慧无穷，它总会存在。</p>
+<h6 id="一点说明"><a href="#一点说明" class="headerlink" title="一点说明"></a>一点说明</h6><p>因为本文最后要讲<code>Method Swizzling</code>和<code>JSPatch</code>的兼容性。因此下文，不会涉及JS是如何和OC交互的？JSPatch很细节的实现是什么？只会涉及，它是如何hook，在哪一步hook</p>
+<h6 id="在哪一步-amp-如何hook"><a href="#在哪一步-amp-如何hook" class="headerlink" title="在哪一步&amp;如何hook"></a>在哪一步&amp;如何hook</h6><p>白话文概括其原理：<br>1、 改变原指向函数实现的IMP指针为<code>_objc_msgForward</code>(或<code>_objc_msgForwad_stret</code>)<br>2、 执行方法，直接进入消息转发过程<br>3、 消息转发最后一步hook<code>-forwardInvocation</code>  </p>
+<p>下面用图来说明：  </p>
+<ul>
+<li>搞事前：安然无恙<br><img src="http://s16.mogucdn.com/p1/170316/idid_ifqwczrxmm2wizdbmuzdambqgyyde_656x180.png" style="zoom:40%"><br><br><br></li>
+<li>搞事第一步：改变方法指向<code>_objc_msgForward</code><br><img src="http://s17.mogucdn.com/p1/170316/idid_ifrtqnzugm3gizdbmuzdambqhayde_746x252.png" style="zoom:40%"><br>如上图：用过JSPatch都知道，我们可以通过<code>self.ORIGtest()</code>的方式调用原方法，是因为JSPatch新增了一个方法指向原来的方法 </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//提取几行关键的源码</span><br><span class="line">IMP msgForwardIMP = _objc_msgForward;</span><br><span class="line">....</span><br><span class="line">class_replaceMethod(cls, selector, msgForwardIMP, typeDescription);</span><br><span class="line">``` </span><br><span class="line">&lt;br&gt;</span><br><span class="line">你可能会有疑问的地方，Answer见第7部分描述   </span><br><span class="line">		</span><br><span class="line">		Q：万一，原方法不存在怎么办？  </span><br><span class="line">		Q：`_objc_msgForward`是什么鬼？  </span><br><span class="line"></span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line"></span><br><span class="line">- 搞事第二步：`forwardInvocation`  </span><br><span class="line">&lt;img src=&quot;http://s17.mogucdn.com/p1/170317/idid_ifqwezbsgvrtomlcmuzdambqgyyde_1398x724.png&quot; style=&quot;zoom:40%&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p>if (class_getMethodImplementation(cls, @selector(forwardInvocation:)) != (IMP)JPForwardInvocation) {<br>    IMP originalForwardImp = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)JPForwardInvocation, “v@:@”);<br>    if (originalForwardImp) {<br>        class_addMethod(cls, @selector(ORIGforwardInvocation:), originalForwardImp, “v@:@”);<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line"></span><br><span class="line">- 搞事第三步：`JPForwardInvocation`里到底做了啥？  </span><br><span class="line">经过搞事第一步我们知道，我们现在调用方法会直接进入消息转发机制的最后一步(以下是：**包含关键步骤的不完整流程**)。  </span><br><span class="line">**一句话：获得NSInvocation所有参数，将消息转发给JS对应实现，获得JS回调结果，完成调用**   </span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line">- *Step01*：判断调用的方法该类是否已实现，未实现则走 原方法指向的消息转发流程(上图中即`IMPforwardInvocation`)</span><br></pre></td></tr></table></figure></p>
+<p>JSValue *jsFunc = getJSFunctionInObjectHierachy(slf, JPSelectorName);<br>if (!jsFunc) {<br>    JPExecuteORIGForwardInvocation(slf, selector, invocation);<br>    return;<br>}<br><code>`</code>  </p>
+<ul>
+<li><em>Step02</em>：处理调用函数的参数等相关信息<br>这里invocation会被利用，关于invocation，前文已经提及<br>这里涉及OC的type encoding(类型编码）  </li>
+</ul>
+<ul>
+<li><p><em>Step03</em>：通过<code>formatOCToJS</code>将参数数组转为对应的JS对象数组  </p>
+</li>
+<li><p><em>Step04</em>：调用JS实现，传入之前处理的参数列表<br>主要涉及的方法：<code>- (JSValue *)callWithArguments:(NSArray *)arguments;</code><br><br><br><br>你可能会有疑问的地方，Answer见第7部分描述   </p>
+<pre><code>Q：关于type encoding    
+</code></pre></li>
+</ul>
+<hr>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>晚饭加鸡腿🍗<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2018/08/01/Method-Swizzling与JSPatch探究（一）/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/25/Hello-Hexo/" class="archive-article-date">
-  	<time datetime="2018-07-25T14:25:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-25</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/25/Hello-Hexo/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello,Hexo</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/25/Hello-Hexo/">Hello,Hexo</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/25/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-25T13:50:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/25/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -269,8 +391,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
