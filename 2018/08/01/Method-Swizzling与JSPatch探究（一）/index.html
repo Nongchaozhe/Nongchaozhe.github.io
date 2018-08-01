@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>Method Swizzling与JSPatch探究（一） | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝 目录： 1、从[receiver message]说">
+  <meta name="description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝  12345678目录：1、从[receiver m">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Method Swizzling与JSPatch探究（一）">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/08/01/Method-Swizzling与JSPatch探究（一）/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝 目录： 1、从[receiver message]说">
+<meta property="og:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝  12345678目录：1、从[receiver m">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png">
 <meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifqwmojuhe4tmzdbmuzdambqgyyde_608x158.png">
@@ -23,10 +23,11 @@
 <meta property="og:image" content="http://s16.mogucdn.com/p1/170316/idid_ie4tsnzqgjstmzdbmuzdambqgqyde_678x486.png">
 <meta property="og:image" content="http://s16.mogucdn.com/p1/170316/idid_ifqwczrxmm2wizdbmuzdambqgyyde_656x180.png">
 <meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifrtqnzugm3gizdbmuzdambqhayde_746x252.png">
-<meta property="og:updated_time" content="2018-08-01T15:29:23.000Z">
+<meta property="og:image" content="http://s17.mogucdn.com/p1/170317/idid_ifqwezbsgvrtomlcmuzdambqgyyde_1398x724.png">
+<meta property="og:updated_time" content="2018-08-01T15:38:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Method Swizzling与JSPatch探究（一）">
-<meta name="twitter:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝 目录： 1、从[receiver message]说">
+<meta name="twitter:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝  12345678目录：1、从[receiver m">
 <meta name="twitter:image" content="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
@@ -175,18 +176,11 @@
 <hr>
 <ul>
 <li>用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研)</li>
-<li><p>如果看此文之前，对这两者有些概念那就最好啦😝</p>
-<pre><code>目录：
-1、从[receiver message]说起
-2、Method Swizzling hook过程
-3、JSPatch hook过程
-4、各种case兼容性
-5、结论
-6、拓展
-7、也许你有疑问的地方(主要针对3中可能产生的问题)
-</code></pre></li>
-<li><p>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞</p>
-</li>
+<li>如果看此文之前，对这两者有些概念那就最好啦😝</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录：</span><br><span class="line">1、从[receiver message]说起</span><br><span class="line">2、Method Swizzling hook过程</span><br><span class="line">3、JSPatch hook过程</span><br><span class="line">4、各种case兼容性</span><br><span class="line">5、结论</span><br><span class="line">6、拓展</span><br><span class="line">7、也许你有疑问的地方(主要针对3中可能产生的问题)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞</li>
 </ul>
 <h5 id="1、进入正文之前，从-receiver-message-说起"><a href="#1、进入正文之前，从-receiver-message-说起" class="headerlink" title="1、进入正文之前，从[receiver message]说起"></a>1、进入正文之前，从[receiver message]说起</h5><h6 id="OC-动态语言"><a href="#OC-动态语言" class="headerlink" title="OC 动态语言"></a>OC 动态语言</h6><p>执行函数的过程就是发送消息的过程，根据message生成selector。简化版流程图如下：<br><img src="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png" style="zoom:40%"><br>说明： </p>
 <ul>
@@ -221,9 +215,24 @@
 <li>搞事前：安然无恙<br><img src="http://s16.mogucdn.com/p1/170316/idid_ifqwczrxmm2wizdbmuzdambqgyyde_656x180.png" style="zoom:40%"><br><br><br></li>
 <li>搞事第一步：改变方法指向<code>_objc_msgForward</code><br><img src="http://s17.mogucdn.com/p1/170316/idid_ifrtqnzugm3gizdbmuzdambqhayde_746x252.png" style="zoom:40%"><br>如上图：用过JSPatch都知道，我们可以通过<code>self.ORIGtest()</code>的方式调用原方法，是因为JSPatch新增了一个方法指向原来的方法 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//提取几行关键的源码</span><br><span class="line">IMP msgForwardIMP = _objc_msgForward;</span><br><span class="line">....</span><br><span class="line">class_replaceMethod(cls, selector, msgForwardIMP, typeDescription);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">&lt;br&gt;</span><br><span class="line">你可能会有疑问的地方，Answer见第7部分描述   </span><br><span class="line">		</span><br><span class="line">		Q：万一，原方法不存在怎么办？  </span><br><span class="line">		Q：`_objc_msgForward`是什么鬼？  </span><br><span class="line"></span><br><span class="line">&lt;br&gt;&lt;br&gt;</span><br><span class="line"></span><br><span class="line">- 搞事第二步：`forwardInvocation`  </span><br><span class="line">&lt;img src=&quot;http://s17.mogucdn.com/p1/170317/idid_ifqwezbsgvrtomlcmuzdambqgyyde_1398x724.png&quot; style=&quot;zoom:40%&quot;&gt;</span><br></pre></td></tr></table></figure>
-<p>if (class_getMethodImplementation(cls, @selector(forwardInvocation:)) != (IMP)JPForwardInvocation) {<br>    IMP originalForwardImp = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)JPForwardInvocation, “v@:@”);<br>    if (originalForwardImp) {<br>        class_addMethod(cls, @selector(ORIGforwardInvocation:), originalForwardImp, “v@:@”);<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;br&gt;</span><br><span class="line"></span><br><span class="line">- 搞事第三步：`JPForwardInvocation`里到底做了啥？  </span><br><span class="line">经过搞事第一步我们知道，我们现在调用方法会直接进入消息转发机制的最后一步(以下是：**包含关键步骤的不完整流程**)。  </span><br><span class="line">**一句话：获得NSInvocation所有参数，将消息转发给JS对应实现，获得JS回调结果，完成调用**   </span><br><span class="line"></span><br><span class="line">-----</span><br><span class="line">- *Step01*：判断调用的方法该类是否已实现，未实现则走 原方法指向的消息转发流程(上图中即`IMPforwardInvocation`)</span><br></pre></td></tr></table></figure></p>
-<p>JSValue *jsFunc = getJSFunctionInObjectHierachy(slf, JPSelectorName);<br>if (!jsFunc) {<br>    JPExecuteORIGForwardInvocation(slf, selector, invocation);<br>    return;<br>}<br><code>`</code>  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//提取几行关键的源码</span><br><span class="line">IMP msgForwardIMP = _objc_msgForward;</span><br><span class="line">....</span><br><span class="line">class_replaceMethod(cls, selector, msgForwardIMP, typeDescription);</span><br></pre></td></tr></table></figure>
+<p>你可能会有疑问的地方，Answer见第7部分描述   </p>
+<pre><code>Q：万一，原方法不存在怎么办？  
+Q：`_objc_msgForward`是什么鬼？  
+</code></pre><p><br><br></p>
+<ul>
+<li>搞事第二步：<code>forwardInvocation</code><br><img src="http://s17.mogucdn.com/p1/170317/idid_ifqwezbsgvrtomlcmuzdambqgyyde_1398x724.png" style="zoom:40%">  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if (class_getMethodImplementation(cls, @selector(forwardInvocation:)) != (IMP)JPForwardInvocation) &#123;</span><br><span class="line">    IMP originalForwardImp = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)JPForwardInvocation, &quot;v@:@&quot;);</span><br><span class="line">    if (originalForwardImp) &#123;</span><br><span class="line">        class_addMethod(cls, @selector(ORIGforwardInvocation:), originalForwardImp, &quot;v@:@&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<ul>
+<li>搞事第三步：<code>JPForwardInvocation</code>里到底做了啥？<br>经过搞事第一步我们知道，我们现在调用方法会直接进入消息转发机制的最后一步(以下是：<strong>包含关键步骤的不完整流程</strong>)。<br><strong>一句话：获得NSInvocation所有参数，将消息转发给JS对应实现，获得JS回调结果，完成调用</strong>   </li>
+</ul>
+<hr>
+<ul>
+<li><em>Step01</em>：判断调用的方法该类是否已实现，未实现则走 原方法指向的消息转发流程(上图中即<code>IMPforwardInvocation</code>)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JSValue *jsFunc = getJSFunctionInObjectHierachy(slf, JPSelectorName);</span><br><span class="line">if (!jsFunc) &#123;</span><br><span class="line">    JPExecuteORIGForwardInvocation(slf, selector, invocation);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><em>Step02</em>：处理调用函数的参数等相关信息<br>这里invocation会被利用，关于invocation，前文已经提及<br>这里涉及OC的type encoding(类型编码）  </li>
 </ul>
@@ -231,9 +240,9 @@
 <li><p><em>Step03</em>：通过<code>formatOCToJS</code>将参数数组转为对应的JS对象数组  </p>
 </li>
 <li><p><em>Step04</em>：调用JS实现，传入之前处理的参数列表<br>主要涉及的方法：<code>- (JSValue *)callWithArguments:(NSArray *)arguments;</code><br><br><br><br>你可能会有疑问的地方，Answer见第7部分描述   </p>
-<pre><code>Q：关于type encoding    
-</code></pre></li>
+</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Q：关于type encoding</span><br></pre></td></tr></table></figure>
 <hr>
 
       
