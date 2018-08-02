@@ -6,29 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>Method Swizzling与JSPatch探究（一） | NCZ的博客</title>
+  <title>Method-Swizzling与JSPatch探究（二） | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝  12345678目录：1、从[receiver m">
+  <meta name="description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。  4、兼容性以hook UIViewController的viewWillAppear的方法为例   4.1 仅method Swizzling， 无JSPatch1234567891011121314151617181920`ViewController:U">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Method Swizzling与JSPatch探究（一）">
-<meta property="og:url" content="https://nongchaozhe.github.io/2018/08/01/Method-Swizzling与JSPatch探究（一）/index.html">
+<meta property="og:title" content="Method-Swizzling与JSPatch探究（二）">
+<meta property="og:url" content="https://nongchaozhe.github.io/2018/08/02/Method-Swizzling与JSPatch探究（二）/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝  12345678目录：1、从[receiver m">
+<meta property="og:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。  4、兼容性以hook UIViewController的viewWillAppear的方法为例   4.1 仅method Swizzling， 无JSPatch1234567891011121314151617181920`ViewController:U">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png">
-<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifqwmojuhe4tmzdbmuzdambqgyyde_608x158.png">
-<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifrdanbwgbrtmzdbmuzdambqmeyde_626x298.png">
-<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ie4tqzlfmjstmzdbmuzdambqgqyde_612x426.png">
-<meta property="og:image" content="http://s16.mogucdn.com/p1/170316/idid_ie4tsnzqgjstmzdbmuzdambqgqyde_678x486.png">
-<meta property="og:image" content="http://s16.mogucdn.com/p1/170316/idid_ifqwczrxmm2wizdbmuzdambqgyyde_656x180.png">
-<meta property="og:image" content="http://s17.mogucdn.com/p1/170316/idid_ifrtqnzugm3gizdbmuzdambqhayde_746x252.png">
-<meta property="og:image" content="http://s17.mogucdn.com/p1/170317/idid_ifqwezbsgvrtomlcmuzdambqgyyde_1398x724.png">
-<meta property="og:updated_time" content="2018-08-01T15:44:03.000Z">
+<meta property="og:image" content="https://s14.mogucdn.com/mlcdn/e5265e/170322_5e1g5e3hblgf08f4a2gkb96c7310d_1464x442.png">
+<meta property="og:image" content="https://s24.mogucdn.com/mlcdn/e5265e/170322_8bke4g09e46f2315b55ld11k9h22c_1166x788.png">
+<meta property="og:image" content="https://s14.mogucdn.com/mlcdn/e5265e/170322_75b90a50k1he7hfk1lilfg70lj035_1444x602.png">
+<meta property="og:image" content="https://s14.mogucdn.com/mlcdn/e5265e/170322_7df6cd3g065cca1h3gcdccb90g3d5_1406x934.png">
+<meta property="og:image" content="https://s24.mogucdn.com/mlcdn/e5265e/170322_0h3hded408c0143cb88ajkle46lb1_1554x1292.png">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/e5265e/170322_733i1lb1abg1j672ibe027lhl3l8h_1164x518.png">
+<meta property="og:image" content="https://s14.mogucdn.com/mlcdn/e5265e/170322_79181l0h5432efjkk7fg415cebbf5_1366x1104.png">
+<meta property="og:image" content="https://s24.mogucdn.com/mlcdn/e5265e/170322_52a3bccgfkhffjffb93ha5f708h60_1238x784.png">
+<meta property="og:image" content="https://s24.mogucdn.com/mlcdn/e5265e/170322_0ld0gj76c3l4250050aa5i38fk57c_1372x1444.png">
+<meta property="og:updated_time" content="2018-08-02T13:18:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Method Swizzling与JSPatch探究（一）">
-<meta name="twitter:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。   用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研) 如果看此文之前，对这两者有些概念那就最好啦😝  12345678目录：1、从[receiver m">
-<meta name="twitter:image" content="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png">
+<meta name="twitter:title" content="Method-Swizzling与JSPatch探究（二）">
+<meta name="twitter:description" content="以下笔记整理于2017-03-22当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。  4、兼容性以hook UIViewController的viewWillAppear的方法为例   4.1 仅method Swizzling， 无JSPatch1234567891011121314151617181920`ViewController:U">
+<meta name="twitter:image" content="https://s14.mogucdn.com/mlcdn/e5265e/170322_5e1g5e3hblgf08f4a2gkb96c7310d_1464x442.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -152,20 +153,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Method-Swizzling与JSPatch探究（一）" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Method-Swizzling与JSPatch探究（二）" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Method Swizzling与JSPatch探究（一）
+      Method-Swizzling与JSPatch探究（二）
     </h1>
   
 
         
-        <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" class="archive-article-date">
-  	<time datetime="2018-08-01T15:19:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
+        <a href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/" class="archive-article-date">
+  	<time datetime="2018-08-02T13:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-02</time>
 </a>
         
       </header>
@@ -174,77 +175,69 @@
       
         <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
 <hr>
+<h5 id="4、兼容性"><a href="#4、兼容性" class="headerlink" title="4、兼容性"></a>4、兼容性</h5><p>以hook <code>UIViewController</code>的<code>viewWillAppear</code>的方法为例  </p>
+<h5 id="4-1-仅method-Swizzling，-无JSPatch"><a href="#4-1-仅method-Swizzling，-无JSPatch" class="headerlink" title="4.1 仅method Swizzling， 无JSPatch"></a>4.1 仅method Swizzling， 无JSPatch</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">`ViewController:UIViewController`</span><br><span class="line"></span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO 01&quot;);</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;HELLO 02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIViewController+MLPF.m</span><br><span class="line">- (void)xxx_viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle01&quot;);</span><br><span class="line">    [self xxx_viewWillAppear:animated] ;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle01</span><br><span class="line">HELLO Swizzle02</span><br><span class="line">HELLO 02</span><br></pre></td></tr></table></figure>
 <ul>
-<li>用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研)</li>
-<li>如果看此文之前，对这两者有些概念那就最好啦😝</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录：</span><br><span class="line">1、从[receiver message]说起</span><br><span class="line">2、Method Swizzling hook过程</span><br><span class="line">3、JSPatch hook过程</span><br><span class="line">4、各种case兼容性</span><br><span class="line">5、结论</span><br><span class="line">6、拓展</span><br><span class="line">7、也许你有疑问的地方(主要针对3中可能产生的问题)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞<a id="more"></a>
+<li><p>IMP变化：注意hook的是UIViewController的viewWillAppear而不是ViewController</p>
+<a id="more"></a>
+<p><img src="https://s14.mogucdn.com/mlcdn/e5265e/170322_5e1g5e3hblgf08f4a2gkb96c7310d_1464x442.png" style="zoom:40%">  </p>
+</li>
+<li><p>调用路径：<br><img src="https://s24.mogucdn.com/mlcdn/e5265e/170322_8bke4g09e46f2315b55ld11k9h22c_1166x788.png" style="zoom:40%">  </p>
+<h6 id="4-2-method-Swizzling和JSPatch一起，JSPatch覆盖"><a href="#4-2-method-Swizzling和JSPatch一起，JSPatch覆盖" class="headerlink" title="4.2 method Swizzling和JSPatch一起，JSPatch覆盖"></a>4.2 method Swizzling和JSPatch一起，JSPatch覆盖</h6><p>为了避免swizzle在runtime期间出现诡异的异常，一般会写在+load里面，先于JSPatch加载</p>
+</li>
+<li><p>JSPatch,js文件，覆盖原方法</p>
 </li>
 </ul>
-<h5 id="1、进入正文之前，从-receiver-message-说起"><a href="#1、进入正文之前，从-receiver-message-说起" class="headerlink" title="1、进入正文之前，从[receiver message]说起"></a>1、进入正文之前，从[receiver message]说起</h5><h6 id="OC-动态语言"><a href="#OC-动态语言" class="headerlink" title="OC 动态语言"></a>OC 动态语言</h6><p>执行函数的过程就是发送消息的过程，根据message生成selector。简化版流程图如下：<br><img src="http://s17.mogucdn.com/new1/v1/bmisc/6d1cb3f17fa9f71c831700ef2a9eb863/200475891531.png" style="zoom:40%"><br>说明： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">defineClass(&quot;ViewController&quot;, &#123;</span><br><span class="line">    viewWillAppear: function(animated) &#123;</span><br><span class="line">        console.log(&quot;JSPatch 01&quot;);</span><br><span class="line">        self.super().viewWillAppear(animated);</span><br><span class="line">        console.log(&quot;JSPatch 02&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">JSPatch.log: JSPatch 01</span><br><span class="line">HELLO Swizzle01</span><br><span class="line">HELLO Swizzle02</span><br><span class="line">JSPatch.log: JSPatch 02</span><br></pre></td></tr></table></figure>
 <ul>
-<li>发送消息，根据<code>message</code>生成selector  </li>
-<li>根据selector寻找指向函数实现的指针IMP，存在直接执行<br>不存在进入<strong>消息转发机制</strong>  </li>
-<li><code>resolveInstanceMethod</code>：<strong>动态方法解析</strong>-常用于给类/对象动态添加一个相应的实现  </li>
-<li><code>forwardingTargetForSelector</code>：<strong>备用接收者</strong>-将消息转发给其他对象处理  </li>
-<li><code>forwardInvocation</code>：<strong>完整转发</strong>-最后一次将消息转发给其他对象，包含一个表示消息的<code>NSInvocation</code>的对象，包含尚未处理的消息的全部细节，包括<code>selector</code>、<code>target</code>、<code>params</code></li>
-<li>以上都没完成转发，则<code>doesNotRecognizeSelector</code>，此时就会看到我们常见的<code>unrecognize sent to selector balabala</code>之类的错误</li>
-</ul>
-<h5 id="2、-Method-Swizzling"><a href="#2、-Method-Swizzling" class="headerlink" title="2、 Method Swizzling"></a>2、 Method Swizzling</h5><p>以<code>method_exchangeImplementations</code>为例  </p>
-<ul>
-<li>hook关键：<strong>未进入消息转发机制时</strong>，直接从IMP hook，交换2个方法的IMP</li>
-</ul>
-<p>以<code>selORIG</code>为原方法，<code>IMPORIG</code>为对应指向函数实现的指针  </p>
-<ul>
-<li><p>原始方法<br><img src="http://s17.mogucdn.com/p1/170316/idid_ifqwmojuhe4tmzdbmuzdambqgyyde_608x158.png" style="zoom:40%">  </p>
+<li><p>IMP变化：在之前的前一步的基础上<br><img src="https://s14.mogucdn.com/mlcdn/e5265e/170322_75b90a50k1he7hfk1lilfg70lj035_1444x602.png" style="zoom:40%"> </p>
 </li>
-<li><p>hook selORIG 一次<br><img src="http://s17.mogucdn.com/p1/170316/idid_ifrdanbwgbrtmzdbmuzdambqmeyde_626x298.png" style="zoom:40%">  </p>
+<li><p>调用路径<br><img src="https://s14.mogucdn.com/mlcdn/e5265e/170322_7df6cd3g065cca1h3gcdccb90g3d5_1406x934.png" style="zoom:40%"> </p>
 </li>
-<li><p>hook selORIG 两次，先A后B<br><img src="http://s17.mogucdn.com/p1/170316/idid_ie4tqzlfmjstmzdbmuzdambqgqyde_612x426.png" style="zoom:40%"><br>第二次hook，实质上已经跟<code>selA</code>无关，是<code>selORIG</code>和<code>selB</code>对应的<code>IMP</code>的交换，因此<code>selB</code>对应<code>IMPA</code>，<code>selORIG</code>对应<code>IMPB</code>。而<code>selA</code>不受影响仍然是<code>IMPORIG</code></p>
+</ul>
+<h6 id="4-3-method-Swizzling和JSPatch一起，JSPatch调用原方法"><a href="#4-3-method-Swizzling和JSPatch一起，JSPatch调用原方法" class="headerlink" title="4.3 method Swizzling和JSPatch一起，JSPatch调用原方法"></a>4.3 method Swizzling和JSPatch一起，JSPatch调用原方法</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">defineClass(&quot;ViewController&quot;, &#123;</span><br><span class="line">    viewWillAppear: function(animated) &#123;</span><br><span class="line">        console.log(&quot;JSPatch 01&quot;);</span><br><span class="line">        self.ORIGviewWillAppear(animated);</span><br><span class="line">        console.log(&quot;JSPatch 02&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">JSPatch.log: JSPatch 01</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle01</span><br><span class="line">HELLO Swizzle02</span><br><span class="line">HELLO 02</span><br><span class="line">JSPatch.log: JSPatch 02</span><br></pre></td></tr></table></figure>
+<ul>
+<li>IMP变化：与前一步一致  </li>
+<li>调用路径：相对之前略复杂，因此打印的地方也附上<br><img src="https://s24.mogucdn.com/mlcdn/e5265e/170322_0h3hded408c0143cb88ajkle46lb1_1554x1292.png" style="zoom:40%"> </li>
+</ul>
+<h6 id="4-4-重复hook同一个方法，无JSPatch"><a href="#4-4-重复hook同一个方法，无JSPatch" class="headerlink" title="4.4 重复hook同一个方法，无JSPatch"></a>4.4 重复hook同一个方法，无JSPatch</h6><p>重复hook：两处地方都对UIViewController的viewWillAppear进行method swizzle<br>hook顺序：先<code>UIViewController+MLPF</code>，后<code>UIViewController+MLPF2</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">`ViewController:UIViewController`</span><br><span class="line"></span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO 01&quot;);</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;HELLO 02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIViewController+MLPF.m</span><br><span class="line">- (void)xxx_viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle1-1&quot;);</span><br><span class="line">    [self xxx_viewWillAppear:animated] ;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle1-2&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIViewController+MLPF02.m</span><br><span class="line">- (void)xxx02_viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle2-1&quot;);</span><br><span class="line">    [self xxx02_viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle2-2&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle2-1</span><br><span class="line">HELLO Swizzle1-1</span><br><span class="line">HELLO Swizzle1-2</span><br><span class="line">HELLO Swizzle2-2</span><br><span class="line">HELLO 02</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>IMP变化：为什么这样改变前文已经说明<br><img src="https://s10.mogucdn.com/mlcdn/e5265e/170322_733i1lb1abg1j672ibe027lhl3l8h_1164x518.png" style="zoom:40%"> </p>
 </li>
-<li>hook selORIG 三次，顺序为：A、B、C<br><img src="http://s16.mogucdn.com/p1/170316/idid_ie4tsnzqgjstmzdbmuzdambqgqyde_678x486.png" style="zoom:40%"><br>经过两次hook的解释，应该懂它的套路了   </li>
+<li><p>调用路径：<br><img src="https://s14.mogucdn.com/mlcdn/e5265e/170322_79181l0h5432efjkk7fg415cebbf5_1366x1104.png" style="zoom:40%"> </p>
+</li>
 </ul>
-<p>以上：不同的hook，是在不同的地方实现<br>先后顺序的保证：由于<code>Method Swizzling</code>都是写在<code>+(void)load</code>方法中的，<code>compile Sources</code>的顺序就是load方法的调用顺序(注意这里是已分类的形式的情况下，如果存在父类和子类同时swizzle，是先执行父类的<code>+load</code>，这也是一个坑-后续再讨论)</p>
-<p><strong>关于<code>Method Swizzling</code>如何实现，自行Google，😝</strong> </p>
-<h5 id="3、JSPatch"><a href="#3、JSPatch" class="headerlink" title="3、JSPatch"></a>3、JSPatch</h5><p>相当普及的热修复库，虽然目前iOSer都收到苹果爸爸的警告邮件了，这个框架的未来走势还有待观察，但是智慧无穷，它总会存在。</p>
-<h6 id="一点说明"><a href="#一点说明" class="headerlink" title="一点说明"></a>一点说明</h6><p>因为本文最后要讲<code>Method Swizzling</code>和<code>JSPatch</code>的兼容性。因此下文，不会涉及JS是如何和OC交互的？JSPatch很细节的实现是什么？只会涉及，它是如何hook，在哪一步hook</p>
-<h6 id="在哪一步-amp-如何hook"><a href="#在哪一步-amp-如何hook" class="headerlink" title="在哪一步&amp;如何hook"></a>在哪一步&amp;如何hook</h6><p>白话文概括其原理：<br>1、 改变原指向函数实现的IMP指针为<code>_objc_msgForward</code>(或<code>_objc_msgForwad_stret</code>)<br>2、 执行方法，直接进入消息转发过程<br>3、 消息转发最后一步hook<code>-forwardInvocation</code>  </p>
-<p>下面用图来说明：  </p>
+<h6 id="4-5-重复hook同一个方法和JSPatch的兼容性，JSPatch调用原方法"><a href="#4-5-重复hook同一个方法和JSPatch的兼容性，JSPatch调用原方法" class="headerlink" title="4.5 重复hook同一个方法和JSPatch的兼容性，JSPatch调用原方法"></a>4.5 重复hook同一个方法和JSPatch的兼容性，JSPatch调用原方法</h6><p>在4.4的基础上增加JSPatch，调用原方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">defineClass(&quot;ViewController&quot;, &#123;</span><br><span class="line">    viewWillAppear: function(animated) &#123;</span><br><span class="line">        console.log(&quot;JSPatch 01&quot;);</span><br><span class="line">        self.ORIGviewWillAppear(animated);</span><br><span class="line">        console.log(&quot;JSPatch 02&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">output:</span><br><span class="line">JSPatch.log: JSPatch 01</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle2-1</span><br><span class="line">HELLO Swizzle1-1</span><br><span class="line">HELLO Swizzle1-2</span><br><span class="line">HELLO Swizzle2-2</span><br><span class="line">HELLO 02</span><br><span class="line">JSPatch.log: JSPatch 02</span><br></pre></td></tr></table></figure>
 <ul>
-<li>搞事前：安然无恙<br><img src="http://s16.mogucdn.com/p1/170316/idid_ifqwczrxmm2wizdbmuzdambqgyyde_656x180.png" style="zoom:40%"><br><br><br></li>
-<li>搞事第一步：改变方法指向<code>_objc_msgForward</code><br><img src="http://s17.mogucdn.com/p1/170316/idid_ifrtqnzugm3gizdbmuzdambqhayde_746x252.png" style="zoom:40%"><br>如上图：用过JSPatch都知道，我们可以通过<code>self.ORIGtest()</code>的方式调用原方法，是因为JSPatch新增了一个方法指向原来的方法 </li>
+<li><p>IMP变化：<br><img src="https://s24.mogucdn.com/mlcdn/e5265e/170322_52a3bccgfkhffjffb93ha5f708h60_1238x784.png" style="zoom:40%"> </p>
+</li>
+<li><p>调用路径：经过前面几步的分析，这里实际上没什么难度<br><img src="https://s24.mogucdn.com/mlcdn/e5265e/170322_0ld0gj76c3l4250050aa5i38fk57c_1372x1444.png" style="zoom:40%"> </p>
+</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//提取几行关键的源码</span><br><span class="line">IMP msgForwardIMP = _objc_msgForward;</span><br><span class="line">....</span><br><span class="line">class_replaceMethod(cls, selector, msgForwardIMP, typeDescription);</span><br></pre></td></tr></table></figure>
-<p>你可能会有疑问的地方，Answer见第7部分描述   </p>
-<pre><code>Q：万一，原方法不存在怎么办？  
-Q：`_objc_msgForward`是什么鬼？  
-</code></pre><p><br><br></p>
-<ul>
-<li>搞事第二步：<code>forwardInvocation</code><br><img src="http://s17.mogucdn.com/p1/170317/idid_ifqwezbsgvrtomlcmuzdambqgyyde_1398x724.png" style="zoom:40%">  </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">if (class_getMethodImplementation(cls, @selector(forwardInvocation:)) != (IMP)JPForwardInvocation) &#123;</span><br><span class="line">    IMP originalForwardImp = class_replaceMethod(cls, @selector(forwardInvocation:), (IMP)JPForwardInvocation, &quot;v@:@&quot;);</span><br><span class="line">    if (originalForwardImp) &#123;</span><br><span class="line">        class_addMethod(cls, @selector(ORIGforwardInvocation:), originalForwardImp, &quot;v@:@&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><br></p>
-<ul>
-<li>搞事第三步：<code>JPForwardInvocation</code>里到底做了啥？<br>经过搞事第一步我们知道，我们现在调用方法会直接进入消息转发机制的最后一步(以下是：<strong>包含关键步骤的不完整流程</strong>)。<br><strong>一句话：获得NSInvocation所有参数，将消息转发给JS对应实现，获得JS回调结果，完成调用</strong>   </li>
-</ul>
+<h6 id="4-6-重复hook同一个方法和JSPatch的兼容性，JSPatch覆盖原方法"><a href="#4-6-重复hook同一个方法和JSPatch的兼容性，JSPatch覆盖原方法" class="headerlink" title="4.6 重复hook同一个方法和JSPatch的兼容性，JSPatch覆盖原方法"></a>4.6 重复hook同一个方法和JSPatch的兼容性，JSPatch覆盖原方法</h6><p>这里就不作累述了，经过前面的分析，个人觉得这部分直接给结果应该看得懂，因此这部分流程图就不画了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">defineClass(&quot;ViewController&quot;, &#123;</span><br><span class="line">    viewWillAppear: function(animated) &#123;</span><br><span class="line">        console.log(&quot;JSPatch 01&quot;);</span><br><span class="line">        self.super().viewWillAppear(animated);</span><br><span class="line">        console.log(&quot;JSPatch 02&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">JSPatch.log: JSPatch 01</span><br><span class="line">HELLO Swizzle2-1</span><br><span class="line">HELLO Swizzle1-1</span><br><span class="line">HELLO Swizzle1-2</span><br><span class="line">HELLO Swizzle2-2</span><br><span class="line">JSPatch.log: JSPatch 02</span><br></pre></td></tr></table></figure>
+<h6 id="4-7-一点补充"><a href="#4-7-一点补充" class="headerlink" title="4.7 一点补充"></a>4.7 一点补充</h6><p>hotfix的代码不要出现如下情况，调用原实现，又调super，原实现代码规范是存在调super的，这样会导致重复调用，在4.6的基础上如下试验</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">defineClass(&quot;ViewController&quot;, &#123;</span><br><span class="line">    viewWillAppear: function(animated) &#123;</span><br><span class="line">        console.log(&quot;JSPatch 01&quot;);</span><br><span class="line">        self.ORIGviewWillAppear(animated);</span><br><span class="line">        self.super().viewWillAppear(animated);</span><br><span class="line">        console.log(&quot;JSPatch 02&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;&#125;);</span><br><span class="line"></span><br><span class="line">JSPatch.log: JSPatch 01</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle2-1</span><br><span class="line">HELLO Swizzle1-1</span><br><span class="line">HELLO Swizzle1-2</span><br><span class="line">HELLO Swizzle2-2</span><br><span class="line">HELLO 02</span><br><span class="line">HELLO Swizzle2-1</span><br><span class="line">HELLO Swizzle1-1</span><br><span class="line">HELLO Swizzle1-2</span><br><span class="line">HELLO Swizzle2-2</span><br><span class="line">JSPatch.log: JSPatch 02</span><br></pre></td></tr></table></figure>
+<h5 id="5、结论"><a href="#5、结论" class="headerlink" title="5、结论"></a>5、结论</h5><p>实际上，理解了2、3对method swizzling 和 JSPatch hook的原理分析，第四部分的兼容性实验的结果大致也能猜的八九不离十。<br>因为两者不存在冲突的地方，唯一的重合点就是对函数实现指针的替换<br><strong>两者共用时，hotfix的方法和method Swizzling hook的函数实现都会按顺序调用，并不会出现覆盖，或者出错的情况</strong></p>
+<p>下一步试验：<br>1、实际上Method Swizzling还是存在一些坑的，上面是常规的实验。后续会更深入一些<br>2、同时试验以属性的形式KVO监听，进行埋点试验(目前试验了一点，但是case还不全)</p>
+<h5 id="6、拓展"><a href="#6、拓展" class="headerlink" title="6、拓展"></a>6、拓展</h5><p>当前AOP热门的库Aspects，在hook方案上，跟JSPatch大同小异，但是最后一步在<code>forwardinvocation</code>，Aspects则是保存block为关联属性。与JSPatch共用时在一些case下会产生crash 或者 覆盖执行等问题  </p>
+<p>关于Aspects和JSPatch兼容性的情况，这篇文章已经解释的较为详细，可供参考<br><a href="http://www.jianshu.com/p/dc1deaa1b28e" target="_blank" rel="noopener">http://www.jianshu.com/p/dc1deaa1b28e</a>  </p>
+<h5 id="7、也许你有疑问的地方："><a href="#7、也许你有疑问的地方：" class="headerlink" title="7、也许你有疑问的地方："></a>7、也许你有疑问的地方：</h5><p>主要针对第3部分的问题</p>
 <hr>
-<ul>
-<li><em>Step01</em>：判断调用的方法该类是否已实现，未实现则走 原方法指向的消息转发流程(上图中即<code>IMPforwardInvocation</code>)</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">JSValue *jsFunc = getJSFunctionInObjectHierachy(slf, JPSelectorName);</span><br><span class="line">if (!jsFunc) &#123;</span><br><span class="line">    JPExecuteORIGForwardInvocation(slf, selector, invocation);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>Step02</em>：处理调用函数的参数等相关信息<br>这里invocation会被利用，关于invocation，前文已经提及<br>这里涉及OC的type encoding(类型编码）  </li>
-</ul>
-<ul>
-<li><p><em>Step03</em>：通过<code>formatOCToJS</code>将参数数组转为对应的JS对象数组  </p>
-</li>
-<li><p><em>Step04</em>：调用JS实现，传入之前处理的参数列表<br>主要涉及的方法：<code>- (JSValue *)callWithArguments:(NSArray *)arguments;</code><br><br><br><br>你可能会有疑问的地方，Answer见第7部分描述   </p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Q：关于type encoding</span><br></pre></td></tr></table></figure>
+<h6 id="Q：万一，原方法不存在怎么办？"><a href="#Q：万一，原方法不存在怎么办？" class="headerlink" title="Q：万一，原方法不存在怎么办？"></a>Q：万一，原方法不存在怎么办？</h6><p>A：实际上JSPatch源码实现，会调一个defineClass函数，这个函数最后都会调用<code>overrideMethod</code>方法，而<code>overrideMethod</code>会根据原类是否已定义过这个函数，来决定执行<code>class_addMethod</code>还是<code>class_replaceMethod</code><br>如果是<code>add</code>那很简单，根本不存在是否兼容性的问题，所以并没有在上文指出</p>
 <hr>
+<h6 id="Q：-objc-msgForward是什么鬼？"><a href="#Q：-objc-msgForward是什么鬼？" class="headerlink" title="Q：_objc_msgForward是什么鬼？"></a>Q：<code>_objc_msgForward</code>是什么鬼？</h6><p>A：一个函数指针。发送消息的时候，其实相当于<code>objc_msgSend()</code>执行的过程，这个函数会从Class的缓存中查找IMP，没找到则向父类Class查找，一直到根类都没找到，则会用<code>_objc_msgForward</code>函数指针替代IMP。而<code>_objc_msgForward</code>会尝试进行消息转发  </p>
+<p><br><br>贴一点runtime的伪代码，证明下这不是瞎逼逼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">IMP class_getMethodImplementation(Class cls, SEL sel)</span><br><span class="line">&#123;</span><br><span class="line">    IMP imp;</span><br><span class="line"></span><br><span class="line">    if (!cls  ||  !sel) return nil;</span><br><span class="line"></span><br><span class="line">    imp = lookUpImpOrNil(cls, sel, nil, </span><br><span class="line">                         YES/*initialize*/, YES/*cache*/, YES/*resolver*/);</span><br><span class="line"></span><br><span class="line">    // Translate forwarding function to C-callable external version</span><br><span class="line">    if (!imp) &#123;</span><br><span class="line">        return _objc_msgForward;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return imp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">IMP lookUpImpOrNil(Class cls, SEL sel, id inst, </span><br><span class="line">                   bool initialize, bool cache, bool resolver)</span><br><span class="line">&#123;</span><br><span class="line">    IMP imp = lookUpImpOrForward(cls, sel, inst, initialize, cache, resolver);</span><br><span class="line">    if (imp == _objc_msgForward_impcache) return nil;</span><br><span class="line">    else return imp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h6 id="Q：关于type-encoding"><a href="#Q：关于type-encoding" class="headerlink" title="Q：关于type encoding"></a>Q：关于type encoding</h6><hr>
+<p>A：为了协助运行时系统，编码器用字符串为每个方法的返回值和参数类型和方法选择器编码。官方文档：</p>
+<blockquote>
+<p>To assist the runtime system, the compiler encodes the return and argument types for each method in a character string and associates the string with the method selector.  </p>
+</blockquote>
+<h5 id="8、Last"><a href="#8、Last" class="headerlink" title="8、Last"></a>8、Last</h5><p>有问题欢迎讨论<br>2017-03-22<br><br><br><br></p>
 
       
 
@@ -329,7 +322,7 @@ Q：`_objc_msgForward`是什么鬼？
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2018/08/01/Method-Swizzling与JSPatch探究（一）/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2018/08/02/Method-Swizzling与JSPatch探究（二）/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -343,18 +336,9 @@ Q：`_objc_msgForward`是什么鬼？
   
 <nav id="article-nav">
   
-    <a href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Method-Swizzling与JSPatch探究（二）
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/07/25/Hello-Hexo/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello,Hexo</div>
+    <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Method Swizzling与JSPatch探究（一）</div>
       <i class="icon-circle-right"></i>
     </a>
   

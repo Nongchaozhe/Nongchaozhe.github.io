@@ -141,6 +141,76 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Method-Swizzling与JSPatch探究（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">Method-Swizzling与JSPatch探究（二）</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/" class="archive-article-date">
+  	<time datetime="2018-08-02T13:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
+<hr>
+<h5 id="4、兼容性"><a href="#4、兼容性" class="headerlink" title="4、兼容性"></a>4、兼容性</h5><p>以hook <code>UIViewController</code>的<code>viewWillAppear</code>的方法为例  </p>
+<h5 id="4-1-仅method-Swizzling，-无JSPatch"><a href="#4-1-仅method-Swizzling，-无JSPatch" class="headerlink" title="4.1 仅method Swizzling， 无JSPatch"></a>4.1 仅method Swizzling， 无JSPatch</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">`ViewController:UIViewController`</span><br><span class="line"></span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO 01&quot;);</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;HELLO 02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIViewController+MLPF.m</span><br><span class="line">- (void)xxx_viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle01&quot;);</span><br><span class="line">    [self xxx_viewWillAppear:animated] ;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle01</span><br><span class="line">HELLO Swizzle02</span><br><span class="line">HELLO 02</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>IMP变化：注意hook的是UIViewController的viewWillAppear而不是ViewController</p>
+        
+          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Method-Swizzling与JSPatch探究（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
