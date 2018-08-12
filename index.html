@@ -165,42 +165,10 @@
 <li>表现：最近在负责一个新的APP的开发。最近部门内测，反馈来一些问题，主要表现在首次安装该APP，首次启动，页面白屏没有数据。卸载再装or后台杀死重新打开，就好了</li>
 <li>原因：<ul>
 <li>先前小范围测试有遇到过，以为是没有允许该APP使用网络请求的原因，当时在设置里面允许了就好了，但那时候同时杀死了APP，再次打开好了。但这不是真正的原因</li>
-<li>iOS10之后，APP首次安装会有询问【是否允许“xxxAPP”使用数据？】的询问网络权限弹窗，导致在用户允许之前，APP发出去的请求都是失败的。</li>
-</ul>
-</li>
-<li>我采取的解决方案：<ul>
-<li><ol>
-<li>首次安装增加开机屏引导，APP判断用户是否为首次，如果是，则推迟网络请求时机到用户滑动完引导界面。一般在用户滑动的过程中系统应该会询问网络权限。<ul>
-<li>开机引导参考框架，需要结合当前APP的具体情况。<a href="https://github.com/dingding3w/DHGuidePageHUD" target="_blank" rel="noopener">https://github.com/dingding3w/DHGuidePageHUD</a></li>
-</ul>
-</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>tab页面无网络case的状况处理：<ul>
-<li>用户点击重新连接会重新发起请求</li>
-<li>首屏tab页面支持下拉刷新重新发起请求<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180812_7i34c45643hb32gkl1e7bi5i830a1_750x606.jpg" style="zoom:30%"></li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>如果用户点了不允许，那这个问题无解，必须用户去设置里面开启</p>
-</li>
-<li><p>其他APP的方案：</p>
-<ul>
-<li>除了上面的措施，看了下京东系的APP方案，是在顶部挂一个通知栏，点击告知解决方案<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180812_3fc59lfkbeijfihdgjfji5ale82b4_750x222.jpg" style="zoom:30%"><br><img src="https://s10.mogucdn.com/mlcdn/c45406/180812_3088laa1ehi8j6lb1lafciih15h9i_750x1002.jpg" style="zoom:30%"></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>过程中也参考了下面这篇文章</li>
-<li><a href="http://www.cocoachina.com/ios/20161124/18181.html" target="_blank" rel="noopener">http://www.cocoachina.com/ios/20161124/18181.html</a></li>
-</ul>
-
+<li>iOS10之后，APP首次安装会有询问【是否允许“xxxAPP”使用数据？】的询问网络权限弹窗，导致在用户允许之前，APP发出去的请求都是失败的。
+        
+          <a class="article-more-a" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/#more">more >></a>
+        
       
 
       
