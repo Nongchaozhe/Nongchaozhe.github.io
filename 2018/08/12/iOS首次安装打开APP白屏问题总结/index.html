@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/180812_7i34c45643hb32gkl1e7bi5i830a1_750x606.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/180812_3fc59lfkbeijfihdgjfji5ale82b4_750x222.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/180812_3088laa1ehi8j6lb1lafciih15h9i_750x1002.jpg">
-<meta property="og:updated_time" content="2018-08-12T14:42:56.000Z">
+<meta property="og:updated_time" content="2018-08-12T14:49:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS首次安装打开APP白屏问题总结">
 <meta name="twitter:description" content="表现：最近在负责一个新的APP的开发。最近部门内测，反馈来一些问题，主要表现在首次安装该APP，首次启动，页面白屏没有数据。卸载再装or后台杀死重新打开，就好了 原因： 先前小范围测试有遇到过，以为是没有允许该APP使用网络请求的原因，当时在设置里面允许了就好了，但那时候同时杀死了APP，再次打开好了。但这不是真正的原因 iOS10之后，APP首次安装会有询问【是否允许“xxxAPP”使用数据？">
@@ -176,7 +176,10 @@
 </li>
 <li>我采取的解决方案：<ul>
 <li><ol>
-<li>首次安装增加开机屏引导，APP判断用户是否为首次，如果是，则推迟网络请求时机到用户滑动完引导界面。一般在用户滑动的过程中系统应该会询问网络权限。</li>
+<li>首次安装增加开机屏引导，APP判断用户是否为首次，如果是，则推迟网络请求时机到用户滑动完引导界面。一般在用户滑动的过程中系统应该会询问网络权限。<ul>
+<li>开机引导参考框架，需要结合当前APP的具体情况。<a href="https://github.com/dingding3w/DHGuidePageHUD" target="_blank" rel="noopener">https://github.com/dingding3w/DHGuidePageHUD</a></li>
+</ul>
+</li>
 </ol>
 </li>
 <li><ol start="2">
