@@ -141,6 +141,109 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Cordova源码学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/05/Cordova源码学习/">Cordova源码学习</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/05/Cordova源码学习/" class="archive-article-date">
+  	<time datetime="2018-09-05T15:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JS调用Native"><a href="#JS调用Native" class="headerlink" title="JS调用Native"></a>JS调用Native</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ul>
+<li>流程图为Debug调试流程</li>
+</ul>
+<h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><ul>
+<li><p>index.html 调用</p>
+<ul>
+<li>入参分别为<ul>
+<li>successCallback：成功回调</li>
+<li>failCallback：失败回调</li>
+<li>service：类名</li>
+<li>action：方法名</li>
+<li>actionArgs：入参</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Cordova.js  </p>
+<ul>
+<li><p>cordova的定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">截取了主要部分：</span><br><span class="line">var cordova = &#123;</span><br><span class="line">    &lt;!-- callbackId初始值是随机生成的 --&gt;</span><br><span class="line">    callbackId: Math.floor(Math.random() * 2000000000),</span><br><span class="line">    &lt;!-- 存储每次调用的callbackId对应的回调 --&gt;</span><br><span class="line">    callbacks:  &#123;&#125;,</span><br><span class="line">    &lt;!-- 状态 --&gt;</span><br><span class="line">    callbackStatus: &#123;...&#125;,</span><br><span class="line"></span><br><span class="line">    callbackFromNative: function(callbackId, isSuccess, status, args, keepCallback) &#123;</span><br><span class="line">        var callback = cordova.callbacks[callbackId];</span><br><span class="line">        &lt;!-- 根据status进行callback调用 --&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>iOSExec()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">function iOSExec() &#123;</span><br><span class="line">    var successCallback, failCallback, service, action, actionArgs;</span><br><span class="line">    var callbackId = null;</span><br><span class="line">    if (typeof arguments[0] !== &apos;string&apos;) &#123;</span><br><span class="line">        successCallback = arguments[0];</span><br><span class="line">        failCallback = arguments[1];</span><br><span class="line">        service = arguments[2];</span><br><span class="line">        action = arguments[3];</span><br><span class="line">        actionArgs = arguments[4];</span><br><span class="line"></span><br><span class="line">        &lt;!-- 设置默认callbackId --&gt;</span><br><span class="line">        callbackId = &apos;INVALID&apos;;</span><br><span class="line">    &#125;else &#123;...&#125;</span><br><span class="line"></span><br><span class="line">    if (successCallback || failCallback) &#123;</span><br><span class="line">        &lt;!-- cordova.callbackId使用后自增，callbackId实际上是一个类名带唯一id的String --&gt;</span><br><span class="line">        callbackId = service + cordova.callbackId++;</span><br><span class="line">        &lt;!-- 存储对应的回调 --&gt;</span><br><span class="line">        cordova.callbacks[callbackId] =</span><br><span class="line">            &#123;success:successCallback, fail:failCallback&#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 入参序列化 --&gt;</span><br><span class="line">    actionArgs = massageArgsJsToNative(actionArgs);</span><br><span class="line"></span><br><span class="line">    &lt;!-- 包装成Command传入commandQueue，待native来取 --&gt;</span><br><span class="line">    var command = [callbackId, service, action, actionArgs];</span><br><span class="line">    commandQueue.push(JSON.stringify(command));</span><br><span class="line"></span><br><span class="line">    &lt;!-- 这里的判断条件</span><br><span class="line">    isInContextOfEvalJs：在执行上下文，queue会在返回后自动刷新，无需继续执行(这个在下文ative的方法分析中可看出，每次执行结束仍然会继续掉executePending)</span><br><span class="line">    commandQueue同理</span><br><span class="line">    --&gt;</span><br><span class="line">    if (!isInContextOfEvalJs &amp;&amp; commandQueue.length == 1) &#123;</span><br><span class="line">        pokeNative();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>再看pokeNative的调用之前，先看一下里面将涉及的全局变量的定义说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* Creates a gap bridge iframe used to notify the native code about queued</span><br><span class="line">* commands.</span><br><span class="line">*/</span><br><span class="line">&lt;!-- 这里的注释已经说明的很详细了，创建一个不可见的iframe，用于通知Native调用队列 --&gt;</span><br><span class="line">var cordova = require(&apos;cordova&apos;),</span><br><span class="line">    execIframe,</span><br><span class="line">    commandQueue = [], // Contains pending JS-&gt;Native messages.</span><br><span class="line">    isInContextOfEvalJs = 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pokeNative()</p>
+<ul>
+<li>取关键代码进行说明</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function pokeNative() &#123;</span><br><span class="line">    // Check if they&apos;ve removed it from the DOM, and put it back if so.</span><br><span class="line">    if (execIframe &amp;&amp; execIframe.contentWindow) &#123;</span><br><span class="line">        execIframe.contentWindow.location = &apos;gap://ready&apos;;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &lt;!-- 创建不可见的iframe注入当前html，src为gap://ready，后面native会拦截scheme为gap的url </span><br><span class="line">        由于url加载，触发UIWebViewDelegate协议方法，进入Native调用--&gt;</span><br><span class="line">        execIframe = document.createElement(&apos;iframe&apos;);</span><br><span class="line">        execIframe.style.display = &apos;none&apos;;</span><br><span class="line">        execIframe.src = &apos;gap://ready&apos;;</span><br><span class="line">        document.body.appendChild(execIframe);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Native  </p>
+<ul>
+<li>开始说明Native代码前，先提前看下调用堆栈<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180905_0la8c5kc488k2gg87d840hik5j26i_1082x320.png" style="zoom:30%"></li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/05/Cordova源码学习/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-iOS首次安装打开APP白屏问题总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
