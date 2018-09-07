@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>Cordova源码学习(二)-Native回调JS | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：https://cordova.apache.org/docs/en/latest/  Native回调JS流程图 解析 Native  Native方法执行完，通过sendPluginResult开始，回调结果给js  sendPluginResult:   1234567891">
+  <meta name="description" content="本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：https://cordova.apache.org/docs/en/latest/  Native回调JS流程图">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cordova源码学习(二)-Native回调JS">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/09/06/Cordova源码学习-二-Native回调JS/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：https://cordova.apache.org/docs/en/latest/  Native回调JS流程图 解析 Native  Native方法执行完，通过sendPluginResult开始，回调结果给js  sendPluginResult:   1234567891">
+<meta property="og:description" content="本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：https://cordova.apache.org/docs/en/latest/  Native回调JS流程图">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/180906_54298cb7ai5lgfiec9f1eg267ik2f_1304x890.png">
-<meta property="og:updated_time" content="2018-09-06T10:41:18.000Z">
+<meta property="og:updated_time" content="2018-09-07T02:19:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cordova源码学习(二)-Native回调JS">
-<meta name="twitter:description" content="本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：https://cordova.apache.org/docs/en/latest/  Native回调JS流程图 解析 Native  Native方法执行完，通过sendPluginResult开始，回调结果给js  sendPluginResult:   1234567891">
+<meta name="twitter:description" content="本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：https://cordova.apache.org/docs/en/latest/  Native回调JS流程图">
 <meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/180906_54298cb7ai5lgfiec9f1eg267ik2f_1304x890.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
@@ -169,6 +169,7 @@
 <p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
 </blockquote>
 <h1 id="Native回调JS"><a href="#Native回调JS" class="headerlink" title="Native回调JS"></a>Native回调JS</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_54298cb7ai5lgfiec9f1eg267ik2f_1304x890.png" style="zoom:30%;"></p>
+<a id="more"></a>
 <h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><ul>
 <li><p>Native<br>  Native方法执行完，通过sendPluginResult开始，回调结果给js</p>
 <ul>
