@@ -8,21 +8,21 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>“小程序分享至群群消息小结(包括分享到App)” | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。因此把去年做完后的梳理的小结发出来供参考。微信文档现在相较去年也有所更新完善，但大致流程不变。 小程序分享获得群信息小结 官方文档有，但是较分散，所以对这块知识作一个小结，能快速了解小程序分享至群获得群信息的流程。  包括前后端需要做的事情（并不是前端直接获取群信息的） 无法直接获取群内成员信息，小程序只能通过用户发起分享或点击分享，自">
+  <meta name="description" content="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的 去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。因此把去年做完后的梳理的小结发出来供参考。微信文档现在相较去年也有所更新完善，但大致流程不变。 小程序分享获得群信息小结 官方文档有，但是较分散，所以对这块知识作一个小结，能快速了解小程序分享至群获得群信息的流程。  包括前后端需">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="“小程序分享至群群消息小结(包括分享到App)”">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/09/15/“小程序分享至群群消息小结”/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。因此把去年做完后的梳理的小结发出来供参考。微信文档现在相较去年也有所更新完善，但大致流程不变。 小程序分享获得群信息小结 官方文档有，但是较分散，所以对这块知识作一个小结，能快速了解小程序分享至群获得群信息的流程。  包括前后端需要做的事情（并不是前端直接获取群信息的） 无法直接获取群内成员信息，小程序只能通过用户发起分享或点击分享，自">
+<meta property="og:description" content="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的 去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。因此把去年做完后的梳理的小结发出来供参考。微信文档现在相较去年也有所更新完善，但大致流程不变。 小程序分享获得群信息小结 官方文档有，但是较分散，所以对这块知识作一个小结，能快速了解小程序分享至群获得群信息的流程。  包括前后端需">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/180402_7bc5bji4b6i5k542accba43h4h9ih_583x562.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/180402_3k5ae7ea6d53l0183d43ki3gbfdig_994x736.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/180329_5ae1011kk58704h0ahi19k4d21a24_1460x672.png">
-<meta property="og:updated_time" content="2018-09-15T14:07:51.000Z">
+<meta property="og:updated_time" content="2018-09-15T14:16:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="“小程序分享至群群消息小结(包括分享到App)”">
-<meta name="twitter:description" content="去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。因此把去年做完后的梳理的小结发出来供参考。微信文档现在相较去年也有所更新完善，但大致流程不变。 小程序分享获得群信息小结 官方文档有，但是较分散，所以对这块知识作一个小结，能快速了解小程序分享至群获得群信息的流程。  包括前后端需要做的事情（并不是前端直接获取群信息的） 无法直接获取群内成员信息，小程序只能通过用户发起分享或点击分享，自">
+<meta name="twitter:description" content="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的 去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。因此把去年做完后的梳理的小结发出来供参考。微信文档现在相较去年也有所更新完善，但大致流程不变。 小程序分享获得群信息小结 官方文档有，但是较分散，所以对这块知识作一个小结，能快速了解小程序分享至群获得群信息的流程。  包括前后端需">
 <meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/180402_7bc5bji4b6i5k542accba43h4h9ih_583x562.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
@@ -167,7 +167,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。<br>因此把去年做完后的梳理的小结发出来供参考。<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180402_7bc5bji4b6i5k542accba43h4h9ih_583x562.png" style="zoom:30%"><br>微信文档现在相较去年也有所更新完善，但大致流程不变。</p>
+        <h4 id="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制-下文会说明-，但是整体方案依然是可行的"><a href="#以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制-下文会说明-，但是整体方案依然是可行的" class="headerlink" title="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的"></a>以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的</h4><hr>
+<p>去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。<br>因此把去年做完后的梳理的小结发出来供参考。<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180402_7bc5bji4b6i5k542accba43h4h9ih_583x562.png" style="zoom:30%"><br>微信文档现在相较去年也有所更新完善，但大致流程不变。</p>
 <h2 id="小程序分享获得群信息小结"><a href="#小程序分享获得群信息小结" class="headerlink" title="小程序分享获得群信息小结"></a>小程序分享获得群信息小结</h2><ul>
 <li>官方文档有，但是较分散，所以对这块知识作一个小结，能快速了解小程序分享至群获得群信息的流程。 </li>
 <li>包括前后端需要做的事情（并不是前端直接获取群信息的）</li>
@@ -180,7 +181,19 @@
 <li>app分享到微信，点开至小程序 <strong>(18.03.29补充)</strong></li>
 </ul>
 <h3 id="整体流程图"><a href="#整体流程图" class="headerlink" title="整体流程图"></a>整体流程图</h3><p><img src="https://s10.mogucdn.com/mlcdn/c45406/180402_3k5ae7ea6d53l0183d43ki3gbfdig_994x736.png" style="zoom:120%"></p>
-<h3 id="用户分享至群获取转发对象"><a href="#用户分享至群获取转发对象" class="headerlink" title="用户分享至群获取转发对象"></a>用户分享至群获取转发对象</h3><h4 id="Page中"><a href="#Page中" class="headerlink" title="Page中"></a>Page中</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//在转发成功回调中获取</span><br><span class="line">onShareAppMessage: function (res) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    title: &apos;这是一个测试分享&apos;,</span><br><span class="line">    path: &apos;/pages/redPacket/index/index?index=1&amp;hello=hello&apos;,</span><br><span class="line">    success: function(res) &#123;</span><br><span class="line">      wx.getShareInfo(&#123;</span><br><span class="line">        shareTicket: res.shareTickets[0],</span><br><span class="line">        success(resShare) &#123; </span><br><span class="line">          console.log(resShare);</span><br><span class="line">        &#125;,</span><br><span class="line">        fail(resShare) &#123; </span><br><span class="line">          console.log(resShare);</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    fail: function(res) &#123;</span><br><span class="line">      //分享失败</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<h3 id="用户分享至群获取转发对象"><a href="#用户分享至群获取转发对象" class="headerlink" title="用户分享至群获取转发对象"></a>用户分享至群获取转发对象</h3><blockquote>
+<p>最近，微信小程序已经无法正常获取成功or失败的回调，这对此功能的影响是无法在用户分享成功的第一时间建立群关系</p>
+</blockquote>
+<blockquote>
+<p>但是，整体上的群关系依然是能建立的，只是时间滞后了。</p>
+</blockquote>
+<blockquote>
+<p>path：参数带上分享用户的uid，当点击用户进入后，即可获取两个用户id，一并建立群关系。<strong>(18.09.15补充)</strong></p>
+</blockquote>
+<h4 id="Page中"><a href="#Page中" class="headerlink" title="Page中"></a>Page中</h4><ul>
+<li>目前已无法获取成功失败回调</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//在转发成功回调中获取</span><br><span class="line">onShareAppMessage: function (res) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    title: &apos;这是一个测试分享&apos;,</span><br><span class="line">    path: &apos;/pages/redPacket/index/index?index=1&amp;hello=hello&apos;,</span><br><span class="line">    success: function(res) &#123;</span><br><span class="line">      wx.getShareInfo(&#123;</span><br><span class="line">        shareTicket: res.shareTickets[0],</span><br><span class="line">        success(resShare) &#123; </span><br><span class="line">          console.log(resShare);</span><br><span class="line">        &#125;,</span><br><span class="line">        fail(resShare) &#123; </span><br><span class="line">          console.log(resShare);</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    fail: function(res) &#123;</span><br><span class="line">      //分享失败</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <p>设置当前页面的转发配置，使其在分享的时候带上shareTicket</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wx.showShareMenu(&#123;</span><br><span class="line">  withShareTicket: true</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h4 id="获取转发对象shareTicket"><a href="#获取转发对象shareTicket" class="headerlink" title="获取转发对象shareTicket"></a>获取转发对象shareTicket</h4><p>在<code>onShareAppMessage</code> <code>success</code>的回调中可以拿到<code>shareTickets</code>，一个数组，其对应一个<code>shareTicket</code></p>
@@ -225,7 +238,7 @@
 </li>
 <li><p>后续，如果有需求需要涉及这方面，可以直接找登录业务的同事。</p>
 </li>
-<li>登录时获取的session_key可以从muser-api服务中获取</li>
+<li>登录时获取的session_key可以从xxx-api(公司内部服务)服务中获取</li>
 </ul>
 </image>
       
