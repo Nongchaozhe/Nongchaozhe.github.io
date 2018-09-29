@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>一些宏定义 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="主线程同步，避免死锁 12345678#ifndef dispatch_main_sync_safe#define dispatch_main_sync_safe(block)\if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_">
+  <meta name="description" content="主线程同步，避免死锁12345678#ifndef dispatch_main_sync_safe#define dispatch_main_sync_safe(block)\if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_q">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一些宏定义">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/09/28/“一些宏定义”/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="主线程同步，避免死锁 12345678#ifndef dispatch_main_sync_safe#define dispatch_main_sync_safe(block)\if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_">
+<meta property="og:description" content="主线程同步，避免死锁12345678#ifndef dispatch_main_sync_safe#define dispatch_main_sync_safe(block)\if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_q">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-29T06:53:46.134Z">
+<meta property="og:updated_time" content="2018-09-29T08:40:22.867Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些宏定义">
-<meta name="twitter:description" content="主线程同步，避免死锁 12345678#ifndef dispatch_main_sync_safe#define dispatch_main_sync_safe(block)\if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_">
+<meta name="twitter:description" content="主线程同步，避免死锁12345678#ifndef dispatch_main_sync_safe#define dispatch_main_sync_safe(block)\if (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_q">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -164,9 +164,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li><p>主线程同步，避免死锁</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifndef dispatch_main_sync_safe</span></span><br><span class="line"><span class="meta">#define dispatch_main_sync_safe(block)\</span></span><br><span class="line"><span class="keyword">if</span> (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == <span class="number">0</span>) &#123;\</span><br><span class="line">    block();\</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;\</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), block);\</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
+<li>主线程同步，避免死锁<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifndef dispatch_main_sync_safe</span></span><br><span class="line"><span class="meta">#define dispatch_main_sync_safe(block)\</span></span><br><span class="line"><span class="keyword">if</span> (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == <span class="number">0</span>) &#123;\</span><br><span class="line">    block();\</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;\</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), block);\</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li><p>主线程异步</p>
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifndef dispatch_main_async_safe</span></span><br><span class="line"><span class="meta">#define dispatch_main_async_safe(block)\</span></span><br><span class="line">    <span class="keyword">if</span> (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == <span class="number">0</span>) &#123;\</span><br><span class="line">        block();\</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;\</span><br><span class="line">        <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), block);\</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
 </li>
