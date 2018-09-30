@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="1. 创建多个Target 目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同 注意点： duplicate一个分支之后，Podfile记得update， 可定义抽象abstract_target，实际的target进行依赖继承。 post_install工程配置的写法也会略有不同。 默认duplicate的时候，会同时生成一个新的copy-info.plist，我">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-09-30T09:07:22.747Z">
+<meta property="og:updated_time" content="2018-09-30T09:22:27.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="App从0到1记录">
 <meta name="twitter:description" content="1. 创建多个Target 目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同 注意点： duplicate一个分支之后，Podfile记得update， 可定义抽象abstract_target，实际的target进行依赖继承。 post_install工程配置的写法也会略有不同。 默认duplicate的时候，会同时生成一个新的copy-info.plist，我">
@@ -170,9 +170,11 @@
 <li><code>post_install</code>工程配置的写法也会略有不同。</li>
 <li>默认duplicate的时候，会同时生成一个新的copy-info.plist，我的做法是删除，两个target共用一份info.plist，后续改动不需要改两处。</li>
 <li>抽象类可参考文章：<a href="https://www.jianshu.com/p/8a0fd6150159" target="_blank" rel="noopener">https://www.jianshu.com/p/8a0fd6150159</a><a id="more"></a>
-<h4 id="2-更改工程名称-target名称"><a href="#2-更改工程名称-target名称" class="headerlink" title="2. 更改工程名称/target名称"></a>2. 更改工程名称/target名称</h4></li>
+</li>
 </ul>
 </li>
+</ul>
+<h4 id="2-更改工程名称-target名称"><a href="#2-更改工程名称-target名称" class="headerlink" title="2. 更改工程名称/target名称"></a>2. 更改工程名称/target名称</h4><ul>
 <li>目的：工程起步时，工程/target名称可能起的会草率些，后面开始要与安卓同步，以及接入打包/crash解析等等各种配置时，需要更”规范”，可能会需要更改工程名称/target名称</li>
 <li>按照这篇文章的流程改，基本没问题：<a href="https://blog.csdn.net/flg1554112450/article/details/78981441" target="_blank" rel="noopener">https://blog.csdn.net/flg1554112450/article/details/78981441</a></li>
 </ul>
