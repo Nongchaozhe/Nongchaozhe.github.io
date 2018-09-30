@@ -141,6 +141,100 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-App从0到1记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/30/App从0到1记录/">App从0到1记录</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/30/App从0到1记录/" class="archive-article-date">
+  	<time datetime="2018-09-30T03:49:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="1-创建多个Target"><a href="#1-创建多个Target" class="headerlink" title="1. 创建多个Target"></a>1. 创建多个Target</h4><ul>
+<li>目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同</li>
+<li>注意点：<ul>
+<li>duplicate一个分支之后，Podfile记得update， 可定义抽象<code>abstract_target</code>，实际的target进行依赖继承。</li>
+<li><code>post_install</code>工程配置的写法也会略有不同。</li>
+<li>默认duplicate的时候，会同时生成一个新的copy-info.plist，我的做法是删除，两个target共用一份info.plist，后续改动不需要改两处。</li>
+<li>抽象类可参考文章：<a href="https://www.jianshu.com/p/8a0fd6150159" target="_blank" rel="noopener">https://www.jianshu.com/p/8a0fd6150159</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-更改工程名称-target名称"><a href="#2-更改工程名称-target名称" class="headerlink" title="2. 更改工程名称/target名称"></a>2. 更改工程名称/target名称</h4><ul>
+<li>目的：工程起步时，工程/target名称可能起的会草率些，后面开始要与安卓同步，以及接入打包/crash解析等等各种配置时，需要更”规范”，可能会需要更改工程名称/target名称</li>
+<li>按照这篇文章的流程改，基本没问题：<a href="https://blog.csdn.net/flg1554112450/article/details/78981441" target="_blank" rel="noopener">https://blog.csdn.net/flg1554112450/article/details/78981441</a></li>
+</ul>
+<h4 id="3-AppIcon"><a href="#3-AppIcon" class="headerlink" title="3. AppIcon"></a>3. AppIcon</h4><ul>
+<li>App icon的尺寸相当多</li>
+<li>个人是用App icon gear直接产生，很方便。(当然也可以让UI产出资源)</li>
+<li>Mac应用，App Store下载</li>
+</ul>
+<h4 id="4-启动图"><a href="#4-启动图" class="headerlink" title="4. 启动图"></a>4. 启动图</h4><ul>
+<li>App icon是长宽1：1不受拉伸影响，启动图如果直接用App icon Gear，拉伸过后，效果较差</li>
+<li>个人的启动图使用LaunchScreen.storyboard来实现的</li>
+</ul>
+<h4 id="5-首次安装启动页面空白"><a href="#5-首次安装启动页面空白" class="headerlink" title="5. 首次安装启动页面空白"></a>5. 首次安装启动页面空白</h4><ul>
+<li>在之前的文章中有记录过</li>
+<li><a href="https://nongchaozhe.github.io/2018/08/12/iOS%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E6%89%93%E5%BC%80APP%E7%99%BD%E5%B1%8F%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">https://nongchaozhe.github.io/2018/08/12/iOS%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E6%89%93%E5%BC%80APP%E7%99%BD%E5%B1%8F%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/</a></li>
+</ul>
+<h4 id="6-Xcode-Application-Loader用apple-id登陆一直提示"><a href="#6-Xcode-Application-Loader用apple-id登陆一直提示" class="headerlink" title="6. Xcode Application Loader用apple id登陆一直提示"></a>6. Xcode Application Loader用apple id登陆一直提示</h4><pre><code>“Please sign in with an app-specific password. You can create one at appleid.apple.com”
+</code></pre><ul>
+<li>Apple ID更安全的适用第三方应用的一次性专用密码。  </li>
+<li>解决方案：Apple Id账户页面-Security-Generate Password</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/30/App从0到1记录/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-“一些宏定义”" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
