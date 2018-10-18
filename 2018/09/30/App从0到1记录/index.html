@@ -16,10 +16,13 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="1. 创建多个Target 目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同 注意点： duplicate一个分支之后，Podfile记得update， 可定义抽象abstract_target，实际的target进行依赖继承。 post_install工程配置的写法也会略有不同。 默认duplicate的时候，会同时生成一个新的copy-info.plist，我">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-18T08:37:39.765Z">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181018_0370gci9ail3bgl00k137k4fh0jel_1728x398.png">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181018_6i9f7j3g62f7338fa8l6bh3d1c62a_2370x1112.png">
+<meta property="og:updated_time" content="2018-10-18T08:48:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="App从0到1记录">
 <meta name="twitter:description" content="1. 创建多个Target 目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同 注意点： duplicate一个分支之后，Podfile记得update， 可定义抽象abstract_target，实际的target进行依赖继承。 post_install工程配置的写法也会略有不同。 默认duplicate的时候，会同时生成一个新的copy-info.plist，我">
+<meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/181018_0370gci9ail3bgl00k137k4fh0jel_1728x398.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -196,7 +199,11 @@
 <li>Apple ID更安全的适用第三方应用的一次性专用密码。  </li>
 <li>解决方案：Apple Id账户页面-Security-Generate Password</li>
 </ul>
-<h4 id="7-archive报错：error-lipo-can’t-write-to-output-file-…-具体报错没记录下来"><a href="#7-archive报错：error-lipo-can’t-write-to-output-file-…-具体报错没记录下来" class="headerlink" title="7. archive报错：error: lipo: can’t write to output file:…(具体报错没记录下来)"></a>7. archive报错：error: lipo: can’t write to output file:…(具体报错没记录下来)</h4><ul>
+<h4 id="7-build报错-shell脚本找不到"><a href="#7-build报错-shell脚本找不到" class="headerlink" title="7. build报错-shell脚本找不到"></a>7. build报错-shell脚本找不到</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/181018_0370gci9ail3bgl00k137k4fh0jel_1728x398.png" style="zoom:30%"></p>
+<ul>
+<li>解决：跟之前改动了创建多个Target有关，造成指定的文件路径改变导致。更改build phases里脚本的路径即可<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181018_6i9f7j3g62f7338fa8l6bh3d1c62a_2370x1112.png" style="zoom:30%"></li>
+</ul>
+<h4 id="8-archive报错：error-lipo-can’t-write-to-output-file-…-具体报错没记录下来"><a href="#8-archive报错：error-lipo-can’t-write-to-output-file-…-具体报错没记录下来" class="headerlink" title="8. archive报错：error: lipo: can’t write to output file:…(具体报错没记录下来)"></a>8. archive报错：error: lipo: can’t write to output file:…(具体报错没记录下来)</h4><ul>
 <li>我这边原来是Build Settings-Valid Architectures-armv7/armv7s/arm64，改为$(ARCHS_STANDARD)，指当前Xcode支持的默认值，Xcode9是armv7 arm64。</li>
 <li>参考问题：<a href="https://stackoverflow.com/questions/32949399/error-while-building-for-ios-from-unity-in-xcode-7" target="_blank" rel="noopener">https://stackoverflow.com/questions/32949399/error-while-building-for-ios-from-unity-in-xcode-7</a></li>
 <li>后来查到还有说是空间不够的问题：<a href="http://duxinfeng.com/2017/08/05/error-lipo-can-t-write-to-output-file/index.html" target="_blank" rel="noopener">http://duxinfeng.com/2017/08/05/error-lipo-can-t-write-to-output-file/index.html</a></li>
