@@ -148,7 +148,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/08/对称加密-非对称加密-单向散列函数/">对称加密&amp;非对称加密&amp;单向散列函数</a>
+      <a class="article-title" href="/2018/11/08/对称加密-非对称加密-单向散列函数/">对称加密&amp;非对称加密</a>
     </h1>
   
 
@@ -165,6 +165,11 @@
 <li>支付密码、验证码相关的业务场景</li>
 <li>之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础</li>
 <li>iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的</li>
+</ul>
+<h4 id="写一个系列"><a href="#写一个系列" class="headerlink" title="写一个系列"></a>写一个系列</h4><ul>
+<li>对称加密&amp;非对称加密</li>
+<li>单向散列函数&amp;数字签名&amp;证书</li>
+<li>iOS签名机制</li>
 </ul>
 <h4 id="本文概要"><a href="#本文概要" class="headerlink" title="本文概要"></a>本文概要</h4><ul>
 <li>白话厘清概念，分析优缺点(不累述算法实现)</li>
@@ -200,7 +205,7 @@
 </li>
 </ul>
 </li>
-<li><p>对称加密的优缺点</p>
+<li><p><strong>对称加密的优缺点：</strong></p>
 <ul>
 <li>优点：计算量小，速度快，效率高</li>
 <li>缺点：<strong>密钥配送问题</strong><ul>
@@ -218,6 +223,39 @@
 <li>非对称加密</li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+<h3 id="非对称加密-ASymmetric-Cryptography"><a href="#非对称加密-ASymmetric-Cryptography" class="headerlink" title="非对称加密(ASymmetric Cryptography)"></a>非对称加密(ASymmetric Cryptography)</h3><ul>
+<li>简介<ul>
+<li>又称公钥加密-Public-Key Cryptography</li>
+<li>公钥(public key)：公开，用于加密</li>
+<li>私钥(private key)：消息接收者保管，不公开，用于解密</li>
+<li>一一对应，一起生成成为密钥对</li>
+</ul>
+</li>
+<li>简易流程图：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_41chgg8d8hjelgkha0c0f1d6deah5_1322x1602.png"></li>
+<li>最常用的加密方式：RSA(名称由三位提出者的首字母拼成)<ul>
+<li>第一个能同时用于加密和数字签名的算法</li>
+</ul>
+</li>
+<li><p><strong>非对称加密的优缺点：</strong></p>
+<ul>
+<li>优点：解决密钥配送问题，分公私钥，安全性高</li>
+<li>缺点：加解密速度慢</li>
+</ul>
+</li>
+<li><p>补充：</p>
+<ul>
+<li>公钥对数据加密，必须使用私钥解密</li>
+<li><p>私钥对数据加密，必须使用公钥解密</p>
+<p><strong><em>到底公钥，私钥哪个用来加密？？？</em></strong>  </p>
+</li>
+<li>之所以，在后面补充这一点，我之前也对到底是公钥加密还是私钥加密很混乱。因此先对前面的知识点熟悉了，再了解这一点。  <blockquote>
+<p>一张知乎问答来结束到底哪个是用来加密的问题？<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_1c42aj9k921afd2f50fcbha178e7j_1336x532.png"></p>
+</blockquote>
+</li>
+<li>私钥加密的应用场景：数字签名(下一篇文章会提到)</li>
 </ul>
 </li>
 </ul>
