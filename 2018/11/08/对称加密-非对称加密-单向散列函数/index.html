@@ -6,12 +6,12 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>对称加密&amp;非对称加密 | NCZ的博客</title>
+  <title>对称加密&amp;非对称加密&amp;混合加密 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对称加密&amp;非对称加密">
+<meta property="og:title" content="对称加密&amp;非对称加密&amp;混合加密">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/11/08/对称加密-非对称加密-单向散列函数/index.html">
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
@@ -21,9 +21,9 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1f0i79a12iahdb8i0f6j2kdgckg1h_1322x1602.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1c42aj9k921afd2f50fcbha178e7j_1336x532.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_07g0lc7ab0l32b6kfd6fdijgc55j7_609x693.png">
-<meta property="og:updated_time" content="2018-11-08T10:31:05.304Z">
+<meta property="og:updated_time" content="2018-11-08T10:35:56.105Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对称加密&amp;非对称加密">
+<meta name="twitter:title" content="对称加密&amp;非对称加密&amp;混合加密">
 <meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
 <meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1216a32a79c76lbh4ek1eheljii60_1008x290.png">
   
@@ -156,7 +156,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      对称加密&amp;非对称加密
+      对称加密&amp;非对称加密&amp;混合加密
     </h1>
   
 
