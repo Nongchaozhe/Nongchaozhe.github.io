@@ -20,7 +20,8 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_63lhk92ehi012jafb6h7egg9aa363_1005x574.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_41chgg8d8hjelgkha0c0f1d6deah5_1322x1602.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1c42aj9k921afd2f50fcbha178e7j_1336x532.png">
-<meta property="og:updated_time" content="2018-11-08T09:39:04.306Z">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_07g0lc7ab0l32b6kfd6fdijgc55j7_609x693.png">
+<meta property="og:updated_time" content="2018-11-08T10:20:27.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对称加密&amp;非对称加密">
 <meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
@@ -265,6 +266,27 @@
 <li>私钥加密的应用场景：数字签名(下一篇文章会提到)</li>
 </ul>
 </li>
+</ul>
+<h3 id="混合加密-Hybrid-Cryptography"><a href="#混合加密-Hybrid-Cryptography" class="headerlink" title="混合加密(Hybrid Cryptography)"></a>混合加密(Hybrid Cryptography)</h3><ul>
+<li>为了结合对称加密速度快和非对称加密安全性高的优点，同时规避两者缺点，产出的方案</li>
+<li>加密过程：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_07g0lc7ab0l32b6kfd6fdijgc55j7_609x693.png"><ul>
+<li>会话密钥：由伪随机数生成器生成的临时密钥，又作对称密钥</li>
+</ul>
+</li>
+<li>解密过程：此处流程图略，看了加密过程的图，解密过程应该也很清晰</li>
+<li>一句话概括：<ul>
+<li>发送者用非对称加密的公钥对对称加密的密钥加密</li>
+<li>用对称密钥对消息进行加密</li>
+<li>接收者用私钥解密获得对称加密的密钥，来解密消息</li>
+</ul>
+</li>
+</ul>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><ul>
+<li>对称加密速度快，但存在密钥配送问题，常见的有AES</li>
+<li>非对称安全性高，但速度慢，常见的有RSA</li>
+<li>混合加密，结合两者优点</li>
+<li>非对称加密是公钥(公开)加密，私钥解密。</li>
+<li>私钥加密(签名)，公钥解密(验签)(下回再说)。</li>
 </ul>
 
       
