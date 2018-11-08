@@ -6,23 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>App从0到1记录 | NCZ的博客</title>
+  <title>Archives: 2018/11 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1. 创建多个Target 目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同 注意点： duplicate一个分支之后，Podfile记得update， 可定义抽象abstract_target，实际的target进行依赖继承。 post_install工程配置的写法也会略有不同。 默认duplicate的时候，会同时生成一个新的copy-info.plist，我">
-<meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
-<meta property="og:type" content="article">
-<meta property="og:title" content="App从0到1记录">
-<meta property="og:url" content="https://nongchaozhe.github.io/2018/09/30/App从0到1记录/index.html">
+  <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NCZ的博客">
+<meta property="og:url" content="https://nongchaozhe.github.io/archives/2018/11/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="1. 创建多个Target 目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同 注意点： duplicate一个分支之后，Podfile记得update， 可定义抽象abstract_target，实际的target进行依赖继承。 post_install工程配置的写法也会略有不同。 默认duplicate的时候，会同时生成一个新的copy-info.plist，我">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181018_0370gci9ail3bgl00k137k4fh0jel_1728x398.png">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181018_6i9f7j3g62f7338fa8l6bh3d1c62a_2370x1112.png">
-<meta property="og:updated_time" content="2018-10-23T06:27:37.866Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="App从0到1记录">
-<meta name="twitter:description" content="1. 创建多个Target 目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同 注意点： duplicate一个分支之后，Podfile记得update， 可定义抽象abstract_target，实际的target进行依赖继承。 post_install工程配置的写法也会略有不同。 默认duplicate的时候，会同时生成一个新的copy-info.plist，我">
-<meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/181018_0370gci9ail3bgl00k137k4fh0jel_1728x398.png">
+<meta name="twitter:title" content="NCZ的博客">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -146,214 +139,49 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-App从0到1记录" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      App从0到1记录
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/11/08/对称加密-非对称加密-单向散列函数/" class="archive-article-date">
+  	<time datetime="2018-11-08T06:23:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-08</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/11/08/对称加密-非对称加密-单向散列函数/">对称加密&amp;非对称加密&amp;单向散列函数</a>
     </h1>
   
 
-        
-        <a href="/2018/09/30/App从0到1记录/" class="archive-article-date">
-  	<time datetime="2018-09-30T03:49:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-创建多个Target"><a href="#1-创建多个Target" class="headerlink" title="1. 创建多个Target"></a>1. 创建多个Target</h4><ul>
-<li>目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同</li>
-<li>注意点：<ul>
-<li>duplicate一个分支之后，Podfile记得update， 可定义抽象<code>abstract_target</code>，实际的target进行依赖继承。</li>
-<li><code>post_install</code>工程配置的写法也会略有不同。</li>
-<li>默认duplicate的时候，会同时生成一个新的copy-info.plist，我的做法是删除，两个target共用一份info.plist，后续改动不需要改两处。</li>
-<li>抽象类可参考文章：<a href="https://www.jianshu.com/p/8a0fd6150159" target="_blank" rel="noopener">https://www.jianshu.com/p/8a0fd6150159</a><a id="more"></a>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="2-更改工程名称-target名称"><a href="#2-更改工程名称-target名称" class="headerlink" title="2. 更改工程名称/target名称"></a>2. 更改工程名称/target名称</h4><ul>
-<li>目的：工程起步时，工程/target名称可能起的会草率些，后面开始要与安卓同步，以及接入打包/crash解析等等各种配置时，需要更”规范”，可能会需要更改工程名称/target名称</li>
-<li>按照这篇文章的流程改，基本没问题：<a href="https://blog.csdn.net/flg1554112450/article/details/78981441" target="_blank" rel="noopener">https://blog.csdn.net/flg1554112450/article/details/78981441</a></li>
-</ul>
-<h4 id="3-AppIcon"><a href="#3-AppIcon" class="headerlink" title="3. AppIcon"></a>3. AppIcon</h4><ul>
-<li>App icon的尺寸相当多</li>
-<li>个人是用App icon gear直接产生，很方便。(当然也可以让UI产出资源)</li>
-<li>Mac应用，App Store下载</li>
-</ul>
-<h4 id="4-启动图"><a href="#4-启动图" class="headerlink" title="4. 启动图"></a>4. 启动图</h4><ul>
-<li>App icon是长宽1：1不受拉伸影响，启动图如果直接用App icon Gear，拉伸过后，效果较差</li>
-<li>个人的启动图使用LaunchScreen.storyboard来实现的</li>
-</ul>
-<h4 id="5-首次安装启动页面空白"><a href="#5-首次安装启动页面空白" class="headerlink" title="5. 首次安装启动页面空白"></a>5. 首次安装启动页面空白</h4><ul>
-<li>在之前的文章中有记录过</li>
-<li><a href="https://nongchaozhe.github.io/2018/08/12/iOS%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E6%89%93%E5%BC%80APP%E7%99%BD%E5%B1%8F%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">https://nongchaozhe.github.io/2018/08/12/iOS%E9%A6%96%E6%AC%A1%E5%AE%89%E8%A3%85%E6%89%93%E5%BC%80APP%E7%99%BD%E5%B1%8F%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/</a></li>
-</ul>
-<h4 id="6-Xcode-Application-Loader用apple-id登陆一直提示"><a href="#6-Xcode-Application-Loader用apple-id登陆一直提示" class="headerlink" title="6. Xcode Application Loader用apple id登陆一直提示"></a>6. Xcode Application Loader用apple id登陆一直提示</h4><pre><code>“Please sign in with an app-specific password. You can create one at appleid.apple.com”
-</code></pre><ul>
-<li>Apple ID更安全的适用第三方应用的一次性专用密码。  </li>
-<li>解决方案：Apple Id账户页面-Security-Generate Password</li>
-</ul>
-<h4 id="7-build报错-shell脚本找不到"><a href="#7-build报错-shell脚本找不到" class="headerlink" title="7. build报错-shell脚本找不到"></a>7. build报错-shell脚本找不到</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/181018_0370gci9ail3bgl00k137k4fh0jel_1728x398.png" style="zoom:30%"></p>
-<ul>
-<li>解决：跟之前改动了创建多个Target有关，造成指定的文件路径改变导致。更改build phases里脚本的路径即可<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181018_6i9f7j3g62f7338fa8l6bh3d1c62a_2370x1112.png" style="zoom:30%"></li>
-</ul>
-<h4 id="8-archive报错：error-lipo-can’t-write-to-output-file-…-具体报错没记录下来"><a href="#8-archive报错：error-lipo-can’t-write-to-output-file-…-具体报错没记录下来" class="headerlink" title="8. archive报错：error: lipo: can’t write to output file:…(具体报错没记录下来)"></a>8. archive报错：error: lipo: can’t write to output file:…(具体报错没记录下来)</h4><ul>
-<li>我这边原来是Build Settings-Valid Architectures-armv7/armv7s/arm64，改为$(ARCHS_STANDARD)，指当前Xcode支持的默认值，Xcode9是armv7 arm64。</li>
-<li>参考问题：<a href="https://stackoverflow.com/questions/32949399/error-while-building-for-ios-from-unity-in-xcode-7" target="_blank" rel="noopener">https://stackoverflow.com/questions/32949399/error-while-building-for-ios-from-unity-in-xcode-7</a></li>
-<li>后来查到还有说是空间不够的问题：<a href="http://duxinfeng.com/2017/08/05/error-lipo-can-t-write-to-output-file/index.html" target="_blank" rel="noopener">http://duxinfeng.com/2017/08/05/error-lipo-can-t-write-to-output-file/index.html</a></li>
-<li>Architecture&amp;Valid Architecture知识补充：<a href="http://foggry.com/blog/2014/05/09/xcodeshe-zhi-xiang-zhi-architectureshe-valid-architectures/" target="_blank" rel="noopener">http://foggry.com/blog/2014/05/09/xcodeshe-zhi-xiang-zhi-architectureshe-valid-architectures/</a></li>
-<li>看这部分时，会发现，Build Settings里面有两个参数。<br>Architectures(支持的指令集)，Valid Architectures(指定可能支持的指令集)，最终生成的二进制文件支持的指令集是两者交集。</li>
-<li>支持多个指令集的二进制文件，也称为通用二进制文件。(这点在逆向当中可能涉及比较多)</li>
-</ul>
-<h3 id="未完待续……"><a href="#未完待续……" class="headerlink" title="未完待续……"></a>未完待续……</h3>
-      
+        <div class="article-info info-on-right">
+          
+          
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>晚饭加鸡腿🍗<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/alipay.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
         </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2018/09/30/App从0到1记录/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/11/08/对称加密-非对称加密-单向散列函数/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          对称加密&amp;非对称加密&amp;单向散列函数
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/09/28/“一些宏定义”/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">一些宏定义</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -376,8 +204,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
