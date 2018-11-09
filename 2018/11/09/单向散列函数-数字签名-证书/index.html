@@ -16,10 +16,13 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-09T06:42:27.145Z">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_02204c1l3e75g18k52eghih87a06f_1638x734.png">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_7jk12g65k56kgg1bj9idc83hhk559_2074x904.png">
+<meta property="og:updated_time" content="2018-11-09T07:55:14.746Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单向散列函数&amp;数字签名&amp;证书">
 <meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
+<meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_02204c1l3e75g18k52eghih87a06f_1638x734.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -259,6 +262,28 @@
 </blockquote>
 </li>
 <li>数字签名：下文会提到</li>
+</ul>
+<h3 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h3><h4 id="为什么存在？-1"><a href="#为什么存在？-1" class="headerlink" title="为什么存在？"></a>为什么存在？</h4><ul>
+<li>单项散列函数解决发送的数据是否被篡改。</li>
+<li>数字签名解决不可伪装性(签名不是别人写的)，也不可抵赖(否认签名是自己的签名)。(白话：<strong>是你自己签名的，签的也是你自己签名</strong>)</li>
+</ul>
+<h4 id="How"><a href="#How" class="headerlink" title="How"></a>How</h4><ul>
+<li>用私钥来签名(私钥只有一个人有，确保这是我发的消息，只有我能发布这个签名)，别人可以用公钥来验证(验签)。</li>
+<li>还记得这篇文章里提到的<strong>到底公钥私钥哪个用来加密</strong>的讨论吗。这里给出解释了</li>
+</ul>
+<h4 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h4><ul>
+<li><p>可优化点：直接对要发送的消息用私钥加密，如果文件较大，那么加密过程会很耗时，且(密文+消息)发送内容也较大</p>
+</li>
+<li><p>结合单项散列函数的特性，先获得要发送的消息的散列值，再进行加密</p>
+</li>
+<li>流程图如下：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_02204c1l3e75g18k52eghih87a06f_1638x734.png"></li>
+</ul>
+<h4 id="数字签名存在的问题"><a href="#数字签名存在的问题" class="headerlink" title="数字签名存在的问题"></a>数字签名存在的问题</h4><ul>
+<li><p>在数字证书的流程中，有一个前提，发送者和接受者的私钥公钥必须是配对的。如果在公私钥共享过程中，遭受中间人攻击或公钥被替换等情况如下图<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_7jk12g65k56kgg1bj9idc83hhk559_2074x904.png"></p>
+</li>
+<li><p>总结就是需要验证公钥的合法性</p>
+</li>
+<li>解决方案：数字证书</li>
 </ul>
 
       
