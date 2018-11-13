@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1f0i79a12iahdb8i0f6j2kdgckg1h_1322x1602.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1c42aj9k921afd2f50fcbha178e7j_1336x532.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_3252cd939b80ai2307l91ilh2fh68_609x693.png">
-<meta property="og:updated_time" content="2018-11-13T10:02:11.544Z">
+<meta property="og:updated_time" content="2018-11-13T10:15:56.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对称加密&amp;非对称加密&amp;混合加密">
 <meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
@@ -188,7 +188,7 @@
 <li>加密，解密使用同一个密钥</li>
 <li><p>常见的加密方式：</p>
 <ul>
-<li><p>DES(Data Encryption Standard)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_1216a32a79c76lbh4ek1eheljii60_1008x290.png"></p>
+<li><p>DES(Data Encryption Standard)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_1216a32a79c76lbh4ek1eheljii60_1008x290.png" style="zoom:50%"></p>
 <ul>
 <li>如上，简单流程，补充几点：</li>
 <li>明文密文都是64bit</li>
@@ -198,7 +198,7 @@
 </li>
 <li><p>3DES</p>
 <ul>
-<li>3重DES操作，<strong>第二次为解密</strong><br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_02l4ll12117efai246gi2d7fcbb7g_1005x574.png"></li>
+<li>3重DES操作，<strong>第二次为解密</strong><br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_02l4ll12117efai246gi2d7fcbb7g_1005x574.png" style="zoom:50%"></li>
 <li>如上，简单流程，补充几点：<ul>
 <li>3次密钥不同：DES-EDE3。Key1与Key3可以相同，成为DES-EDE2</li>
 <li>缺点：此为在DES的基础上的增强加密强度，然而带来了多个密钥的维护成本，同时影响了处理速度，目前已不安全</li>
@@ -243,7 +243,7 @@
 <li>一一对应，一起生成成为密钥对</li>
 </ul>
 </li>
-<li>简易流程图：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_1f0i79a12iahdb8i0f6j2kdgckg1h_1322x1602.png"></li>
+<li>简易流程图：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_1f0i79a12iahdb8i0f6j2kdgckg1h_1322x1602.png" style="zoom:30%"></li>
 <li>最常用的加密方式：RSA(名称由三位提出者的首字母拼成)<ul>
 <li>第一个能同时用于加密和数字签名的算法</li>
 </ul>
@@ -261,7 +261,7 @@
 <p><strong><em>到底公钥，私钥哪个用来加密？？？</em></strong>  </p>
 </li>
 <li>之所以，在后面补充这一点，我之前也对到底是公钥加密还是私钥加密很混乱。因此先对前面的知识点熟悉了，再了解这一点。  <blockquote>
-<p>一张知乎问答来结束到底哪个是用来加密的问题？<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_1c42aj9k921afd2f50fcbha178e7j_1336x532.png"></p>
+<p>一张知乎问答来结束到底哪个是用来加密的问题？<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181108_1c42aj9k921afd2f50fcbha178e7j_1336x532.png" style="zoom:30%"></p>
 </blockquote>
 </li>
 <li>私钥加密的应用场景：数字签名(下一篇文章会提到)</li>
@@ -270,7 +270,7 @@
 </ul>
 <h3 id="混合加密-Hybrid-Cryptography"><a href="#混合加密-Hybrid-Cryptography" class="headerlink" title="混合加密(Hybrid Cryptography)"></a>混合加密(Hybrid Cryptography)</h3><ul>
 <li>为了结合对称加密速度快和非对称加密安全性高的优点，同时规避两者缺点，产出的方案</li>
-<li>加密过程：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_3252cd939b80ai2307l91ilh2fh68_609x693.png"><ul>
+<li>加密过程：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_3252cd939b80ai2307l91ilh2fh68_609x693.png" style="zoom:50%"><ul>
 <li>会话密钥：由伪随机数生成器生成的临时密钥，又作对称密钥</li>
 </ul>
 </li>

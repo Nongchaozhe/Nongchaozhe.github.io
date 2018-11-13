@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_78b98ffj86kijbd40b4c21gd21df1_796x674.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_4gc0c11aejlaei9jd99efj093ch9g_820x356.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_6h19h9f08270h8665hakcd5l2l4ih_696x150.png">
-<meta property="og:updated_time" content="2018-11-13T10:01:05.728Z">
+<meta property="og:updated_time" content="2018-11-13T10:14:01.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单向散列函数&amp;数字签名&amp;数字证书">
 <meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
@@ -280,10 +280,10 @@
 </li>
 <li><p>结合单项散列函数的特性，先获得要发送的消息的散列值，再进行加密</p>
 </li>
-<li>流程图如下：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_02204c1l3e75g18k52eghih87a06f_1638x734.png"></li>
+<li>流程图如下：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_02204c1l3e75g18k52eghih87a06f_1638x734.png" style="zoom:30%"></li>
 </ul>
 <h4 id="数字签名存在的问题"><a href="#数字签名存在的问题" class="headerlink" title="数字签名存在的问题"></a>数字签名存在的问题</h4><ul>
-<li><p>在数字证书的流程中，有一个前提，发送者和接受者的私钥公钥必须是配对的。如果在公私钥共享过程中，遭受中间人攻击或公钥被替换等情况如下图<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_7jk12g65k56kgg1bj9idc83hhk559_2074x904.png"></p>
+<li><p>在数字证书的流程中，有一个前提，发送者和接受者的私钥公钥必须是配对的。如果在公私钥共享过程中，遭受中间人攻击或公钥被替换等情况如下图<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_7jk12g65k56kgg1bj9idc83hhk559_2074x904.png" style="zoom:30%"></p>
 </li>
 <li><p>总结就是需要验证公钥的合法性</p>
 </li>
@@ -296,7 +296,7 @@
 <li>CA(Certificate Authority)：证书的签发、认证、管理</li>
 <li>又称公钥证书(Public-key Certificate,PKC)</li>
 </ul>
-<h4 id="简单流程"><a href="#简单流程" class="headerlink" title="简单流程"></a>简单流程</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_4g6fd395k2iii481932954133bhel_1142x1196.png"></p>
+<h4 id="简单流程"><a href="#简单流程" class="headerlink" title="简单流程"></a>简单流程</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_4g6fd395k2iii481932954133bhel_1142x1196.png" style="zoom:40%"></p>
 <ul>
 <li>注册者A，生成密钥对，并将公钥以及个人信息发给CA</li>
 <li>CA生成CA的密钥对，公钥公开下载。CA公钥对A的公钥进行数字签名，并包含一系列信息，生成数字证书</li>
@@ -305,7 +305,7 @@
 <li>CA公钥解密证书中的指纹获得Hash值，与自己对数字证书进行Hash计算获得Hash值，两者比较，判断证书是否被篡改</li>
 <li>CA公钥验证数字签名，获得合法公钥</li>
 </ul>
-<h4 id="证书示例"><a href="#证书示例" class="headerlink" title="证书示例"></a>证书示例</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_78b98ffj86kijbd40b4c21gd21df1_796x674.png"><br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_4gc0c11aejlaei9jd99efj093ch9g_820x356.png"><br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_6h19h9f08270h8665hakcd5l2l4ih_696x150.png"> </p>
+<h4 id="证书示例"><a href="#证书示例" class="headerlink" title="证书示例"></a>证书示例</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_78b98ffj86kijbd40b4c21gd21df1_796x674.png" style="zoom:40%"><br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_4gc0c11aejlaei9jd99efj093ch9g_820x356.png" style="zoom:40%"><br><img src="https://s10.mogucdn.com/mlcdn/c45406/181109_6h19h9f08270h8665hakcd5l2l4ih_696x150.png" style="zoom:40%"> </p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li>单项散列函数解决不被篡改</li>
 <li>数字签名私钥签名，公钥验签。保证消息不可伪装，不可否认</li>
