@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_2i1826e4dea4k559akh6401iabhb6_1168x366.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_8dk20b8f0ha90d3jhdkll366hej2f_1856x1108.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_1g15h2eb15d71h3ddglbliicih741_1690x398.png">
-<meta property="og:updated_time" content="2018-11-13T09:44:35.569Z">
+<meta property="og:updated_time" content="2018-11-13T09:50:22.001Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS签名机制">
 <meta name="twitter:description" content="写于前写一个系列 对称加密&amp;amp;非对称加密&amp;amp;混合加密 单向散列函数&amp;amp;数字签名&amp;amp;证书 iOS签名机制  本文概要 了解iOS签名机制 对机制的每个环节有大致的了解 阅读这篇文章前，需要对加密、Hash、数字签名、数字证书有一定的了解">
@@ -195,7 +195,7 @@
 </ul>
 </blockquote>
 <h3 id="iOS签名机制"><a href="#iOS签名机制" class="headerlink" title="iOS签名机制"></a>iOS签名机制</h3><h4 id="从automatic-signing入手"><a href="#从automatic-signing入手" class="headerlink" title="从automatic signing入手"></a>从automatic signing入手</h4><ul>
-<li><p>在日常开发中，我们都会在工程中选择“Automatically manage signing”，让Xcode来完成一系列的签名工作<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_364e331j21eg45cd24jc23c6bj11k_1326x862.png"></p>
+<li><p>在日常开发中，我们都会在工程中选择“Automatically manage signing”，让Xcode来完成一系列的签名工作<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_364e331j21eg45cd24jc23c6bj11k_1326x862.png" style="zoom:20%"></p>
 <ul>
 <li>自动签名，Xcode所做的工作<ul>
 <li>生成数字证书</li>
@@ -213,39 +213,25 @@
 <h4 id="开发App到安装的流程"><a href="#开发App到安装的流程" class="headerlink" title="开发App到安装的流程"></a>开发App到安装的流程</h4><ul>
 <li>先看下整个流程，再来看每个环节的作用，以及Provisioning Profile</li>
 <li>流程图基于bang神的文章，稍加补充说明<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_102hbb6d1468kb3g8h8a0bf0ba151_1771x1085.png"></li>
-<li><ol>
-<li>Mac开发设备：生成一对密钥对。私钥本地保存<ul>
+<li>1、 Mac开发设备：生成一对密钥对。私钥本地保存<ul>
 <li>对应：钥匙串访问-证书助理-从证书颁发机构请求证书。获得.certificateSigningRequest文件，Mac公钥</li>
 </ul>
 </li>
-</ol>
-</li>
-<li><ol start="2">
-<li>Apple存在Apple的密钥对，私钥Apple后台保存，公钥iOS设备有一份<ul>
+<li>2、 Apple存在Apple的密钥对，私钥Apple后台保存，公钥iOS设备有一份<ul>
 <li>对应：苹果的流程</li>
 </ul>
 </li>
-</ol>
-</li>
-<li><ol start="3">
-<li>①签名：生成证书<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_8e98b56484214eeli9d1d9blj39bj_1772x536.png"><ul>
+<li>3、 ①签名：生成证书<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_8e98b56484214eeli9d1d9blj39bj_1772x536.png"><ul>
 <li>对应：开发者网站上，新增时，会上你上传第一步生成的CRS文件。生成证书，下载</li>
 </ul>
 </li>
-</ol>
-</li>
-<li><ol start="4">
-<li>②签名：生成Provisioning Profile(包括什么下文单独讲)。<ul>
+<li>4、 ②签名：生成Provisioning Profile(包括什么下文单独讲)。<ul>
 <li>对应：开发者网站上，配置AppID/设备/权限/证书等，最后下载Provisioning Profile文件</li>
 </ul>
 </li>
-</ol>
-</li>
-<li><ol start="5">
-<li><p>③签名：编译App后，Mac私钥对App进行签名，同时打包，安装包包含Provisioning Profile，在iPA中的文件名是embedded.mobileprovision<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_2h3a3f57k633817ab69kck88bkh9e_960x304.png"></p>
+<li><p>5、 ③签名：编译App后，Mac私钥对App进行签名，同时打包，安装包包含Provisioning Profile，在iPA中的文件名是embedded.mobileprovision<br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_2h3a3f57k633817ab69kck88bkh9e_960x304.png"></p>
 <ul>
-<li>Xcode流程。会根据证书存着公钥，在本地找到对应的Mac私钥，去签名App。签名分为两部分，Mach-O可执行文件的签名直接包含在其中(上图右半部分是Mach-O View查看可执行文件的内容，包含code signature)，其他资源文件的签名保存在_CodeSignature下。</li>
-</ul>
+<li><p>Xcode流程。会根据证书存着公钥，在本地找到对应的Mac私钥，去签名App。签名分为两部分，Mach-O可执行文件的签名直接包含在其中(上图右半部分是Mach-O View查看可执行文件的内容，包含code signature)，其他资源文件的签名保存在_CodeSignature下。</p>
 <blockquote>
 <p>这一点代码签名的种类，苹果的官方文档也有说明(直接简译了下)：</p>
 <ol>
@@ -255,11 +241,9 @@
 </ol>
 </blockquote>
 </li>
-</ol>
+</ul>
 </li>
-<li><ol start="6">
-<li>④-⑤-⑥验签均是iOS设备的流程，每一步的作用，在上面的流程图中均已标明。当然这只是一部分流程，还会作Devices、APPID、权限控制等验证工作</li>
-</ol>
+<li><p>6、 ④-⑤-⑥验签均是iOS设备的流程，每一步的作用，在上面的流程图中均已标明。当然这只是一部分流程，还会作Devices、APPID、权限控制等验证工作</p>
 </li>
 </ul>
 <ul>
@@ -271,10 +255,10 @@
 </ul>
 <h4 id="Provisioning-Profile"><a href="#Provisioning-Profile" class="headerlink" title="Provisioning Profile"></a>Provisioning Profile</h4><ul>
 <li>包含了 证书 / Entitlements 等数据，并由苹果后台私钥签名的数据包。</li>
-<li><p>如下，通过预览一个mobileProvisioning文件，查看里面包含什么东西<br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_8dk20b8f0ha90d3jhdkll366hej2f_1856x1108.png"><br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_1g15h2eb15d71h3ddglbliicih741_1690x398.png"></p>
-</li>
-<li><p>包含Provisioned Devices，AppId，Entitlements，这些在安装到手机时都会进行验证。</p>
-</li>
+<li>如下，通过预览一个mobileProvisioning文件，查看里面包含什么东西<br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_8dk20b8f0ha90d3jhdkll366hej2f_1856x1108.png"><br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_1g15h2eb15d71h3ddglbliicih741_1690x398.png"></li>
+</ul>
+<ul>
+<li>包含Provisioned Devices，AppId，Entitlements，这些在安装到手机时都会进行验证。</li>
 <li>包含certificates里包含Mac公钥及签名，会决定Xcode采用其对应的私钥对应用程序进行签名</li>
 <li>分两类：development/distribution(用于提交审核用)</li>
 </ul>
@@ -282,8 +266,12 @@
 <li>p12：之前配置打包机的时候，遇到这个概念，指的是Mac私钥，可以从keychain中导出。可以共享给同事的Mac或配置打包机</li>
 <li>CertificateSigningRequest文件：CRS，前面已经提到，Mac公钥</li>
 </ul>
-<hr>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><ul>
+<li><a href="http://blog.cnbang.net/tech/3386/" target="_blank" rel="noopener">iOS App签名原理</a></li>
+<li><a href="https://developer.apple.com/library/archive/documentation/Security/Conceptual/CodeSigningGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005929-CH1-SW1" target="_blank" rel="noopener">Code Signing Guide</a></li>
+<li><a href="https://help.apple.com/xcode/mac/current/#/dev3a05256b8" target="_blank" rel="noopener">Xcode Help</a></li>
+</ul>
+
       
 
       
