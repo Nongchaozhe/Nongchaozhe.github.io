@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>单向散列函数&amp;数字签名&amp;数字证书 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
+  <meta name="description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="单向散列函数&amp;数字签名&amp;数字证书">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/11/09/单向散列函数-数字签名-证书/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
+<meta property="og:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_02204c1l3e75g18k52eghih87a06f_1638x734.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_7jk12g65k56kgg1bj9idc83hhk559_2074x904.png">
@@ -22,10 +22,10 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_78b98ffj86kijbd40b4c21gd21df1_796x674.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_4gc0c11aejlaei9jd99efj093ch9g_820x356.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_6h19h9f08270h8665hakcd5l2l4ih_696x150.png">
-<meta property="og:updated_time" content="2018-11-09T10:30:00.731Z">
+<meta property="og:updated_time" content="2018-11-13T10:01:05.728Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单向散列函数&amp;数字签名&amp;数字证书">
-<meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
+<meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
 <meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_02204c1l3e75g18k52eghih87a06f_1638x734.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
@@ -176,9 +176,9 @@
 <li>iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的</li>
 </ul>
 <h4 id="写一个系列"><a href="#写一个系列" class="headerlink" title="写一个系列"></a>写一个系列</h4><ul>
-<li>对称加密&amp;非对称加密</li>
-<li>单向散列函数&amp;数字签名&amp;证书</li>
-<li>iOS签名机制</li>
+<li><a href="https://nongchaozhe.github.io/2018/11/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0/">对称加密&amp;非对称加密&amp;混合加密</a></li>
+<li>单向散列函数&amp;数字签名&amp;数字证书</li>
+<li><a href="https://nongchaozhe.github.io/2018/11/12/iOS%E7%AD%BE%E5%90%8D%E6%9C%BA%E5%88%B6/">iOS签名机制</a></li>
 </ul>
 <h4 id="本文概要"><a href="#本文概要" class="headerlink" title="本文概要"></a>本文概要</h4><ul>
 <li>白话厘清概念，分析优缺点(不累述算法实现)</li>
@@ -310,6 +310,15 @@
 <li>单项散列函数解决不被篡改</li>
 <li>数字签名私钥签名，公钥验签。保证消息不可伪装，不可否认</li>
 <li>数字证书保证<strong>公钥合法性</strong></li>
+</ul>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
+<li><a href="https://www.jianshu.com/p/e639d3e3f914" target="_blank" rel="noopener">单项散列函数</a></li>
+<li><a href="https://www.jianshu.com/p/29932773b6fd" target="_blank" rel="noopener">图解密码技术学习-第七章 单向散列函数</a></li>
+<li><a href="http://www.sohu.com/a/224156626_750628" target="_blank" rel="noopener">安全散列算法SHA的发展与变化：我们为什么不使用SHA-3？</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html" target="_blank" rel="noopener">数字签名是什么？</a></li>
+<li><a href="http://www.cnblogs.com/JeffreySun/archive/2010/06/24/1627247.html" target="_blank" rel="noopener">数字证书原理</a></li>
+<li><a href="http://www.youdzone.com/signature.html" target="_blank" rel="noopener">What is a Digital Signature?</a></li>
+<li><a href="https://www.jianshu.com/p/4932cb1499bf" target="_blank" rel="noopener">通俗理解数字签名，数字证书和https</a></li>
 </ul>
 
       

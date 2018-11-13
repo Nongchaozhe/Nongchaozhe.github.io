@@ -8,23 +8,23 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>对称加密&amp;非对称加密&amp;混合加密 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
+  <meta name="description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对称加密&amp;非对称加密&amp;混合加密">
 <meta property="og:url" content="https://nongchaozhe.github.io/2018/11/08/对称加密-非对称加密-单向散列函数/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
+<meta property="og:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1216a32a79c76lbh4ek1eheljii60_1008x290.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_02l4ll12117efai246gi2d7fcbb7g_1005x574.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1f0i79a12iahdb8i0f6j2kdgckg1h_1322x1602.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1c42aj9k921afd2f50fcbha178e7j_1336x532.png">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181109_3252cd939b80ai2307l91ilh2fh68_609x693.png">
-<meta property="og:updated_time" content="2018-11-09T10:28:26.409Z">
+<meta property="og:updated_time" content="2018-11-13T10:02:11.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对称加密&amp;非对称加密&amp;混合加密">
-<meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密 单向散">
+<meta name="twitter:description" content="写于前iOS中常在哪些场景应用到 支付密码、验证码相关的业务场景 之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础 iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的  写一个系列 对称加密&amp;amp;非对称加密&amp;amp">
 <meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/181108_1216a32a79c76lbh4ek1eheljii60_1008x290.png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
@@ -175,9 +175,9 @@
 <li>iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的</li>
 </ul>
 <h4 id="写一个系列"><a href="#写一个系列" class="headerlink" title="写一个系列"></a>写一个系列</h4><ul>
-<li>对称加密&amp;非对称加密</li>
-<li>单向散列函数&amp;数字签名&amp;证书</li>
-<li>iOS签名机制</li>
+<li>对称加密&amp;非对称加密&amp;混合加密</li>
+<li><a href="https://nongchaozhe.github.io/2018/11/09/%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D-%E8%AF%81%E4%B9%A6/">单向散列函数&amp;数字签名&amp;数字证书</a></li>
+<li><a href="https://nongchaozhe.github.io/2018/11/12/iOS%E7%AD%BE%E5%90%8D%E6%9C%BA%E5%88%B6/">iOS签名机制</a></li>
 </ul>
 <h4 id="本文概要"><a href="#本文概要" class="headerlink" title="本文概要"></a>本文概要</h4><ul>
 <li>白话厘清概念，分析优缺点(不累述算法实现)</li>
@@ -288,6 +288,11 @@
 <li>混合加密，结合两者优点</li>
 <li>非对称加密是公钥(公开)加密，私钥解密。</li>
 <li>私钥加密(签名)，公钥解密(验签)(下回再说)。</li>
+</ul>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
+<li><a href="https://www.cnblogs.com/xinzhigu94/p/5420728.html" target="_blank" rel="noopener">对称密码-DES和3DES</a></li>
+<li><a href="https://www.cnblogs.com/wei2yi/p/3484170.html" target="_blank" rel="noopener">DES/3DES/AES区别
+</a></li>
 </ul>
 
       
