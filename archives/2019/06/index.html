@@ -6,28 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>iOS签名机制 | NCZ的博客</title>
+  <title>Archives: 2019/6 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="写于前写一个系列 对称加密&amp;amp;非对称加密&amp;amp;混合加密 单向散列函数&amp;amp;数字签名&amp;amp;数字证书 iOS签名机制  本文概要 了解iOS签名机制 对机制的每个环节有大致的了解 阅读这篇文章前，需要对加密、Hash、数字签名、数字证书有一定的了解">
-<meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
-<meta property="og:type" content="article">
-<meta property="og:title" content="iOS签名机制">
-<meta property="og:url" content="https://nongchaozhe.github.io/2018/11/12/iOS签名机制/index.html">
+  <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NCZ的博客">
+<meta property="og:url" content="https://nongchaozhe.github.io/archives/2019/06/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="写于前写一个系列 对称加密&amp;amp;非对称加密&amp;amp;混合加密 单向散列函数&amp;amp;数字签名&amp;amp;数字证书 iOS签名机制  本文概要 了解iOS签名机制 对机制的每个环节有大致的了解 阅读这篇文章前，需要对加密、Hash、数字签名、数字证书有一定的了解">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_364e331j21eg45cd24jc23c6bj11k_1326x862.png">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_102hbb6d1468kb3g8h8a0bf0ba151_1771x1085.png">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_8e98b56484214eeli9d1d9blj39bj_1772x536.png">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_2h3a3f57k633817ab69kck88bkh9e_960x304.png">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_2i1826e4dea4k559akh6401iabhb6_1168x366.png">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_8dk20b8f0ha90d3jhdkll366hej2f_1856x1108.png">
-<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_1g15h2eb15d71h3ddglbliicih741_1690x398.png">
-<meta property="og:updated_time" content="2018-11-13T10:16:14.083Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iOS签名机制">
-<meta name="twitter:description" content="写于前写一个系列 对称加密&amp;amp;非对称加密&amp;amp;混合加密 单向散列函数&amp;amp;数字签名&amp;amp;数字证书 iOS签名机制  本文概要 了解iOS签名机制 对机制的每个环节有大致的了解 阅读这篇文章前，需要对加密、Hash、数字签名、数字证书有一定的了解">
-<meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/181113_364e331j21eg45cd24jc23c6bj11k_1326x862.png">
+<meta name="twitter:title" content="NCZ的博客">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -151,269 +139,49 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-iOS签名机制" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      iOS签名机制
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/06/26/iOS逆向的一点总结/" class="archive-article-date">
+  	<time datetime="2019-06-26T13:11:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-26</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/06/26/iOS逆向的一点总结/">iOS逆向的一点总结</a>
     </h1>
   
 
-        
-        <a href="/2018/11/12/iOS签名机制/" class="archive-article-date">
-  	<time datetime="2018-11-12T08:23:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="写于前"><a href="#写于前" class="headerlink" title="写于前"></a>写于前</h3><h4 id="写一个系列"><a href="#写一个系列" class="headerlink" title="写一个系列"></a>写一个系列</h4><ul>
-<li><a href="https://nongchaozhe.github.io/2018/11/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0/">对称加密&amp;非对称加密&amp;混合加密</a></li>
-<li><a href="https://nongchaozhe.github.io/2018/11/09/%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D-%E8%AF%81%E4%B9%A6/">单向散列函数&amp;数字签名&amp;数字证书</a></li>
-<li>iOS签名机制</li>
-</ul>
-<h4 id="本文概要"><a href="#本文概要" class="headerlink" title="本文概要"></a>本文概要</h4><ul>
-<li>了解iOS签名机制</li>
-<li>对机制的每个环节有大致的了解</li>
-<li>阅读这篇文章前，需要对加密、Hash、数字签名、数字证书有一定的了解</li>
-</ul>
-<a id="more"></a>
-<h3 id="About-Code-Signing"><a href="#About-Code-Signing" class="headerlink" title="About Code Signing"></a>About Code Signing</h3><p>此部分大多来自苹果官网的描述</p>
-<blockquote>
-<p>Code signing is a macOS <strong>security technology</strong> that you use to certify that an app was created by you. Once an app is signed, the system can detect any change to the app—whether the change is introduced accidentally or by malicious code.<br>You participate in code signing as a developer when you obtain a signing identity and apply your signature to apps that you ship. <strong>A certificate authority (often Apple) vouches for your signing identity.</strong><br>(代码签名是一种安全机制去保证当前App是由你创建的。一旦签名，系统可以检测app是否被更改or恶意入侵。开发者也会参与其中，CA(Apple)担保签名身份。-这里说的应该是CA颁发证书保证公钥合法性)</p>
-</blockquote>
-<h4 id="Benefits-of-Code-Signing"><a href="#Benefits-of-Code-Signing" class="headerlink" title="Benefits of Code Signing"></a>Benefits of Code Signing</h4><blockquote>
-<p>Ensure that a piece of code has not been altered since it was signed.</p>
-<ul>
-<li>确保代码自签名后未被更改<br>Identify code as coming from a specific source (a developer or signer). </li>
-<li>标记代码的特定来源。签名包含指向特定作者的信息<br>Determine whether code is trustworthy for a specific purpose. </li>
-<li>确定代码在某些特定目的时值得信任。例如，可以利用代码签名来声明App升级时与之前的App是同一App</li>
-</ul>
-</blockquote>
-<h3 id="iOS签名机制"><a href="#iOS签名机制" class="headerlink" title="iOS签名机制"></a>iOS签名机制</h3><h4 id="从automatic-signing入手"><a href="#从automatic-signing入手" class="headerlink" title="从automatic signing入手"></a>从automatic signing入手</h4><ul>
-<li><p>在日常开发中，我们都会在工程中选择“Automatically manage signing”，让Xcode来完成一系列的签名工作<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_364e331j21eg45cd24jc23c6bj11k_1326x862.png" style="zoom:30%"></p>
-<ul>
-<li>自动签名，Xcode所做的工作<ul>
-<li>生成数字证书</li>
-<li>注册真机设备</li>
-<li>管理App IDs</li>
-<li>管理Provisioning Profile</li>
-<li>编辑权限及info文件(entitlements.plist里面包含一系列的App权限：推送/后台/icloud等)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>Manual signing：需要去开发者网站操作certificate以及Provisioning Profile。一般在打包机打包/企业分发等场景会用到</p>
-</li>
-</ul>
-<h4 id="开发App到安装的流程"><a href="#开发App到安装的流程" class="headerlink" title="开发App到安装的流程"></a>开发App到安装的流程</h4><ul>
-<li>先看下整个流程，再来看每个环节的作用，以及Provisioning Profile</li>
-<li>流程图基于bang神的文章，稍加补充说明<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_102hbb6d1468kb3g8h8a0bf0ba151_1771x1085.png" style="zoom:40%"></li>
-<li>1、 Mac开发设备：生成一对密钥对。私钥本地保存<ul>
-<li>对应：钥匙串访问-证书助理-从证书颁发机构请求证书。获得.certificateSigningRequest文件，Mac公钥</li>
-</ul>
-</li>
-<li>2、 Apple存在Apple的密钥对，私钥Apple后台保存，公钥iOS设备有一份<ul>
-<li>对应：苹果的流程</li>
-</ul>
-</li>
-<li>3、 ①签名：生成证书<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_8e98b56484214eeli9d1d9blj39bj_1772x536.png" style="zoom:25%"><ul>
-<li>对应：开发者网站上，新增时，会上你上传第一步生成的CRS文件。生成证书，下载</li>
-</ul>
-</li>
-<li>4、 ②签名：生成Provisioning Profile(包括什么下文单独讲)。<ul>
-<li>对应：开发者网站上，配置AppID/设备/权限/证书等，最后下载Provisioning Profile文件</li>
-</ul>
-</li>
-<li><p>5、 ③签名：编译App后，Mac私钥对App进行签名，同时打包，安装包包含Provisioning Profile，在iPA中的文件名是embedded.mobileprovision<br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_2h3a3f57k633817ab69kck88bkh9e_960x304.png" style="zoom:50%"></p>
-<ul>
-<li><p>Xcode流程。会根据证书存着公钥，在本地找到对应的Mac私钥，去签名App。签名分为两部分，Mach-O可执行文件的签名直接包含在其中(上图右半部分是Mach-O View查看可执行文件的内容，包含code signature)，其他资源文件的签名保存在_CodeSignature下。</p>
-<blockquote>
-<p>这一点代码签名的种类，苹果的官方文档也有说明(直接简译了下)：</p>
-<ol>
-<li>通用二进制文件签名保存在齐本身</li>
-<li>App安装包中的各种数据组件，比如info.plist。其签名在_CodeSignature/CodeResources中</li>
-<li>本身已签名的嵌套代码(libraries,helper tools等)。其签名在_CodeSignature/CodeResources中(这里可以看出，在逆向中，注入动态库需要对其进行签名后，才能对安装包整体进行重签名)</li>
-</ol>
-</blockquote>
-</li>
-</ul>
-</li>
-<li><p>6、 ④-⑤-⑥验签均是iOS设备的流程，每一步的作用，在上面的流程图中均已标明。当然这只是一部分流程，还会作Devices、APPID、权限控制等验证工作</p>
-</li>
-</ul>
-<ul>
-<li>补充：其实上面的前几步流程，在发布App/企业分发等，是需要人工操作的。但是真机调试时，只用在Xcode配置账号，Xcode会自动完成流程。</li>
-</ul>
-<h4 id="从AppStore下载App"><a href="#从AppStore下载App" class="headerlink" title="从AppStore下载App"></a>从AppStore下载App</h4><ul>
-<li>其实我们看到上面复杂的签名流程，只是为了安全，确保安装包来源可靠。从④⑤⑥的验签流程就能发现，一步步都是为了保证合法性。</li>
-<li>如果直接是从AppStore下载的App，你查看iPA包里面，其实是没有embedded.mobileprovision文件的，因为你已经是从Apple认可的渠道下载的，不需要完整的流程，Apple已经确保是合法的<br><img src="https://s10.mogucdn.com/mlcdn/c45406/181113_2i1826e4dea4k559akh6401iabhb6_1168x366.png" style="zoom:50%"></li>
-</ul>
-<h4 id="Provisioning-Profile"><a href="#Provisioning-Profile" class="headerlink" title="Provisioning Profile"></a>Provisioning Profile</h4><ul>
-<li>包含了 证书 / Entitlements 等数据，并由苹果后台私钥签名的数据包。</li>
-<li>如下，通过预览一个mobileProvisioning文件，查看里面包含什么东西<br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_8dk20b8f0ha90d3jhdkll366hej2f_1856x1108.png" style="zoom:30%"><br>  <img src="https://s10.mogucdn.com/mlcdn/c45406/181113_1g15h2eb15d71h3ddglbliicih741_1690x398.png" style="zoom:30%"></li>
-</ul>
-<ul>
-<li>包含Provisioned Devices，AppId，Entitlements，这些在安装到手机时都会进行验证。</li>
-<li>包含certificates里包含Mac公钥及签名，会决定Xcode采用其对应的私钥对应用程序进行签名</li>
-<li>分两类：development/distribution(用于提交审核用)</li>
-</ul>
-<h4 id="概念补充"><a href="#概念补充" class="headerlink" title="概念补充"></a>概念补充</h4><ul>
-<li>p12：之前配置打包机的时候，遇到这个概念，指的是Mac私钥，可以从keychain中导出。可以共享给同事的Mac或配置打包机</li>
-<li>CertificateSigningRequest文件：CRS文件，前面已经提到，Mac公钥</li>
-</ul>
-<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><ul>
-<li><a href="http://blog.cnbang.net/tech/3386/" target="_blank" rel="noopener">iOS App签名原理</a></li>
-<li><a href="https://developer.apple.com/library/archive/documentation/Security/Conceptual/CodeSigningGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40005929-CH1-SW1" target="_blank" rel="noopener">Code Signing Guide</a></li>
-<li><a href="https://help.apple.com/xcode/mac/current/#/dev3a05256b8" target="_blank" rel="noopener">Xcode Help</a></li>
-</ul>
+        <div class="article-info info-on-right">
+          
+          
 
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>晚饭加鸡腿🍗<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/img/alipay.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
         </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2018/11/12/iOS签名机制/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/06/26/iOS逆向的一点总结/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          iOS逆向的一点总结
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/11/09/单向散列函数-数字签名-证书/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">单向散列函数&amp;数字签名&amp;数字证书</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -436,8 +204,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
