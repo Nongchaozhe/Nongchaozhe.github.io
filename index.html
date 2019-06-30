@@ -161,7 +161,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>不久之前的学习笔记了，整理下~</p>
+        <ul>
+<li>不久之前的学习笔记了，整理下~</li>
+<li>结合源码看更佳~</li>
+</ul>
 <hr>
 <h2 id="内存泄露检测"><a href="#内存泄露检测" class="headerlink" title="内存泄露检测"></a>内存泄露检测</h2><ul>
 <li>Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位</li>
@@ -176,7 +179,7 @@
 <li>添加willDealloc方法<ul>
 <li>检测该对象是否在白名单内，白名单通过类判断</li>
 <li>判断该对象是否是上一次发送action的对象，是的话，不进行内存检测</li>
-<li>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放</li>
+<li><strong>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放</strong></li>
 <li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_2ek820a496bdb36h55a6ak2l25j1g_1006x702.jpg">
         
           <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/#more">more >></a>

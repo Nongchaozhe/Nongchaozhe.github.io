@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>MLeaksFinder学习记录 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="不久之前的学习笔记了，整理下~  内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和Vi">
+  <meta name="description" content="不久之前的学习笔记了，整理下~ 结合源码看更佳~   内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewCo">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MLeaksFinder学习记录">
 <meta property="og:url" content="https://nongchaozhe.github.io/2019/06/30/MLeaksFinder学习记录/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="不久之前的学习笔记了，整理下~  内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和Vi">
+<meta property="og:description" content="不久之前的学习笔记了，整理下~ 结合源码看更佳~   内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewCo">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_2ek820a496bdb36h55a6ak2l25j1g_1006x702.jpg">
@@ -23,10 +23,10 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_39i8d96d20cce6003285f22jfljk4_964x668.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_6ak2aka2lakb70ai38f581934feh2_964x562.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_25h3e8f480ej1gfj05g8c18g52da4_964x452.jpg">
-<meta property="og:updated_time" content="2019-06-30T14:00:19.243Z">
+<meta property="og:updated_time" content="2019-06-30T14:05:30.846Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MLeaksFinder学习记录">
-<meta name="twitter:description" content="不久之前的学习笔记了，整理下~  内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和Vi">
+<meta name="twitter:description" content="不久之前的学习笔记了，整理下~ 结合源码看更佳~   内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewCo">
 <meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
@@ -171,7 +171,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>不久之前的学习笔记了，整理下~</p>
+        <ul>
+<li>不久之前的学习笔记了，整理下~</li>
+<li>结合源码看更佳~</li>
+</ul>
 <hr>
 <h2 id="内存泄露检测"><a href="#内存泄露检测" class="headerlink" title="内存泄露检测"></a>内存泄露检测</h2><ul>
 <li>Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位</li>
@@ -186,7 +189,7 @@
 <li>添加willDealloc方法<ul>
 <li>检测该对象是否在白名单内，白名单通过类判断</li>
 <li>判断该对象是否是上一次发送action的对象，是的话，不进行内存检测</li>
-<li>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放</li>
+<li><strong>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放</strong></li>
 <li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_2ek820a496bdb36h55a6ak2l25j1g_1006x702.jpg"><a id="more"></a></li>
 </ul>
 </li>
@@ -210,8 +213,8 @@
 <li>前面assertNotDealloc已经两度提及该类的方法</li>
 <li>isAnyObjectLeakedAtPtrs：</li>
 <li>addLeakedObject：<ul>
-<li>构造MLeakedObjectProxy对象</li>
-<li>object强持有proxy，proxy若持有object。如果object释放，proxy也会释放</li>
+<li><strong>构造MLeakedObjectProxy对象</strong></li>
+<li><strong>object强持有proxy，proxy若持有object。如果object释放，proxy也会释放</strong></li>
 <li>弹窗提示<ul>
 <li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_87f31al48k6kdka763kg7l930ea12_964x946.jpg"></li>
 </ul>
@@ -260,7 +263,7 @@
 <li>willDealloc<ul>
 <li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_25h3e8f480ej1gfj05g8c18g52da4_964x452.jpg"></li>
 <li>调Super，NSObject的willDealloc，前面介绍了，判断白名单，进行延迟调断言</li>
-<li>释放子VC，presentedVC，以及子view<ul>
+<li><strong>释放子VC，presentedVC，以及子view</strong><ul>
 <li>释放子view时，view的willDealloc方法里，是会调[self willReleaseChildren:self.subviews];</li>
 <li>这样看完了，能够完整的创建view的堆栈，就是因为willDealloc里会继续调子对象的释放willDealloc</li>
 </ul>
@@ -273,7 +276,7 @@
 <li>部分系统的view是不会被释放的，需要建立白名单</li>
 <li>MLeaksFinder支持手动扩展，通过MLCheck()宏来检测其他类型的对象的内存泄露，为传进来的对象建立View-ViewController stack信息</li>
 <li>结合FBRetainCycleDetector一起使用时：<ul>
-<li>内存泄漏不一定是循环引用造成的</li>
+<li><strong>内存泄漏不一定是循环引用造成的</strong></li>
 <li>有的循环引用 FBRetainCycleDetector 不一定能找出</li>
 </ul>
 </li>
