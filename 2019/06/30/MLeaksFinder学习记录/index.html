@@ -16,18 +16,18 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="不久之前的学习笔记了，整理下~  内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和Vi">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0001.png">
-<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0002.png">
-<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0003.jpg">
-<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0004.jpg">
-<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0005.jpg">
-<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0006.jpg">
-<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0007.jpg">
-<meta property="og:updated_time" content="2019-06-30T13:49:01.511Z">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_2ek820a496bdb36h55a6ak2l25j1g_1006x702.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_5343d4a047i701g9l0d1eh57bccl9_964x584.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_87f31al48k6kdka763kg7l930ea12_964x946.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_39i8d96d20cce6003285f22jfljk4_964x668.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_6ak2aka2lakb70ai38f581934feh2_964x562.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_25h3e8f480ej1gfj05g8c18g52da4_964x452.jpg">
+<meta property="og:updated_time" content="2019-06-30T13:57:06.767Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MLeaksFinder学习记录">
 <meta name="twitter:description" content="不久之前的学习笔记了，整理下~  内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和Vi">
-<meta name="twitter:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0001.png">
+<meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -179,14 +179,15 @@
 </ul>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h3><ul>
 <li>[MLeaksFinder start]; //进行swizzle</li>
-<li>[MLeaksFinder stop]; //设置静态局部参数，为NO，hook的函数不会执行到关键代码<br><img src="/Users/yimo/Downloads/0001.png"></li>
+<li>[MLeaksFinder stop]; //设置静态局部参数，为NO，hook的函数不会执行到关键代码</li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg" style="zoom:30%"></li>
 </ul>
 <h3 id="NSObject"><a href="#NSObject" class="headerlink" title="NSObject"></a>NSObject</h3><ul>
-<li>添加willDealloc方法<a id="more"></a>
-<ul>
+<li>添加willDealloc方法<ul>
 <li>检测该对象是否在白名单内，白名单通过类判断</li>
 <li>判断该对象是否是上一次发送action的对象，是的话，不进行内存检测</li>
-<li>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放<br><img src="/Users/yimo/Downloads/0002.png"></li>
+<li>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放</li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_2ek820a496bdb36h55a6ak2l25j1g_1006x702.jpg"><a id="more"></a></li>
 </ul>
 </li>
 <li>assertNotDealloc<ul>
@@ -198,7 +199,7 @@
 </ul>
 </li>
 <li>NSObject除了上面的两个函数，还有如下函数：<ul>
-<li>willReleaseChild/willReleaseChildren:释放某个对象，以及子对象(调willDealloc)<br><img src="/Users/yimo/Downloads/0003.jpg"></li>
+<li>willReleaseChild/willReleaseChildren:释放某个对象，以及子对象(调willDealloc)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_5343d4a047i701g9l0d1eh57bccl9_964x584.jpg"></li>
 <li>关联对象：viewStack</li>
 <li>关联对象：parentPtrs，在willReleaseChildren会对已经处理过的对象进行添加，这样在assertNotDealloc中，会判断当前对象是否与父节点集合有交集</li>
 <li>白名单：classNamesInWhiteList</li>
@@ -212,11 +213,11 @@
 <li>构造MLeakedObjectProxy对象</li>
 <li>object强持有proxy，proxy若持有object。如果object释放，proxy也会释放</li>
 <li>弹窗提示<ul>
-<li><img src="/Users/yimo/Downloads/0004.jpg"></li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_87f31al48k6kdka763kg7l930ea12_964x946.jpg"></li>
 </ul>
 </li>
 <li>dealloc<ul>
-<li><img src="/Users/yimo/Downloads/0005.jpg"></li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_39i8d96d20cce6003285f22jfljk4_964x668.jpg"></li>
 <li>析构函数，弹窗提示前面的内存泄露对象在某个时间点重新释放了</li>
 </ul>
 </li>
@@ -235,7 +236,7 @@
 <li>navigationController被pop出来<ul>
 <li>hook navigationController的方法UINavigationController+MemoryLeak<ul>
 <li>popViewControllerAnimated<ul>
-<li><img src="/Users/yimo/Downloads/0006.jpg"></li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_6ak2aka2lakb70ai38f581934feh2_964x562.jpg"></li>
 <li>代码截图省略了，splitViewController相关的代码</li>
 <li>上面并不是直接调willDealloc，而是设置了VC的一个关联参数属性kHasBeenPoppedKey为YES，因为用过左滑时间超过2s不放开，VC是不会释放的，因此此处通过关联对象处理</li>
 <li>如果VC出栈且释放，hookVC的viewDidDisappear，如果该关联参数为YES就调willDealloc</li>
@@ -257,7 +258,7 @@
 </ul>
 </li>
 <li>willDealloc<ul>
-<li><img src="/Users/yimo/Downloads/0007.jpg"></li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_25h3e8f480ej1gfj05g8c18g52da4_964x452.jpg"></li>
 <li>调Super，NSObject的willDealloc，前面介绍了，判断白名单，进行延迟调断言</li>
 <li>释放子VC，presentedVC，以及子view<ul>
 <li>释放子view时，view的willDealloc方法里，是会调[self willReleaseChildren:self.subviews];</li>
