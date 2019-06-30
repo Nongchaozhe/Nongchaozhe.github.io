@@ -21,7 +21,9 @@
 <meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0003.jpg">
 <meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0004.jpg">
 <meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0005.jpg">
-<meta property="og:updated_time" content="2019-06-30T13:44:24.709Z">
+<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0006.jpg">
+<meta property="og:image" content="https://nongchaozhe.github.io/Users/yimo/Downloads/0007.jpg">
+<meta property="og:updated_time" content="2019-06-30T13:49:01.511Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MLeaksFinder学习记录">
 <meta name="twitter:description" content="不久之前的学习笔记了，整理下~  内存泄露检测 Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位 MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和Vi">
@@ -180,7 +182,8 @@
 <li>[MLeaksFinder stop]; //设置静态局部参数，为NO，hook的函数不会执行到关键代码<br><img src="/Users/yimo/Downloads/0001.png"></li>
 </ul>
 <h3 id="NSObject"><a href="#NSObject" class="headerlink" title="NSObject"></a>NSObject</h3><ul>
-<li>添加willDealloc方法<ul>
+<li>添加willDealloc方法<a id="more"></a>
+<ul>
 <li>检测该对象是否在白名单内，白名单通过类判断</li>
 <li>判断该对象是否是上一次发送action的对象，是的话，不进行内存检测</li>
 <li>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放<br><img src="/Users/yimo/Downloads/0002.png"></li>
@@ -231,7 +234,14 @@
 </li>
 <li>navigationController被pop出来<ul>
 <li>hook navigationController的方法UINavigationController+MemoryLeak<ul>
-<li>popViewControllerAnimated</li>
+<li>popViewControllerAnimated<ul>
+<li><img src="/Users/yimo/Downloads/0006.jpg"></li>
+<li>代码截图省略了，splitViewController相关的代码</li>
+<li>上面并不是直接调willDealloc，而是设置了VC的一个关联参数属性kHasBeenPoppedKey为YES，因为用过左滑时间超过2s不放开，VC是不会释放的，因此此处通过关联对象处理</li>
+<li>如果VC出栈且释放，hookVC的viewDidDisappear，如果该关联参数为YES就调willDealloc</li>
+<li>如果滑到一半回来，hookVC的viewWillAppear，设置该关联参数为NO</li>
+</ul>
+</li>
 <li>popToViewController:animated:</li>
 <li>popToRootViewControllerAnimated:<ul>
 <li>后两种方法，系统方法调用是会返回pop掉的数组的，hook掉，获取pop调的数组，遍历，对每个vc依次调willDealloc</li>
@@ -247,6 +257,7 @@
 </ul>
 </li>
 <li>willDealloc<ul>
+<li><img src="/Users/yimo/Downloads/0007.jpg"></li>
 <li>调Super，NSObject的willDealloc，前面介绍了，判断白名单，进行延迟调断言</li>
 <li>释放子VC，presentedVC，以及子view<ul>
 <li>释放子view时，view的willDealloc方法里，是会调[self willReleaseChildren:self.subviews];</li>

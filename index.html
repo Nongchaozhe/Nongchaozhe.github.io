@@ -172,93 +172,10 @@
 <li>[MLeaksFinder stop]; //设置静态局部参数，为NO，hook的函数不会执行到关键代码<br><img src="/Users/yimo/Downloads/0001.png"></li>
 </ul>
 <h3 id="NSObject"><a href="#NSObject" class="headerlink" title="NSObject"></a>NSObject</h3><ul>
-<li>添加willDealloc方法<ul>
-<li>检测该对象是否在白名单内，白名单通过类判断</li>
-<li>判断该对象是否是上一次发送action的对象，是的话，不进行内存检测</li>
-<li>弱指针指向self，3s延迟，若被释放，给nil发消息直接返回，不触发断言，认为已经释放<br><img src="/Users/yimo/Downloads/0002.png"></li>
-</ul>
-</li>
-<li>assertNotDealloc<ul>
-<li>判断leakedObjectPtrs跟对象的父节点集合有交集，则说明父节点已经弹过，无需再处理<ul>
-<li>[MLeakedObjectProxy isAnyObjectLeakedAtPtrs:[self parentPtrs]]</li>
-</ul>
-</li>
-<li>[MLeakedObjectProxy addLeakedObject:self]; //内部调用弹alert</li>
-</ul>
-</li>
-<li>NSObject除了上面的两个函数，还有如下函数：<ul>
-<li>willReleaseChild/willReleaseChildren:释放某个对象，以及子对象(调willDealloc)<br><img src="/Users/yimo/Downloads/0003.jpg"></li>
-<li>关联对象：viewStack</li>
-<li>关联对象：parentPtrs，在willReleaseChildren会对已经处理过的对象进行添加，这样在assertNotDealloc中，会判断当前对象是否与父节点集合有交集</li>
-<li>白名单：classNamesInWhiteList</li>
-</ul>
-</li>
-</ul>
-<h3 id="MLeakedObjectProxy"><a href="#MLeakedObjectProxy" class="headerlink" title="MLeakedObjectProxy"></a>MLeakedObjectProxy</h3><ul>
-<li>前面assertNotDealloc已经两度提及该类的方法</li>
-<li>isAnyObjectLeakedAtPtrs：</li>
-<li>addLeakedObject：<ul>
-<li>构造MLeakedObjectProxy对象</li>
-<li>object强持有proxy，proxy若持有object。如果object释放，proxy也会释放</li>
-<li>弹窗提示<ul>
-<li><img src="/Users/yimo/Downloads/0004.jpg"></li>
-</ul>
-</li>
-<li>dealloc<ul>
-<li><img src="/Users/yimo/Downloads/0005.jpg"></li>
-<li>析构函数，弹窗提示前面的内存泄露对象在某个时间点重新释放了</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="willDealloc的执行时机：寻找释放点"><a href="#willDealloc的执行时机：寻找释放点" class="headerlink" title="willDealloc的执行时机：寻找释放点"></a>willDealloc的执行时机：寻找释放点</h3><ul>
-<li>其调用是在第一步swizzle里面，swizzle了UIViewController，UIApplication，UINavigationController、UITouch的方法，hook后的方法里调用的(本质上就是在认为该释放的地方调用，寻找释放点)</li>
-<li>其实各种代码看到最后，MLeaksFinder检测的就是跟VC相关的代码，核心代码在VC里swizzle</li>
-</ul>
-<h3 id="UIViewController-MemoryLeak"><a href="#UIViewController-MemoryLeak" class="headerlink" title="UIViewController+MemoryLeak"></a>UIViewController+MemoryLeak</h3><ul>
-<li>模态视图hook -&gt; dismissViewControllerAnimated:completion:<ul>
-<li>对将要dismiss的VC调willDealloc</li>
-</ul>
-</li>
-<li>navigationController被pop出来<ul>
-<li>hook navigationController的方法UINavigationController+MemoryLeak<ul>
-<li>popViewControllerAnimated</li>
-<li>popToViewController:animated:</li>
-<li>popToRootViewControllerAnimated:<ul>
-<li>后两种方法，系统方法调用是会返回pop掉的数组的，hook掉，获取pop调的数组，遍历，对每个vc依次调willDealloc</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>navigationController也加了willDealloc，如果navigationController被释放，释放其viewControllers</li>
-</ul>
-</li>
-<li>VC除了hook dismiss还hook了viewDidDisappear，viewWillAppear<ul>
-<li>这两个方法前面都提到了，以及里面做了什么事情</li>
-</ul>
-</li>
-<li>willDealloc<ul>
-<li>调Super，NSObject的willDealloc，前面介绍了，判断白名单，进行延迟调断言</li>
-<li>释放子VC，presentedVC，以及子view<ul>
-<li>释放子view时，view的willDealloc方法里，是会调[self willReleaseChildren:self.subviews];</li>
-<li>这样看完了，能够完整的创建view的堆栈，就是因为willDealloc里会继续调子对象的释放willDealloc</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h3><ul>
-<li>有时候即使调了pop，dismiss，也不会被释放，比如单例。如果某个特别的对象不会被释放，开发者可以重写willDealloc，return NO</li>
-<li>部分系统的view是不会被释放的，需要建立白名单</li>
-<li>MLeaksFinder支持手动扩展，通过MLCheck()宏来检测其他类型的对象的内存泄露，为传进来的对象建立View-ViewController stack信息</li>
-<li>结合FBRetainCycleDetector一起使用时：<ul>
-<li>内存泄漏不一定是循环引用造成的</li>
-<li>有的循环引用 FBRetainCycleDetector 不一定能找出</li>
-</ul>
-</li>
-</ul>
-
+<li>添加willDealloc方法
+        
+          <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/#more">more >></a>
+        
       
 
       
