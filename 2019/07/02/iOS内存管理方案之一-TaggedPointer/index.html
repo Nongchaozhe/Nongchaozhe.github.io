@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="看一个例子123456789@property (nonatomic, copy) NSString *testStr;&amp;#123;    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);    for(int i=0;i&amp;lt;10000;i++) &amp;#123;        dispatch_async(queue, ^&amp;#12">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-02T14:32:12.253Z">
+<meta property="og:updated_time" content="2019-07-02T14:36:18.065Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS内存管理方案之一_TaggedPointer">
 <meta name="twitter:description" content="看一个例子123456789@property (nonatomic, copy) NSString *testStr;&amp;#123;    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);    for(int i=0;i&amp;lt;10000;i++) &amp;#123;        dispatch_async(queue, ^&amp;#12">
@@ -186,11 +186,11 @@
 </li>
 <li><p>第二段代码代码，其实是在调用如上的set方法，涉及多线程访问，同时执行release操作，会导致EXC_BAD_ACCESS</p>
 </li>
-<li>但你果然我么可以通过for循环加锁 or 重写set方法加锁 or atomic解决</li>
+<li>当然我们可以通过for循环加锁 or 重写set方法加锁 or atomic 来解决EXC_BAD_ACCESS问题</li>
 </ul>
 <h3 id="TaggedPointer"><a href="#TaggedPointer" class="headerlink" title="TaggedPointer"></a>TaggedPointer</h3><ul>
 <li>iOS用于优化NSNumber，NSDate，NSString等小对象的存储，将对象指针拆分，一部分保留数据，一部分作特殊标。不够存数据时，会动态分配内存进行存储，维护引用计数，指针存储对象地址值，其实就是上面的方式二，传统方式<blockquote>
-<p>当String的内容有中文或者特殊字符（非 ASCII 字符）时，那么就只能存储为String指针</p>
+<p>当String的内容有中文或者特殊字符(非ASCII字符)时，那么就只能存储为String指针</p>
 </blockquote>
 </li>
 </ul>
