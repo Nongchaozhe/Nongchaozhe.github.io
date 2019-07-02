@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="看一个例子123456789@property (nonatomic, copy) NSString *testStr;&amp;#123;    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);    for(int i=0;i&amp;lt;10000;i++) &amp;#123;        dispatch_async(queue, ^&amp;#12">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-02T14:26:24.638Z">
+<meta property="og:updated_time" content="2019-07-02T14:32:12.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS内存管理方案之一_TaggedPointer">
 <meta name="twitter:description" content="看一个例子123456789@property (nonatomic, copy) NSString *testStr;&amp;#123;    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);    for(int i=0;i&amp;lt;10000;i++) &amp;#123;        dispatch_async(queue, ^&amp;#12">
@@ -168,6 +168,7 @@
 <li>执行结果：正常</li>
 <li>[self.testStr class] =&gt; NSTaggedPointerString</li>
 </ul>
+<a id="more"></a>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;<span class="number">10000</span>;i++) &#123;</span><br><span class="line">    dispatch_async(queue, ^&#123;</span><br><span class="line">        self.testStr = [NSString stringWithFormat:@<span class="string">"1234567890123"</span>];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>执行结果：EXC_BAD_ACCESS</li>
