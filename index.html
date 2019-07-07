@@ -171,55 +171,9 @@
 </li>
 <li>这一块说明，如果了解过逆向或者app可执行文件相关的知识的话，会相对更容易理解。更白话一点说，拿打包完的app举例，装载代码的可执行文件已经固定不变了，函数在该文件相对位置已经确定了。只要确定整个可执行文件被加载时的起点位置，就能知道该函数的具体位置</li>
 </ul>
-<h3 id="fishhook"><a href="#fishhook" class="headerlink" title="fishhook"></a>fishhook</h3><ul>
-<li>应用范围：无法hook内部/自定义的C函数，只能hook Mach-O外部(共享缓存库中)的函数</li>
-<li>原理：利用MachO的动态绑定机制，苹果的共享缓存库不会被编译进MachO文件，而是在动态链接时重新绑定。</li>
-</ul>
-<h4 id="PIC"><a href="#PIC" class="headerlink" title="PIC"></a>PIC</h4><ul>
-<li>苹果采用PIC(position-independent code)技术成功让C的底层能有动态的表现：<ul>
-<li>编译时，Mach-O中的_DATA段的符号表中，为每一个被引用的系统C函数建立一个指针(8字节数据，放的是0)，这个指针用于动态绑定时重定位到共享库中的函数实现</li>
-<li>运行时，当系统C函数第一次调用时，会动态绑定一次，然后将Mach-O中的_DATA段符号表中对应的指针，指向外部函数(其在共享库中的实际内存地址)</li>
-</ul>
-</li>
-</ul>
-<h4 id="fishhook利用PIC做了两个操作"><a href="#fishhook利用PIC做了两个操作" class="headerlink" title="fishhook利用PIC做了两个操作"></a>fishhook利用PIC做了两个操作</h4><ul>
-<li>将指向系统方法(外部函数)的指针重新进行绑定指向内部函数/自定义C函数</li>
-<li>将内部函数的指针在动态链接时指向系统方法的地址<ul>
-<li>交换指针指向</li>
-</ul>
-</li>
-</ul>
-<h3 id="fishhook的适用场景："><a href="#fishhook的适用场景：" class="headerlink" title="fishhook的适用场景："></a>fishhook的适用场景：</h3><ul>
-<li>主要应用在安全防护领域<ul>
-<li>基础的动态调试逆向中，最常见的就是定位到目标方法之后，通过runtime中的几种方法交换方法，实现代码注入的目的</li>
-<li>fishhook可以拦截系统外部的C函数，自然可以hook到runtime中的所有方法</li>
-<li>将所有可能用来篡改OC方法实现的runtime API，都用fishhook拦截掉，使其无法用代码注入的方式成功hook进行防护</li>
-<li>实际引用中，自己的项目可能是要用到这些函数的，需要设计相应的白名单方案，并且在检测到是被第三方非法hoo时，直接调用exit(0)这类接口终止掉进程</li>
-</ul>
-</li>
-</ul>
-<h3 id="源码摘要"><a href="#源码摘要" class="headerlink" title="源码摘要"></a>源码摘要</h3><ul>
-<li>一些说明，都注释进去了</li>
-<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_415hh60j0eg2g33bfdlbgjc4e0dbi_1006x320.jpg"></li>
-<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_26783b9jk8ef4kcf6clfkl1gj9651_1456x290.jpg"></li>
-<li><p><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_5bb39lj56g482j4gae23422a154b7_1456x892.jpg"></p>
-</li>
-<li><p>补充：</p>
-<ul>
-<li>rcd_rebindings_entry：可以看出内部存在链表结构</li>
-<li>对于非懒加载符号表，dyld会在动态链接时就链接动态库。对于懒加载符号表，dyld在运行时函数第一次被调用时动态绑定一次</li>
-<li>Debug -&gt; Debug Workflow -&gt; Always Show Disassembly：查看汇编断点</li>
-<li>根据字符串 MachOView，查找该字符串在String Table-&gt;symbols的位置，……经过一系列查找，获得该指针最终的偏移量</li>
-</ul>
-</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li>本文主要是学习及参考以下文章的提炼总结以及白话补充：</li>
-<li>1、<a href="https://mp.weixin.qq.com/s/-uBmPtpupzoDnqKx9U-P2Q" target="_blank" rel="noopener">fishhook 的实现原理浅析</a></li>
-<li>2、<a href="https://mp.weixin.qq.com/s/EhsO4Kn07vJ4ySK3PogLgw" target="_blank" rel="noopener">fishhook 使用场景&amp;源码分析</a></li>
-<li>3、<a href="https://github.com/czqasngit/objc_msgSend_hook" target="_blank" rel="noopener">objc_msgSend Hook 精简学习过程</a></li>
-</ul>
-
+        
+          <a class="article-more-a" href="/2019/07/07/fishhook学习总结/#more">more >></a>
+        
       
 
       

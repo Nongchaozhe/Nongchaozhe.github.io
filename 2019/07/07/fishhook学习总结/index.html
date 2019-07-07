@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190707_415hh60j0eg2g33bfdlbgjc4e0dbi_1006x320.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190707_26783b9jk8ef4kcf6clfkl1gj9651_1456x290.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190707_5bb39lj56g482j4gae23422a154b7_1456x892.jpg">
-<meta property="og:updated_time" content="2019-07-07T08:13:29.143Z">
+<meta property="og:updated_time" content="2019-07-07T08:14:08.555Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fishhook学习总结">
 <meta name="twitter:description" content="关于hook OC方法可hook，得益运行时特性，方法调用底层都是msg_send(id,SEL)的形式，这为我们提供了交换IMP的机会  函数地址偏移量 C函数在编译连接时就确定了函数指针的地址偏移量offset，offset在编译好的可执行文件是固定的，而可执行文件每次被重新装载到内存中时被系统分配的起始地址是不断变化的(lldb用imagelist可以获取 运行中的今天静态函数指针地址等于o">
@@ -177,6 +177,7 @@
 </li>
 <li>这一块说明，如果了解过逆向或者app可执行文件相关的知识的话，会相对更容易理解。更白话一点说，拿打包完的app举例，装载代码的可执行文件已经固定不变了，函数在该文件相对位置已经确定了。只要确定整个可执行文件被加载时的起点位置，就能知道该函数的具体位置</li>
 </ul>
+<a id="more"></a>
 <h3 id="fishhook"><a href="#fishhook" class="headerlink" title="fishhook"></a>fishhook</h3><ul>
 <li>应用范围：无法hook内部/自定义的C函数，只能hook Mach-O外部(共享缓存库中)的函数</li>
 <li>原理：利用MachO的动态绑定机制，苹果的共享缓存库不会被编译进MachO文件，而是在动态链接时重新绑定。</li>
