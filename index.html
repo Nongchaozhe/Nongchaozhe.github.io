@@ -202,7 +202,16 @@
 <li>一些说明，都注释进去了</li>
 <li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_415hh60j0eg2g33bfdlbgjc4e0dbi_1006x320.jpg"></li>
 <li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_26783b9jk8ef4kcf6clfkl1gj9651_1456x290.jpg"></li>
-<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_5bb39lj56g482j4gae23422a154b7_1456x892.jpg"></li>
+<li><p><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_5bb39lj56g482j4gae23422a154b7_1456x892.jpg"></p>
+</li>
+<li><p>补充：</p>
+<ul>
+<li>rcd_rebindings_entry：可以看出内部存在链表结构</li>
+<li>对于非懒加载符号表，dyld会在动态链接时就链接动态库。对于懒加载符号表，dyld在运行时函数第一次被调用时动态绑定一次</li>
+<li>Debug -&gt; Debug Workflow -&gt; Always Show Disassembly：查看汇编断点</li>
+<li>根据字符串 MachOView，查找该字符串在String Table-&gt;symbols的位置，……经过一系列查找，获得该指针最终的偏移量</li>
+</ul>
+</li>
 </ul>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li>本文主要是学习及参考以下文章的提炼总结以及白话补充：</li>
