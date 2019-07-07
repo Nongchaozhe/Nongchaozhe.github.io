@@ -6,16 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>NCZ的博客</title>
+  <title>fishhook学习总结 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NCZ的博客">
-<meta property="og:url" content="https://nongchaozhe.github.io/page/2/index.html">
+  <meta name="description" content="关于hook OC方法可hook，得益运行时特性，方法调用底层都是msg_send(id,SEL)的形式，这为我们提供了交换IMP的机会  函数地址偏移量 C函数在编译连接时就确定了函数指针的地址偏移量offset，offset在编译好的可执行文件是固定的，而可执行文件每次被重新装载到内存中时被系统分配的起始地址是不断变化的(lldb用imagelist可以获取 运行中的今天静态函数指针地址等于o">
+<meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fishhook学习总结">
+<meta property="og:url" content="https://nongchaozhe.github.io/2019/07/07/fishhook学习总结/index.html">
 <meta property="og:site_name" content="NCZ的博客">
+<meta property="og:description" content="关于hook OC方法可hook，得益运行时特性，方法调用底层都是msg_send(id,SEL)的形式，这为我们提供了交换IMP的机会  函数地址偏移量 C函数在编译连接时就确定了函数指针的地址偏移量offset，offset在编译好的可执行文件是固定的，而可执行文件每次被重新装载到内存中时被系统分配的起始地址是不断变化的(lldb用imagelist可以获取 运行中的今天静态函数指针地址等于o">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190707_415hh60j0eg2g33bfdlbgjc4e0dbi_1006x320.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190707_26783b9jk8ef4kcf6clfkl1gj9651_1456x290.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190707_5bb39lj56g482j4gae23422a154b7_1456x892.jpg">
+<meta property="og:updated_time" content="2019-07-07T08:02:57.070Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NCZ的博客">
+<meta name="twitter:title" content="fishhook学习总结">
+<meta name="twitter:description" content="关于hook OC方法可hook，得益运行时特性，方法调用底层都是msg_send(id,SEL)的形式，这为我们提供了交换IMP的机会  函数地址偏移量 C函数在编译连接时就确定了函数指针的地址偏移量offset，offset在编译好的可执行文件是固定的，而可执行文件每次被重新装载到内存中时被系统分配的起始地址是不断变化的(lldb用imagelist可以获取 运行中的今天静态函数指针地址等于o">
+<meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/190707_415hh60j0eg2g33bfdlbgjc4e0dbi_1006x320.jpg">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -139,327 +147,104 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Cordova源码学习-二-Native回调JS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-fishhook学习总结" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">Cordova源码学习(二)-Native回调JS</a>
+    <h1 class="article-title" itemprop="name">
+      fishhook学习总结
     </h1>
   
 
         
-        <a href="/2018/09/06/Cordova源码学习-二-Native回调JS/" class="archive-article-date">
-  	<time datetime="2018-09-06T10:27:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-06</time>
+        <a href="/2019/07/07/fishhook学习总结/" class="archive-article-date">
+  	<time datetime="2019-07-07T06:55:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
-</blockquote>
-<h1 id="Native回调JS"><a href="#Native回调JS" class="headerlink" title="Native回调JS"></a>Native回调JS</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_54298cb7ai5lgfiec9f1eg267ik2f_1304x890.png" style="zoom:30%;"></p>
-        
-          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Cordova源码学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/05/Cordova源码学习/">Cordova源码学习(一)-JS调用Native</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/05/Cordova源码学习/" class="archive-article-date">
-  	<time datetime="2018-09-05T15:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
-</blockquote>
-<h1 id="JS调用Native"><a href="#JS调用Native" class="headerlink" title="JS调用Native"></a>JS调用Native</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ul>
-<li>流程图<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_5kjgh9b47jba3cad31bf57g949bc9_1102x922.png" style="zoom:30%;"></li>
+        <h3 id="关于hook"><a href="#关于hook" class="headerlink" title="关于hook"></a>关于hook</h3><ul>
+<li>OC方法可hook，得益运行时特性，方法调用底层都是<code>msg_send(id,SEL)</code>的形式，这为我们提供了交换IMP的机会</li>
 </ul>
-<h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><ul>
-<li>index.html 调用<ul>
-<li>入参分别为<ul>
-<li>successCallback：成功回调</li>
-<li>failCallback：失败回调</li>
-<li>service：类名</li>
-<li>action：方法名</li>
-<li>actionArgs：入参
-        
-          <a class="article-more-a" href="/2018/09/05/Cordova源码学习/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/05/Cordova源码学习/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-iOS首次安装打开APP白屏问题总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/">iOS首次安装打开APP白屏问题总结</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/12/iOS首次安装打开APP白屏问题总结/" class="archive-article-date">
-  	<time datetime="2018-08-12T14:39:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>表现：最近在负责一个新的APP的开发。最近部门内测，反馈来一些问题，主要表现在首次安装该APP，首次启动，页面白屏没有数据。卸载再装or后台杀死重新打开，就好了</li>
-<li>原因：<ul>
-<li>先前小范围测试有遇到过，以为是没有允许该APP使用网络请求的原因，当时在设置里面允许了就好了，但那时候同时杀死了APP，再次打开好了。但这不是真正的原因</li>
-<li>iOS10之后，APP首次安装会有询问【是否允许“xxxAPP”使用数据？】的询问网络权限弹窗，导致在用户允许之前，APP发出去的请求都是失败的。
-        
-          <a class="article-more-a" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling与JSPatch探究（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">Method-Swizzling与JSPatch探究（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/" class="archive-article-date">
-  	<time datetime="2018-08-02T13:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
-<hr>
-<h5 id="4、兼容性"><a href="#4、兼容性" class="headerlink" title="4、兼容性"></a>4、兼容性</h5><p>以hook <code>UIViewController</code>的<code>viewWillAppear</code>的方法为例  </p>
-<h5 id="4-1-仅method-Swizzling，-无JSPatch"><a href="#4-1-仅method-Swizzling，-无JSPatch" class="headerlink" title="4.1 仅method Swizzling， 无JSPatch"></a>4.1 仅method Swizzling， 无JSPatch</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">`ViewController:UIViewController`</span><br><span class="line"></span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO 01&quot;);</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;HELLO 02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIViewController+MLPF.m</span><br><span class="line">- (void)xxx_viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle01&quot;);</span><br><span class="line">    [self xxx_viewWillAppear:animated] ;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle01</span><br><span class="line">HELLO Swizzle02</span><br><span class="line">HELLO 02</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>IMP变化：注意hook的是UIViewController的viewWillAppear而不是ViewController</p>
-        
-          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling与JSPatch探究（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">Method Swizzling与JSPatch探究（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" class="archive-article-date">
-  	<time datetime="2018-08-01T15:19:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
-<hr>
-<ul>
-<li>用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研)</li>
-<li>如果看此文之前，对这两者有些概念那就最好啦😝</li>
+<h3 id="函数地址偏移量"><a href="#函数地址偏移量" class="headerlink" title="函数地址偏移量"></a>函数地址偏移量</h3><ul>
+<li>C函数在编译连接时就确定了函数指针的地址偏移量offset，offset在编译好的可执行文件是固定的，而<strong>可执行文件每次被重新装载到内存中时被系统分配的起始地址是不断变化的</strong>(lldb用imagelist可以获取<ul>
+<li>运行中的今天静态函数指针地址等于offset+MachO文件在内存中的首地址</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录：</span><br><span class="line">1、从[receiver message]说起</span><br><span class="line">2、Method Swizzling hook过程</span><br><span class="line">3、JSPatch hook过程</span><br><span class="line">4、各种case兼容性</span><br><span class="line">5、结论</span><br><span class="line">6、拓展</span><br><span class="line">7、也许你有疑问的地方(主要针对3中可能产生的问题)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞
-        
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/#more">more >></a>
-        
+</li>
+<li>这一块说明，如果了解过逆向或者app可执行文件相关的知识的话，会相对更容易理解。更白话一点说，拿打包完的app举例，装载代码的可执行文件已经固定不变了，函数在该文件相对位置已经确定了。只要确定整个可执行文件被加载时的起点位置，就能知道该函数的具体位置</li>
+</ul>
+<h3 id="fishhook"><a href="#fishhook" class="headerlink" title="fishhook"></a>fishhook</h3><ul>
+<li>应用范围：无法hook内部/自定义的C函数，只能hook Mach-O外部(共享缓存库中)的函数</li>
+<li>原理：利用MachO的动态绑定机制，苹果的共享缓存库不会被编译进MachO文件，而是在动态链接时重新绑定。</li>
+</ul>
+<h4 id="PIC"><a href="#PIC" class="headerlink" title="PIC"></a>PIC</h4><ul>
+<li>苹果采用PIC(position-independent code)技术成功让C的底层能有动态的表现：<ul>
+<li>编译时，Mach-O中的_DATA段的符号表中，为每一个被引用的系统C函数建立一个指针(8字节数据，放的是0)，这个指针用于动态绑定时重定位到共享库中的函数实现</li>
+<li>运行时，当系统C函数第一次调用时，会动态绑定一次，然后将Mach-O中的_DATA段符号表中对应的指针，指向外部函数(其在共享库中的实际内存地址)</li>
+</ul>
+</li>
+</ul>
+<h4 id="fishhook利用PIC做了两个操作"><a href="#fishhook利用PIC做了两个操作" class="headerlink" title="fishhook利用PIC做了两个操作"></a>fishhook利用PIC做了两个操作</h4><ul>
+<li>将指向系统方法(外部函数)的指针重新进行绑定指向内部函数/自定义C函数</li>
+<li>将内部函数的指针在动态链接时指向系统方法的地址<ul>
+<li>交换指针指向</li>
+</ul>
+</li>
+</ul>
+<h3 id="fishhook的适用场景："><a href="#fishhook的适用场景：" class="headerlink" title="fishhook的适用场景："></a>fishhook的适用场景：</h3><ul>
+<li>主要应用在安全防护领域<ul>
+<li>基础的动态调试逆向中，最常见的就是定位到目标方法之后，通过runtime中的几种方法交换方法，实现代码注入的目的</li>
+<li>fishhook可以拦截系统外部的C函数，自然可以hook到runtime中的所有方法</li>
+<li>将所有可能用来篡改OC方法实现的runtime API，都用fishhook拦截掉，使其无法用代码注入的方式成功hook进行防护</li>
+<li>实际引用中，自己的项目可能是要用到这些函数的，需要设计相应的白名单方案，并且在检测到是被第三方非法hoo时，直接调用exit(0)这类接口终止掉进程</li>
+</ul>
+</li>
+</ul>
+<h3 id="源码摘要"><a href="#源码摘要" class="headerlink" title="源码摘要"></a>源码摘要</h3><ul>
+<li>一些说明，都注释进去了</li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_415hh60j0eg2g33bfdlbgjc4e0dbi_1006x320.jpg"></li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_26783b9jk8ef4kcf6clfkl1gj9651_1456x290.jpg"></li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190707_5bb39lj56g482j4gae23422a154b7_1456x892.jpg"></li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li>本文主要是学习及参考以下文章的提炼总结以及白话补充：</li>
+<li>1、<a href="https://mp.weixin.qq.com/s/-uBmPtpupzoDnqKx9U-P2Q" target="_blank" rel="noopener">fishhook 的实现原理浅析</a></li>
+<li>2、<a href="https://mp.weixin.qq.com/s/EhsO4Kn07vJ4ySK3PogLgw" target="_blank" rel="noopener">fishhook 使用场景&amp;源码分析</a></li>
+<li>3、<a href="https://github.com/czqasngit/objc_msgSend_hook" target="_blank" rel="noopener">objc_msgSend Hook 精简学习过程</a></li>
+</ul>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>晚饭加鸡腿🍗<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -468,16 +253,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2019/07/07/fishhook学习总结/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS内存管理方案之一_TaggedPointer</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -497,83 +341,14 @@
 
 
 
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/25/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-25T13:50:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/25/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -596,8 +371,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
