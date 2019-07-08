@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="前言 我们之前大多数都接触过dispatch_barrier_async，这也是GCD提供的解决数据竞争的一种方式，常称作异步栅栏 也常通过pthread_rwlock读写锁，来解决数据竞争问题 当然，还有很多方式。本文不再讨论如何使用，具体使用大家自行google，而是简洁的讲下dispatch_barrier_async和dispatch_barrier_sync两者的区别，后者可能被很多人都">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-08T14:45:18.685Z">
+<meta property="og:updated_time" content="2019-07-08T14:48:29.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dispatch_barrier_async&#x2F;sync异同点">
 <meta name="twitter:description" content="前言 我们之前大多数都接触过dispatch_barrier_async，这也是GCD提供的解决数据竞争的一种方式，常称作异步栅栏 也常通过pthread_rwlock读写锁，来解决数据竞争问题 当然，还有很多方式。本文不再讨论如何使用，具体使用大家自行google，而是简洁的讲下dispatch_barrier_async和dispatch_barrier_sync两者的区别，后者可能被很多人都">
@@ -168,6 +168,7 @@
 <li>也常通过pthread_rwlock读写锁，来解决数据竞争问题</li>
 <li>当然，还有很多方式。本文不再讨论如何使用，具体使用大家自行google，而是简洁的讲下dispatch_barrier_async和dispatch_barrier_sync两者的区别，后者可能被很多人都遗忘了</li>
 </ul>
+<a id="more"></a>
 <h3 id="dispatch-barrier-async"><a href="#dispatch-barrier-async" class="headerlink" title="dispatch_barrier_async"></a>dispatch_barrier_async</h3><ul>
 <li>提交的block，插入到队列后就直接返回</li>
 <li>提交的block前后的block都按照顺序插入到队列中，执行顺序按照前-barrier-后。</li>

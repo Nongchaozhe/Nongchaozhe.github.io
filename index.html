@@ -166,26 +166,9 @@
 <li>也常通过pthread_rwlock读写锁，来解决数据竞争问题</li>
 <li>当然，还有很多方式。本文不再讨论如何使用，具体使用大家自行google，而是简洁的讲下dispatch_barrier_async和dispatch_barrier_sync两者的区别，后者可能被很多人都遗忘了</li>
 </ul>
-<h3 id="dispatch-barrier-async"><a href="#dispatch-barrier-async" class="headerlink" title="dispatch_barrier_async"></a>dispatch_barrier_async</h3><ul>
-<li>提交的block，插入到队列后就直接返回</li>
-<li>提交的block前后的block都按照顺序插入到队列中，执行顺序按照前-barrier-后。</li>
-<li><strong>注意：这里的执行顺序是同一个队列的任务，如果提交的不是同一个队列，那么barrier的执行顺序对其是无影响</strong></li>
-</ul>
-<h3 id="dispatch-barrier-sync"><a href="#dispatch-barrier-sync" class="headerlink" title="dispatch_barrier_sync"></a>dispatch_barrier_sync</h3><ul>
-<li>只提交barrier和barrier之前的block</li>
-<li>queue等待barrier之前的block执行完，再执行barrier的block，执行完才返回</li>
-<li><strong>注意：这个阻塞，同时会阻塞一些不是添加到同一队列的任务，因为阻塞导致无法提交，得不到执行</strong></li>
-</ul>
-<h3 id="异同"><a href="#异同" class="headerlink" title="异同"></a>异同</h3><h4 id="共同点"><a href="#共同点" class="headerlink" title="共同点"></a>共同点</h4><ul>
-<li>等待前面插入同一队列的任务执行完</li>
-<li>等待barrier执行完，才执行同一Queue之后的任务<h4 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h4></li>
-<li>sync：自身插入执行完，才返回，插入后续的任务</li>
-<li>async：自身插入，不等待执行完，继续插入后续的任务。等待自身执行完，才执行后续的任务</li>
-</ul>
-<h3 id="不等待"><a href="#不等待" class="headerlink" title="不等待"></a>不等待</h3><blockquote>
-<p><strong>aync的不等待(异步)特性体现在将任务插入到队列的过程，它的阻塞等待特性体现在任务真正执行的过程</strong></p>
-</blockquote>
-
+        
+          <a class="article-more-a" href="/2019/07/08/dispatch-barrier-async-sync异同点/#more">more >></a>
+        
       
 
       
