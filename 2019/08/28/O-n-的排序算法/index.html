@@ -6,16 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>NCZ的博客</title>
+  <title>O(n)的排序算法-(计数排序、桶排序及其js实现) | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NCZ的博客">
-<meta property="og:url" content="https://nongchaozhe.github.io/page/2/index.html">
+  <meta name="description" content="总结一下，常见时间复杂度为O(n)的排序算法，以及给出js实现 非比较排序，比较排序的时间复杂度下界为O(n*logn)  计数排序(Counting sort) 适用范围：待排数组arr[N]，元素处在某一范围[min,max] 核心：假设元素为整数，空间换时间，需要空间大小为O(max-min)的空间，来存储所有元素出现的次数 如果元素个数多，但是数值范围较窄时，计数排序是很节省空间的">
+<meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
+<meta property="og:type" content="article">
+<meta property="og:title" content="O(n)的排序算法-(计数排序、桶排序及其js实现)">
+<meta property="og:url" content="https://nongchaozhe.github.io/2019/08/28/O-n-的排序算法/index.html">
 <meta property="og:site_name" content="NCZ的博客">
+<meta property="og:description" content="总结一下，常见时间复杂度为O(n)的排序算法，以及给出js实现 非比较排序，比较排序的时间复杂度下界为O(n*logn)  计数排序(Counting sort) 适用范围：待排数组arr[N]，元素处在某一范围[min,max] 核心：假设元素为整数，空间换时间，需要空间大小为O(max-min)的空间，来存储所有元素出现的次数 如果元素个数多，但是数值范围较窄时，计数排序是很节省空间的">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-08-29T15:31:31.917Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NCZ的博客">
+<meta name="twitter:title" content="O(n)的排序算法-(计数排序、桶排序及其js实现)">
+<meta name="twitter:description" content="总结一下，常见时间复杂度为O(n)的排序算法，以及给出js实现 非比较排序，比较排序的时间复杂度下界为O(n*logn)  计数排序(Counting sort) 适用范围：待排数组arr[N]，元素处在某一范围[min,max] 核心：假设元素为整数，空间换时间，需要空间大小为O(max-min)的空间，来存储所有元素出现的次数 如果元素个数多，但是数值范围较窄时，计数排序是很节省空间的">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -139,22 +143,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-“一些宏定义”" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-O-n-的排序算法" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/28/“一些宏定义”/">一些宏定义</a>
+    <h1 class="article-title" itemprop="name">
+      O(n)的排序算法-(计数排序、桶排序及其js实现)
     </h1>
   
 
         
-        <a href="/2018/09/28/“一些宏定义”/" class="archive-article-date">
-  	<time datetime="2018-09-28T08:23:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-28</time>
+        <a href="/2019/08/28/O-n-的排序算法/" class="archive-article-date">
+  	<time datetime="2019-08-28T13:25:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-28</time>
 </a>
         
       </header>
@@ -162,226 +164,52 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>主线程同步，避免死锁<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifndef dispatch_main_sync_safe</span></span><br><span class="line"><span class="meta">#define dispatch_main_sync_safe(block)\</span></span><br><span class="line"><span class="keyword">if</span> (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == <span class="number">0</span>) &#123;\</span><br><span class="line">    block();\</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;\</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), block);\</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
+<li>总结一下，常见时间复杂度为O(n)的排序算法，以及给出js实现</li>
+<li>非比较排序，比较排序的时间复杂度下界为O(n*logn)</li>
+</ul>
+<h3 id="计数排序-Counting-sort"><a href="#计数排序-Counting-sort" class="headerlink" title="计数排序(Counting sort)"></a>计数排序(Counting sort)</h3><ul>
+<li>适用范围：待排数组arr[N]，元素处在某一范围[min,max]</li>
+<li>核心：假设元素为整数，空间换时间，需要空间大小为O(max-min)的空间，来存储所有元素出现的次数<ul>
+<li>如果元素个数多，但是数值范围较窄时，计数排序是很节省空间的</li>
+</ul>
 </li>
+<li>步骤：<ul>
+<li>遍历arr[N]，使用计数数组count[max-min]，对每个元素进行计数</li>
+<li>遍历count[]，还原arr[N]，结束</li>
 </ul>
-        
-          <a class="article-more-a" href="/2018/09/28/“一些宏定义”/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/28/“一些宏定义”/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-“小程序分享至群群消息小结”" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/15/“小程序分享至群群消息小结”/">“小程序分享至群群消息小结(包括分享到App)”</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/15/“小程序分享至群群消息小结”/" class="archive-article-date">
-  	<time datetime="2018-09-15T14:05:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制-下文会说明-，但是整体方案依然是可行的"><a href="#以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制-下文会说明-，但是整体方案依然是可行的" class="headerlink" title="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的"></a>以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的</h4><hr>
-<p>去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。<br>因此把去年做完后的梳理的小结发出来供参考。<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180402_7bc5bji4b6i5k542accba43h4h9ih_583x562.png" style="zoom:30%"><br>微信文档现在相较去年也有所更新完善，但大致流程不变。</p>
-        
-          <a class="article-more-a" href="/2018/09/15/“小程序分享至群群消息小结”/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/15/“小程序分享至群群消息小结”/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Cordova源码学习-二-Native回调JS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">Cordova源码学习(二)-Native回调JS</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/06/Cordova源码学习-二-Native回调JS/" class="archive-article-date">
-  	<time datetime="2018-09-06T10:27:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
-</blockquote>
-<h1 id="Native回调JS"><a href="#Native回调JS" class="headerlink" title="Native回调JS"></a>Native回调JS</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_54298cb7ai5lgfiec9f1eg267ik2f_1304x890.png" style="zoom:30%;"></p>
-        
-          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Cordova源码学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/05/Cordova源码学习/">Cordova源码学习(一)-JS调用Native</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/05/Cordova源码学习/" class="archive-article-date">
-  	<time datetime="2018-09-05T15:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
-</blockquote>
-<h1 id="JS调用Native"><a href="#JS调用Native" class="headerlink" title="JS调用Native"></a>JS调用Native</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ul>
-<li>流程图<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_5kjgh9b47jba3cad31bf57g949bc9_1102x922.png" style="zoom:30%;"></li>
+</li>
+<li>补充：数组index肯定≥0的，待排元素的min不一定为0，需要引入一个offset来修正数值在计数数组count[]中的位置</li>
 </ul>
-<h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><ul>
-<li>index.html 调用<ul>
-<li>入参分别为<ul>
-<li>successCallback：成功回调</li>
-<li>failCallback：失败回调</li>
-<li>service：类名</li>
-<li>action：方法名</li>
-<li>actionArgs：入参
-        
-          <a class="article-more-a" href="/2018/09/05/Cordova源码学习/#more">more >></a>
-        
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">countSort</span>(<span class="params">nums</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (nums.length &lt;= <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> max = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">let</span> min = nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        max = nums[i] &lt;= max ? max : nums[i];</span><br><span class="line">        min = nums[i] &gt;= min ? min : nums[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计算偏移量</span></span><br><span class="line">    <span class="keyword">let</span> offset = <span class="number">0</span> - min;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 初始化计数数组</span></span><br><span class="line">    <span class="keyword">let</span> count = <span class="keyword">new</span> <span class="built_in">Array</span>(max - min + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; count.length; i++) count[i] = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 计数：各个元素出现的次数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        count[nums[i] + offset]++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 还原排序数组</span></span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; count.length; i++) &#123;</span><br><span class="line">        <span class="keyword">while</span> (count[i] &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            nums[index] = i - offset;</span><br><span class="line">            index++;</span><br><span class="line">            count[i]--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>晚饭加鸡腿🍗<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -390,16 +218,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/05/Cordova源码学习/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2019/08/28/O-n-的排序算法/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/08/dispatch-barrier-async-sync异同点/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">dispatch_barrier_async/sync异同点</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -419,295 +306,14 @@
 
 
 
-
-  
-    <article id="post-iOS首次安装打开APP白屏问题总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/">iOS首次安装打开APP白屏问题总结</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/12/iOS首次安装打开APP白屏问题总结/" class="archive-article-date">
-  	<time datetime="2018-08-12T14:39:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>表现：最近在负责一个新的APP的开发。最近部门内测，反馈来一些问题，主要表现在首次安装该APP，首次启动，页面白屏没有数据。卸载再装or后台杀死重新打开，就好了</li>
-<li>原因：<ul>
-<li>先前小范围测试有遇到过，以为是没有允许该APP使用网络请求的原因，当时在设置里面允许了就好了，但那时候同时杀死了APP，再次打开好了。但这不是真正的原因</li>
-<li>iOS10之后，APP首次安装会有询问【是否允许“xxxAPP”使用数据？】的询问网络权限弹窗，导致在用户允许之前，APP发出去的请求都是失败的。
-        
-          <a class="article-more-a" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling与JSPatch探究（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">Method-Swizzling与JSPatch探究（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/" class="archive-article-date">
-  	<time datetime="2018-08-02T13:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
-<hr>
-<h5 id="4、兼容性"><a href="#4、兼容性" class="headerlink" title="4、兼容性"></a>4、兼容性</h5><p>以hook <code>UIViewController</code>的<code>viewWillAppear</code>的方法为例  </p>
-<h5 id="4-1-仅method-Swizzling，-无JSPatch"><a href="#4-1-仅method-Swizzling，-无JSPatch" class="headerlink" title="4.1 仅method Swizzling， 无JSPatch"></a>4.1 仅method Swizzling， 无JSPatch</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">`ViewController:UIViewController`</span><br><span class="line"></span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO 01&quot;);</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;HELLO 02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIViewController+MLPF.m</span><br><span class="line">- (void)xxx_viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle01&quot;);</span><br><span class="line">    [self xxx_viewWillAppear:animated] ;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle01</span><br><span class="line">HELLO Swizzle02</span><br><span class="line">HELLO 02</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>IMP变化：注意hook的是UIViewController的viewWillAppear而不是ViewController</p>
-        
-          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling与JSPatch探究（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">Method Swizzling与JSPatch探究（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" class="archive-article-date">
-  	<time datetime="2018-08-01T15:19:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
-<hr>
-<ul>
-<li>用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研)</li>
-<li>如果看此文之前，对这两者有些概念那就最好啦😝</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录：</span><br><span class="line">1、从[receiver message]说起</span><br><span class="line">2、Method Swizzling hook过程</span><br><span class="line">3、JSPatch hook过程</span><br><span class="line">4、各种case兼容性</span><br><span class="line">5、结论</span><br><span class="line">6、拓展</span><br><span class="line">7、也许你有疑问的地方(主要针对3中可能产生的问题)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞
-        
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/25/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/25/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-25T13:50:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/25/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -730,8 +336,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
