@@ -171,20 +171,10 @@
 <li>桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶</li>
 </ul>
 </li>
-<li><p>步骤：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for(每一个基) &#123;</span><br><span class="line">    // 循环内，以某一个’基‘为依据</span><br><span class="line">    遍历array，将元素放入对应的桶bucket</span><br><span class="line">    遍历桶bucket，将元素放回数据集</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>补充：</p>
-<ul>
-<li>稳定排序，时间复杂度可以认为是线性的O(n)</li>
-<li>更准确点讲O(d(n+radix)),radix取值范围，d表示基个数</li>
 </ul>
-</li>
-<li><p>以下写法带排序数组有负数是有问题的，如果需要排序带负数的，需要设置偏移量offset，使得最小数为0</p>
-</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">radixSort</span>(<span class="params">arr, maxDigit</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> mod = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">let</span> dev = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> counter = [];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; maxDigit; i++, dev *= <span class="number">10</span>, mod *= <span class="number">10</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; arr.length; j++) &#123;</span><br><span class="line">            <span class="keyword">let</span> bucketIdx = <span class="built_in">parseInt</span>((arr[j] % mod) / dev);</span><br><span class="line">            <span class="keyword">if</span> (counter[bucketIdx] == <span class="literal">null</span>) &#123;</span><br><span class="line">                counter[bucketIdx] = [];</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            counter[bucketIdx].push(arr[j]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> idx = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; counter.length; j++) &#123;</span><br><span class="line">            <span class="keyword">let</span> bucket = counter[j];</span><br><span class="line">            <span class="keyword">if</span> (bucket != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">let</span> k = <span class="number">0</span>; k &lt; bucket.length; k++) &#123;</span><br><span class="line">                    arr[idx++] = bucket[k];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        counter = []; <span class="comment">//清空</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        
+          <a class="article-more-a" href="/2019/08/30/O-n-的排序算法-基数排序/#more">more >></a>
+        
       
 
       

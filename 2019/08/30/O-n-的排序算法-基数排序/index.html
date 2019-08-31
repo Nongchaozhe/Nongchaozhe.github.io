@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>O(n)的排序算法-基数排序 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="基数排序(Radix Sort) 适用范围：将整数按位数切割成不同的数字，按每位分别比较。不只是适用整数，也适用于字符串和特定格式的浮点数等 最高位优先(MSD),最低位优先(LSD)   核心：(以整数为例) 基：被排序的元素的’个、十、百位’等 桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶   步骤： 12345for(每一个基) &amp;#123;    // 循环内，以某一">
+  <meta name="description" content="基数排序(Radix Sort) 适用范围：将整数按位数切割成不同的数字，按每位分别比较。不只是适用整数，也适用于字符串和特定格式的浮点数等 最高位优先(MSD),最低位优先(LSD)   核心：(以整数为例) 基：被排序的元素的’个、十、百位’等 桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="O(n)的排序算法-基数排序">
 <meta property="og:url" content="https://nongchaozhe.github.io/2019/08/30/O-n-的排序算法-基数排序/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="基数排序(Radix Sort) 适用范围：将整数按位数切割成不同的数字，按每位分别比较。不只是适用整数，也适用于字符串和特定格式的浮点数等 最高位优先(MSD),最低位优先(LSD)   核心：(以整数为例) 基：被排序的元素的’个、十、百位’等 桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶   步骤： 12345for(每一个基) &amp;#123;    // 循环内，以某一">
+<meta property="og:description" content="基数排序(Radix Sort) 适用范围：将整数按位数切割成不同的数字，按每位分别比较。不只是适用整数，也适用于字符串和特定格式的浮点数等 最高位优先(MSD),最低位优先(LSD)   核心：(以整数为例) 基：被排序的元素的’个、十、百位’等 桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-30T15:30:22.385Z">
+<meta property="og:updated_time" content="2019-08-31T07:14:23.154Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="O(n)的排序算法-基数排序">
-<meta name="twitter:description" content="基数排序(Radix Sort) 适用范围：将整数按位数切割成不同的数字，按每位分别比较。不只是适用整数，也适用于字符串和特定格式的浮点数等 最高位优先(MSD),最低位优先(LSD)   核心：(以整数为例) 基：被排序的元素的’个、十、百位’等 桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶   步骤： 12345for(每一个基) &amp;#123;    // 循环内，以某一">
+<meta name="twitter:description" content="基数排序(Radix Sort) 适用范围：将整数按位数切割成不同的数字，按每位分别比较。不只是适用整数，也适用于字符串和特定格式的浮点数等 最高位优先(MSD),最低位优先(LSD)   核心：(以整数为例) 基：被排序的元素的’个、十、百位’等 桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -173,6 +173,9 @@
 <li>桶：“基”的每一位都有取值范围，一般数字是0-9共10中，10个桶</li>
 </ul>
 </li>
+</ul>
+<a id="more"></a>
+<ul>
 <li><p>步骤：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for(每一个基) &#123;</span><br><span class="line">    // 循环内，以某一个’基‘为依据</span><br><span class="line">    遍历array，将元素放入对应的桶bucket</span><br><span class="line">    遍历桶bucket，将元素放回数据集</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
