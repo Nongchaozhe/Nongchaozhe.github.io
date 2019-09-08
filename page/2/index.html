@@ -141,42 +141,33 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-单向散列函数-数字签名-证书" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-dispatch-barrier-async-sync异同点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/09/单向散列函数-数字签名-证书/">单向散列函数&amp;数字签名&amp;数字证书</a>
+      <a class="article-title" href="/2019/07/08/dispatch-barrier-async-sync异同点/">dispatch_barrier_async/sync异同点</a>
     </h1>
   
 
         
-        <a href="/2018/11/09/单向散列函数-数字签名-证书/" class="archive-article-date">
-  	<time datetime="2018-11-09T02:30:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-09</time>
+        <a href="/2019/07/08/dispatch-barrier-async-sync异同点/" class="archive-article-date">
+  	<time datetime="2019-07-08T14:44:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="写于前"><a href="#写于前" class="headerlink" title="写于前"></a>写于前</h3><h4 id="iOS中常在哪些场景应用到"><a href="#iOS中常在哪些场景应用到" class="headerlink" title="iOS中常在哪些场景应用到"></a>iOS中常在哪些场景应用到</h4><ul>
-<li>支付密码、验证码相关的业务场景</li>
-<li>之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础</li>
-<li>iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的</li>
-</ul>
-<h4 id="写一个系列"><a href="#写一个系列" class="headerlink" title="写一个系列"></a>写一个系列</h4><ul>
-<li><a href="https://nongchaozhe.github.io/2018/11/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0/">对称加密&amp;非对称加密&amp;混合加密</a></li>
-<li>单向散列函数&amp;数字签名&amp;数字证书</li>
-<li><a href="https://nongchaozhe.github.io/2018/11/12/iOS%E7%AD%BE%E5%90%8D%E6%9C%BA%E5%88%B6/">iOS签名机制</a></li>
-</ul>
-<h4 id="本文概要"><a href="#本文概要" class="headerlink" title="本文概要"></a>本文概要</h4><ul>
-<li>白话厘清概念，分析优缺点(不累述算法实现)</li>
-<li>看完，能对平常接触的md5，SHA，数字签名及其应用场景，证书等问题有个清晰的脉络</li>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
+<li>我们之前大多数都接触过dispatch_barrier_async，这也是GCD提供的解决数据竞争的一种方式，常称作异步栅栏</li>
+<li>也常通过pthread_rwlock读写锁，来解决数据竞争问题</li>
+<li>当然，还有很多方式。本文不再讨论如何使用，具体使用大家自行google，而是简洁的讲下dispatch_barrier_async和dispatch_barrier_sync两者的区别，后者可能被很多人都遗忘了</li>
 </ul>
         
-          <a class="article-more-a" href="/2018/11/09/单向散列函数-数字签名-证书/#more">more >></a>
+          <a class="article-more-a" href="/2019/07/08/dispatch-barrier-async-sync异同点/#more">more >></a>
         
       
 
@@ -189,7 +180,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/09/单向散列函数-数字签名-证书/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/08/dispatch-barrier-async-sync异同点/">展开全文 >></a>
         </p>
       
 
@@ -219,181 +210,38 @@
 
 
   
-    <article id="post-对称加密-非对称加密-单向散列函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-fishhook学习总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/08/对称加密-非对称加密-单向散列函数/">对称加密&amp;非对称加密&amp;混合加密</a>
+      <a class="article-title" href="/2019/07/07/fishhook学习总结/">fishhook学习总结</a>
     </h1>
   
 
         
-        <a href="/2018/11/08/对称加密-非对称加密-单向散列函数/" class="archive-article-date">
-  	<time datetime="2018-11-08T06:23:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-08</time>
+        <a href="/2019/07/07/fishhook学习总结/" class="archive-article-date">
+  	<time datetime="2019-07-07T06:55:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="写于前"><a href="#写于前" class="headerlink" title="写于前"></a>写于前</h3><h4 id="iOS中常在哪些场景应用到"><a href="#iOS中常在哪些场景应用到" class="headerlink" title="iOS中常在哪些场景应用到"></a>iOS中常在哪些场景应用到</h4><ul>
-<li>支付密码、验证码相关的业务场景</li>
-<li>之前个人维护的一个数字证书模块，与密码学相关知识也紧密相关，同时数字证书在我们的业务场景中，是作为指纹支付的基础</li>
-<li>iOS的签名机制。常常跟着网上的教程一顿操作，然而却不知道原理是什么。个人觉得，知道原理后续遇到问题也更能快速定位哪个环节的问题，也能学习优秀的技术方案是如何设计的</li>
+        <h3 id="关于hook"><a href="#关于hook" class="headerlink" title="关于hook"></a>关于hook</h3><ul>
+<li>OC方法可hook，得益运行时特性，方法调用底层都是<code>msg_send(id,SEL)</code>的形式，这为我们提供了交换IMP的机会</li>
 </ul>
-<h4 id="写一个系列"><a href="#写一个系列" class="headerlink" title="写一个系列"></a>写一个系列</h4><ul>
-<li>对称加密&amp;非对称加密&amp;混合加密</li>
-<li><a href="https://nongchaozhe.github.io/2018/11/09/%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D-%E8%AF%81%E4%B9%A6/">单向散列函数&amp;数字签名&amp;数字证书</a></li>
-<li><a href="https://nongchaozhe.github.io/2018/11/12/iOS%E7%AD%BE%E5%90%8D%E6%9C%BA%E5%88%B6/">iOS签名机制</a></li>
+<h3 id="函数地址偏移量"><a href="#函数地址偏移量" class="headerlink" title="函数地址偏移量"></a>函数地址偏移量</h3><ul>
+<li>C函数在编译连接时就确定了函数指针的地址偏移量offset，offset在编译好的可执行文件是固定的，而<strong>可执行文件每次被重新装载到内存中时被系统分配的起始地址是不断变化的</strong>(lldb用imagelist可以获取<ul>
+<li>运行中的今天静态函数指针地址等于offset+MachO文件在内存中的首地址</li>
 </ul>
-<h4 id="本文概要"><a href="#本文概要" class="headerlink" title="本文概要"></a>本文概要</h4><ul>
-<li>白话厘清概念，分析优缺点(不累述算法实现)</li>
-<li>看完，能对平常接触的AES，RSA，公钥，私钥，哪个加密，哪个解密有清晰的了解</li>
-</ul>
-        
-          <a class="article-more-a" href="/2018/11/08/对称加密-非对称加密-单向散列函数/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/08/对称加密-非对称加密-单向散列函数/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-App从0到1记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/30/App从0到1记录/">App从0到1记录</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/30/App从0到1记录/" class="archive-article-date">
-  	<time datetime="2018-09-30T03:49:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="1-创建多个Target"><a href="#1-创建多个Target" class="headerlink" title="1. 创建多个Target"></a>1. 创建多个Target</h4><ul>
-<li>目的：两个分支分别用于打正式包、测试包。其对应的部分配置项不同，比如对应证书不同</li>
-<li>注意点：<ul>
-<li>duplicate一个分支之后，Podfile记得update， 可定义抽象<code>abstract_target</code>，实际的target进行依赖继承。</li>
-<li><code>post_install</code>工程配置的写法也会略有不同。</li>
-<li>默认duplicate的时候，会同时生成一个新的copy-info.plist，我的做法是删除，两个target共用一份info.plist，后续改动不需要改两处。</li>
-<li>抽象类可参考文章：<a href="https://www.jianshu.com/p/8a0fd6150159" target="_blank" rel="noopener">https://www.jianshu.com/p/8a0fd6150159</a>
-        
-          <a class="article-more-a" href="/2018/09/30/App从0到1记录/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/30/App从0到1记录/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-“一些宏定义”" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/28/“一些宏定义”/">一些宏定义</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/28/“一些宏定义”/" class="archive-article-date">
-  	<time datetime="2018-09-28T08:23:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>主线程同步，避免死锁<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#ifndef dispatch_main_sync_safe</span></span><br><span class="line"><span class="meta">#define dispatch_main_sync_safe(block)\</span></span><br><span class="line"><span class="keyword">if</span> (strcmp(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL), dispatch_queue_get_label(dispatch_get_main_queue())) == <span class="number">0</span>) &#123;\</span><br><span class="line">    block();\</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;\</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), block);\</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#endif</span></span><br></pre></td></tr></table></figure>
 </li>
+<li>这一块说明，如果了解过逆向或者app可执行文件相关的知识的话，会相对更容易理解。更白话一点说，拿打包完的app举例，装载代码的可执行文件已经固定不变了，函数在该文件相对位置已经确定了。只要确定整个可执行文件被加载时的起点位置，就能知道该函数的具体位置</li>
 </ul>
         
-          <a class="article-more-a" href="/2018/09/28/“一些宏定义”/#more">more >></a>
+          <a class="article-more-a" href="/2019/07/07/fishhook学习总结/#more">more >></a>
         
       
 
@@ -406,7 +254,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/28/“一些宏定义”/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/07/fishhook学习总结/">展开全文 >></a>
         </p>
       
 
@@ -436,176 +284,33 @@
 
 
   
-    <article id="post-“小程序分享至群群消息小结”" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-iOS内存管理方案之一-TaggedPointer" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/15/“小程序分享至群群消息小结”/">“小程序分享至群群消息小结(包括分享到App)”</a>
+      <a class="article-title" href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/">iOS内存管理方案之一_TaggedPointer</a>
     </h1>
   
 
         
-        <a href="/2018/09/15/“小程序分享至群群消息小结”/" class="archive-article-date">
-  	<time datetime="2018-09-15T14:05:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-15</time>
+        <a href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/" class="archive-article-date">
+  	<time datetime="2019-07-02T13:51:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制-下文会说明-，但是整体方案依然是可行的"><a href="#以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制-下文会说明-，但是整体方案依然是可行的" class="headerlink" title="以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的"></a>以下是18年3月底在公司内部的分享，虽然小程序对于分享回调有所限制(下文会说明)，但是整体方案依然是可行的</h4><hr>
-<p>去年做过小程序群成员相关的信息展示需求，后续常有同事来问细节。<br>因此把去年做完后的梳理的小结发出来供参考。<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180402_7bc5bji4b6i5k542accba43h4h9ih_583x562.png" style="zoom:30%"><br>微信文档现在相较去年也有所更新完善，但大致流程不变。</p>
-        
-          <a class="article-more-a" href="/2018/09/15/“小程序分享至群群消息小结”/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/15/“小程序分享至群群消息小结”/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Cordova源码学习-二-Native回调JS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">Cordova源码学习(二)-Native回调JS</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/06/Cordova源码学习-二-Native回调JS/" class="archive-article-date">
-  	<time datetime="2018-09-06T10:27:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
-</blockquote>
-<h1 id="Native回调JS"><a href="#Native回调JS" class="headerlink" title="Native回调JS"></a>Native回调JS</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_54298cb7ai5lgfiec9f1eg267ik2f_1304x890.png" style="zoom:30%;"></p>
-        
-          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Cordova源码学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/05/Cordova源码学习/">Cordova源码学习(一)-JS调用Native</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/05/Cordova源码学习/" class="archive-article-date">
-  	<time datetime="2018-09-05T15:30:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
-</blockquote>
-<h1 id="JS调用Native"><a href="#JS调用Native" class="headerlink" title="JS调用Native"></a>JS调用Native</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><ul>
-<li>流程图<br><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_5kjgh9b47jba3cad31bf57g949bc9_1102x922.png" style="zoom:30%;"></li>
+        <h3 id="看一个例子"><a href="#看一个例子" class="headerlink" title="看一个例子"></a>看一个例子</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, copy) NSString *testStr;</span><br><span class="line">&#123;</span><br><span class="line">    dispatch_queue_t queue = dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;<span class="number">10000</span>;i++) &#123;</span><br><span class="line">        dispatch_async(queue, ^&#123;</span><br><span class="line">            self.testStr = [NSString stringWithFormat:@<span class="string">"123"</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>执行结果：正常</li>
+<li>[self.testStr class] =&gt; NSTaggedPointerString</li>
 </ul>
-<h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><ul>
-<li>index.html 调用<ul>
-<li>入参分别为<ul>
-<li>successCallback：成功回调</li>
-<li>failCallback：失败回调</li>
-<li>service：类名</li>
-<li>action：方法名</li>
-<li>actionArgs：入参
         
-          <a class="article-more-a" href="/2018/09/05/Cordova源码学习/#more">more >></a>
+          <a class="article-more-a" href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/#more">more >></a>
         
       
 
@@ -618,7 +323,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/05/Cordova源码学习/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/">展开全文 >></a>
         </p>
       
 
@@ -648,20 +353,20 @@
 
 
   
-    <article id="post-iOS首次安装打开APP白屏问题总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-MLeaksFinder学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/">iOS首次安装打开APP白屏问题总结</a>
+      <a class="article-title" href="/2019/06/30/MLeaksFinder学习记录/">MLeaksFinder学习记录</a>
     </h1>
   
 
         
-        <a href="/2018/08/12/iOS首次安装打开APP白屏问题总结/" class="archive-article-date">
-  	<time datetime="2018-08-12T14:39:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-12</time>
+        <a href="/2019/06/30/MLeaksFinder学习记录/" class="archive-article-date">
+  	<time datetime="2019-06-30T13:06:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
 </a>
         
       </header>
@@ -669,155 +374,21 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>表现：最近在负责一个新的APP的开发。最近部门内测，反馈来一些问题，主要表现在首次安装该APP，首次启动，页面白屏没有数据。卸载再装or后台杀死重新打开，就好了</li>
-<li>原因：<ul>
-<li>先前小范围测试有遇到过，以为是没有允许该APP使用网络请求的原因，当时在设置里面允许了就好了，但那时候同时杀死了APP，再次打开好了。但这不是真正的原因</li>
-<li>iOS10之后，APP首次安装会有询问【是否允许“xxxAPP”使用数据？】的询问网络权限弹窗，导致在用户允许之前，APP发出去的请求都是失败的。
-        
-          <a class="article-more-a" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/12/iOS首次安装打开APP白屏问题总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling与JSPatch探究（二）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">Method-Swizzling与JSPatch探究（二）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/" class="archive-article-date">
-  	<time datetime="2018-08-02T13:13:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
-<hr>
-<h5 id="4、兼容性"><a href="#4、兼容性" class="headerlink" title="4、兼容性"></a>4、兼容性</h5><p>以hook <code>UIViewController</code>的<code>viewWillAppear</code>的方法为例  </p>
-<h5 id="4-1-仅method-Swizzling，-无JSPatch"><a href="#4-1-仅method-Swizzling，-无JSPatch" class="headerlink" title="4.1 仅method Swizzling， 无JSPatch"></a>4.1 仅method Swizzling， 无JSPatch</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">`ViewController:UIViewController`</span><br><span class="line"></span><br><span class="line">- (void)viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO 01&quot;);</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    NSLog(@&quot;HELLO 02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">UIViewController+MLPF.m</span><br><span class="line">- (void)xxx_viewWillAppear:(BOOL)animated &#123;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle01&quot;);</span><br><span class="line">    [self xxx_viewWillAppear:animated] ;</span><br><span class="line">    NSLog(@&quot;HELLO Swizzle02&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Output:</span><br><span class="line">HELLO 01</span><br><span class="line">HELLO Swizzle01</span><br><span class="line">HELLO Swizzle02</span><br><span class="line">HELLO 02</span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>IMP变化：注意hook的是UIViewController的viewWillAppear而不是ViewController</p>
-        
-          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling与JSPatch探究（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">Method Swizzling与JSPatch探究（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" class="archive-article-date">
-  	<time datetime="2018-08-01T15:19:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
-<hr>
-<ul>
-<li>用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研)</li>
-<li>如果看此文之前，对这两者有些概念那就最好啦😝</li>
+<li>不久之前的学习笔记了，整理下~</li>
+<li>结合源码看更佳~</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录：</span><br><span class="line">1、从[receiver message]说起</span><br><span class="line">2、Method Swizzling hook过程</span><br><span class="line">3、JSPatch hook过程</span><br><span class="line">4、各种case兼容性</span><br><span class="line">5、结论</span><br><span class="line">6、拓展</span><br><span class="line">7、也许你有疑问的地方(主要针对3中可能产生的问题)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞
+<hr>
+<h2 id="内存泄露检测"><a href="#内存泄露检测" class="headerlink" title="内存泄露检测"></a>内存泄露检测</h2><ul>
+<li>Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位</li>
+<li>MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和View对象(可扩展，MLCheck())</li>
+</ul>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h3><ul>
+<li>[MLeaksFinder start]; //进行swizzle</li>
+<li>[MLeaksFinder stop]; //设置静态局部参数，为NO，hook的函数不会执行到关键代码</li>
+<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg" style="zoom:30%"></li>
+</ul>
         
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/#more">more >></a>
+          <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/#more">more >></a>
         
       
 
@@ -830,7 +401,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/">展开全文 >></a>
         </p>
       
 
@@ -862,7 +433,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 

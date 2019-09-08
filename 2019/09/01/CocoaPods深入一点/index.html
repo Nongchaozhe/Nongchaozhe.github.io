@@ -16,10 +16,15 @@
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="本文梳理了如下一些问题 关于Cocoapods –verbose，–no-repo-update pod install –verbose的过程 podfile 和 podspec 看点CocoaPods源码 Podfile.lock 和 Manifest.lock pod install 和 update的区别 那些常见的目录&amp;amp;指令   期望用更简洁的话，做一些整理   关于Cocoap">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-08T10:19:27.028Z">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190908_0ahge8alk0a4dlicg21e9f6d2dbkb_1904x344.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190908_4kcib48i07299c62dhhaaek15fbaf_1898x322.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190908_3j5acekhea8b5025ljalihlcc4e14_1782x480.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/190908_355ffk57684ah9h03d36eikfcjia2_2888x492.jpg">
+<meta property="og:updated_time" content="2019-09-08T10:37:26.320Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CocoaPods深入一点">
 <meta name="twitter:description" content="本文梳理了如下一些问题 关于Cocoapods –verbose，–no-repo-update pod install –verbose的过程 podfile 和 podspec 看点CocoaPods源码 Podfile.lock 和 Manifest.lock pod install 和 update的区别 那些常见的目录&amp;amp;指令   期望用更简洁的话，做一些整理   关于Cocoap">
+<meta name="twitter:image" content="https://s10.mogucdn.com/mlcdn/c45406/190908_0ahge8alk0a4dlicg21e9f6d2dbkb_1904x344.jpg">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -220,9 +225,9 @@
 <li>生成Pods.xcodeproj工程：检测到改动，就更新Pods.xcodeproj；如果Pods.xcodeproj不存在，默认配置生成</li>
 <li>将依赖中的文件/依赖库/资源加入工程：</li>
 <li>设置目标依赖（Target Dependencies）<ol>
-<li>不只是代码加入，还有另外的几个文件：(<strong>配置文件、编译所需的文件、资源写入文件、许可文件等</strong>)<ol>
+<li>不只是代码加入，还有另外的几个文件：(<strong>配置文件、编译所需的文件、资源写入文件、许可文件等</strong>)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_0ahge8alk0a4dlicg21e9f6d2dbkb_1904x344.jpg" alt=""><ol>
 <li>包含编译选项的xcconfig/同时拥有编译设置和CPS默认配置的私有xcconfig文件；编译所需prefix.pch文件；编译必须的dummy.m文件</li>
-<li>如果源代码含有资源bundle，向app中添加bundle的方式将写入Pods-Resources.sh(该脚本会将所有三方库的resource文件copy到目标目录中)</li>
+<li>如果源代码含有资源bundle，向app中添加bundle的方式将写入Pods-Resources.sh(该脚本会将所有三方库的resource文件copy到目标目录中)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_4kcib48i07299c62dhhaaek15fbaf_1898x322.jpg" alt=""></li>
 <li>markdown、plist为用户许可文件</li>
 </ol>
 </li>
@@ -284,7 +289,7 @@
 <li>nstall_source_of_pod：调用栈非常庞大，在调用栈末端Downloader.download_Source会执行CocoaPods组件CocoaPods-Download，方法中调用的for_target会根据不同的源创建一个下载器，因为依赖可能会通过不同的协议/方式进行下载，如git/http/svn等，CocoaPods-Downloader会根据依赖的参数选项使用不同的方式下载</li>
 </ul>
 </li>
-<li>大部分依赖会被下载到~/Library/Caches/CocoaPods/Pods/Release/ 文件夹中，然后从这里复制到项目工程目录下的./Pods中，完成了整个CPS的下载流程</li>
+<li>大部分依赖会被下载到~/Library/Caches/CocoaPods/Pods/Release/ 文件夹中，然后从这里复制到项目工程目录下的./Pods中，完成了整个CPS的下载流程<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_3j5acekhea8b5025ljalihlcc4e14_1782x480.jpg" alt=""></li>
 </ul>
 <hr>
 <ol start="3">
@@ -346,7 +351,7 @@
 <ul>
 <li>~/.cocoapods/repos</li>
 <li>~/Library/Caches/CocoaPods/Pods</li>
-<li>三方库在Pods目录下，同时还有Pods.xcodeproj，Manifest.lock</li>
+<li>三方库在Pods目录下，同时还有Pods.xcodeproj，Manifest.lock<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_355ffk57684ah9h03d36eikfcjia2_2888x492.jpg" alt=""></li>
 </ul>
 <hr>
 <p>指令</p>
@@ -357,7 +362,11 @@
 <li>pod update PODNAME：忽略.lock，只更新这个库的新版本。只要符合podfile的限制</li>
 </ul>
 <hr>
-<p>其实，如果再详细点，还可以深入一些常见的指令、</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://guides.cocoapods.org/" target="_blank" rel="noopener">https://guides.cocoapods.org/</a></li>
+<li><a href="https://mp.weixin.qq.com/s/VKGWwXpTfvVpYPh11DVSvg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/VKGWwXpTfvVpYPh11DVSvg</a></li>
+</ul>
 
       
 
@@ -460,7 +469,7 @@
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          isEqual和hash的关系
+          白话isEqual和hash的关系
         
       </div>
     </a>

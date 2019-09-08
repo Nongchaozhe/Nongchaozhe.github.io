@@ -148,7 +148,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/09/08/isEqual和hash的关系/">isEqual和hash的关系</a>
+      <a class="article-title" href="/2019/09/08/isEqual和hash的关系/">白话isEqual和hash的关系</a>
     </h1>
   
 
@@ -287,9 +287,9 @@
 <li>生成Pods.xcodeproj工程：检测到改动，就更新Pods.xcodeproj；如果Pods.xcodeproj不存在，默认配置生成</li>
 <li>将依赖中的文件/依赖库/资源加入工程：</li>
 <li>设置目标依赖（Target Dependencies）<ol>
-<li>不只是代码加入，还有另外的几个文件：(<strong>配置文件、编译所需的文件、资源写入文件、许可文件等</strong>)<ol>
+<li>不只是代码加入，还有另外的几个文件：(<strong>配置文件、编译所需的文件、资源写入文件、许可文件等</strong>)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_0ahge8alk0a4dlicg21e9f6d2dbkb_1904x344.jpg" alt=""><ol>
 <li>包含编译选项的xcconfig/同时拥有编译设置和CPS默认配置的私有xcconfig文件；编译所需prefix.pch文件；编译必须的dummy.m文件</li>
-<li>如果源代码含有资源bundle，向app中添加bundle的方式将写入Pods-Resources.sh(该脚本会将所有三方库的resource文件copy到目标目录中)</li>
+<li>如果源代码含有资源bundle，向app中添加bundle的方式将写入Pods-Resources.sh(该脚本会将所有三方库的resource文件copy到目标目录中)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_4kcib48i07299c62dhhaaek15fbaf_1898x322.jpg" alt=""></li>
 <li>markdown、plist为用户许可文件</li>
 </ol>
 </li>
@@ -351,7 +351,7 @@
 <li>nstall_source_of_pod：调用栈非常庞大，在调用栈末端Downloader.download_Source会执行CocoaPods组件CocoaPods-Download，方法中调用的for_target会根据不同的源创建一个下载器，因为依赖可能会通过不同的协议/方式进行下载，如git/http/svn等，CocoaPods-Downloader会根据依赖的参数选项使用不同的方式下载</li>
 </ul>
 </li>
-<li>大部分依赖会被下载到~/Library/Caches/CocoaPods/Pods/Release/ 文件夹中，然后从这里复制到项目工程目录下的./Pods中，完成了整个CPS的下载流程</li>
+<li>大部分依赖会被下载到~/Library/Caches/CocoaPods/Pods/Release/ 文件夹中，然后从这里复制到项目工程目录下的./Pods中，完成了整个CPS的下载流程<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_3j5acekhea8b5025ljalihlcc4e14_1782x480.jpg" alt=""></li>
 </ul>
 <hr>
 <ol start="3">
@@ -413,7 +413,7 @@
 <ul>
 <li>~/.cocoapods/repos</li>
 <li>~/Library/Caches/CocoaPods/Pods</li>
-<li>三方库在Pods目录下，同时还有Pods.xcodeproj，Manifest.lock</li>
+<li>三方库在Pods目录下，同时还有Pods.xcodeproj，Manifest.lock<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_355ffk57684ah9h03d36eikfcjia2_2888x492.jpg" alt=""></li>
 </ul>
 <hr>
 <p>指令</p>
@@ -424,7 +424,11 @@
 <li>pod update PODNAME：忽略.lock，只更新这个库的新版本。只要符合podfile的限制</li>
 </ul>
 <hr>
-<p>其实，如果再详细点，还可以深入一些常见的指令、</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://guides.cocoapods.org/" target="_blank" rel="noopener">https://guides.cocoapods.org/</a></li>
+<li><a href="https://mp.weixin.qq.com/s/VKGWwXpTfvVpYPh11DVSvg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/VKGWwXpTfvVpYPh11DVSvg</a></li>
+</ul>
 
       
 
@@ -624,443 +628,9 @@
 
 
   
-    <article id="post-dispatch-barrier-async-sync异同点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/08/dispatch-barrier-async-sync异同点/">dispatch_barrier_async/sync异同点</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/08/dispatch-barrier-async-sync异同点/" class="archive-article-date">
-  	<time datetime="2019-07-08T14:44:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
-<li>我们之前大多数都接触过dispatch_barrier_async，这也是GCD提供的解决数据竞争的一种方式，常称作异步栅栏</li>
-<li>也常通过pthread_rwlock读写锁，来解决数据竞争问题</li>
-<li>当然，还有很多方式。本文不再讨论如何使用，具体使用大家自行google，而是简洁的讲下dispatch_barrier_async和dispatch_barrier_sync两者的区别，后者可能被很多人都遗忘了</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/07/08/dispatch-barrier-async-sync异同点/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/08/dispatch-barrier-async-sync异同点/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-fishhook学习总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/07/fishhook学习总结/">fishhook学习总结</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/07/fishhook学习总结/" class="archive-article-date">
-  	<time datetime="2019-07-07T06:55:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="关于hook"><a href="#关于hook" class="headerlink" title="关于hook"></a>关于hook</h3><ul>
-<li>OC方法可hook，得益运行时特性，方法调用底层都是<code>msg_send(id,SEL)</code>的形式，这为我们提供了交换IMP的机会</li>
-</ul>
-<h3 id="函数地址偏移量"><a href="#函数地址偏移量" class="headerlink" title="函数地址偏移量"></a>函数地址偏移量</h3><ul>
-<li>C函数在编译连接时就确定了函数指针的地址偏移量offset，offset在编译好的可执行文件是固定的，而<strong>可执行文件每次被重新装载到内存中时被系统分配的起始地址是不断变化的</strong>(lldb用imagelist可以获取<ul>
-<li>运行中的今天静态函数指针地址等于offset+MachO文件在内存中的首地址</li>
-</ul>
-</li>
-<li>这一块说明，如果了解过逆向或者app可执行文件相关的知识的话，会相对更容易理解。更白话一点说，拿打包完的app举例，装载代码的可执行文件已经固定不变了，函数在该文件相对位置已经确定了。只要确定整个可执行文件被加载时的起点位置，就能知道该函数的具体位置</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/07/07/fishhook学习总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/07/fishhook学习总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-iOS内存管理方案之一-TaggedPointer" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/">iOS内存管理方案之一_TaggedPointer</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/" class="archive-article-date">
-  	<time datetime="2019-07-02T13:51:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="看一个例子"><a href="#看一个例子" class="headerlink" title="看一个例子"></a>看一个例子</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, copy) NSString *testStr;</span><br><span class="line">&#123;</span><br><span class="line">    dispatch_queue_t queue = dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span>(int i=<span class="number">0</span>;i&lt;<span class="number">10000</span>;i++) &#123;</span><br><span class="line">        dispatch_async(queue, ^&#123;</span><br><span class="line">            self.testStr = [NSString stringWithFormat:@<span class="string">"123"</span>];</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>执行结果：正常</li>
-<li>[self.testStr class] =&gt; NSTaggedPointerString</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MLeaksFinder学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/MLeaksFinder学习记录/">MLeaksFinder学习记录</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/30/MLeaksFinder学习记录/" class="archive-article-date">
-  	<time datetime="2019-06-30T13:06:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>不久之前的学习笔记了，整理下~</li>
-<li>结合源码看更佳~</li>
-</ul>
-<hr>
-<h2 id="内存泄露检测"><a href="#内存泄露检测" class="headerlink" title="内存泄露检测"></a>内存泄露检测</h2><ul>
-<li>Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位</li>
-<li>MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和View对象(可扩展，MLCheck())</li>
-</ul>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h3><ul>
-<li>[MLeaksFinder start]; //进行swizzle</li>
-<li>[MLeaksFinder stop]; //设置静态局部参数，为NO，hook的函数不会执行到关键代码</li>
-<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg" style="zoom:30%"></li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-iOS逆向的一点总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/26/iOS逆向的一点总结/">iOS逆向的一点总结</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/26/iOS逆向的一点总结/" class="archive-article-date">
-  	<time datetime="2019-06-26T13:11:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>一张图<ul>
-<li>之前在<a href="http://www.iosre.com/" target="_blank" rel="noopener">http://www.iosre.com/</a> 上看到的，我觉得整个学习思路非常清晰：<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190626_5gh49ihlh8c17lb4fag9f20105gg2_2043x1822.png"></li>
-</ul>
-</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/06/26/iOS逆向的一点总结/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/26/iOS逆向的一点总结/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-iOS签名机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/12/iOS签名机制/">iOS签名机制</a>
-    </h1>
-  
-
-        
-        <a href="/2018/11/12/iOS签名机制/" class="archive-article-date">
-  	<time datetime="2018-11-12T08:23:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="写于前"><a href="#写于前" class="headerlink" title="写于前"></a>写于前</h3><h4 id="写一个系列"><a href="#写一个系列" class="headerlink" title="写一个系列"></a>写一个系列</h4><ul>
-<li><a href="https://nongchaozhe.github.io/2018/11/08/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86-%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0/">对称加密&amp;非对称加密&amp;混合加密</a></li>
-<li><a href="https://nongchaozhe.github.io/2018/11/09/%E5%8D%95%E5%90%91%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B0-%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D-%E8%AF%81%E4%B9%A6/">单向散列函数&amp;数字签名&amp;数字证书</a></li>
-<li>iOS签名机制</li>
-</ul>
-<h4 id="本文概要"><a href="#本文概要" class="headerlink" title="本文概要"></a>本文概要</h4><ul>
-<li>了解iOS签名机制</li>
-<li>对机制的每个环节有大致的了解</li>
-<li>阅读这篇文章前，需要对加密、Hash、数字签名、数字证书有一定的了解</li>
-</ul>
-        
-          <a class="article-more-a" href="/2018/11/12/iOS签名机制/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/12/iOS签名机制/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
