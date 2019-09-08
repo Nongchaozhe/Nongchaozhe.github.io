@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>isEqual和hash的关系 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="后面整理了上传">
+  <meta name="description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，多了点个人的白话理解  ==和isEqual ==  基本类型，==，比较">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="isEqual和hash的关系">
 <meta property="og:url" content="https://nongchaozhe.github.io/2019/09/03/isEqual和hash的关系/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="后面整理了上传">
+<meta property="og:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，多了点个人的白话理解  ==和isEqual ==  基本类型，==，比较">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-07T15:13:11.458Z">
+<meta property="og:updated_time" content="2019-09-08T04:21:03.392Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="isEqual和hash的关系">
-<meta name="twitter:description" content="后面整理了上传">
+<meta name="twitter:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，多了点个人的白话理解  ==和isEqual ==  基本类型，==，比较">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -163,7 +163,75 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>后面整理了上传</p>
+        <h3 id="出发点：isEqual和hash的关系"><a href="#出发点：isEqual和hash的关系" class="headerlink" title="出发点：isEqual和hash的关系"></a>出发点：isEqual和hash的关系</h3><ul>
+<li>看到这个点，上网搜一下，首先出现的就是这篇文<a href="https://www.jianshu.com/p/915356e280fc" target="_blank" rel="noopener">iOS开发 之 不要告诉我你真的懂isEqual与hash!</a></li>
+<li>第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题</li>
+<li>本文，简单的做了下梳理，多了点个人的白话理解</li>
+</ul>
+<h3 id="和isEqual"><a href="#和isEqual" class="headerlink" title="==和isEqual"></a>==和isEqual</h3><ul>
+<li><p>==</p>
+<ul>
+<li>基本类型，==，比较是否相等</li>
+<li>对象类型，==，只是比较对象地址即是否为同一对象</li>
+</ul>
+</li>
+<li><p>默认的isEqual实现，就是self==object</p>
+<ul>
+<li>对于自定义类，通常需要自行去重写isEqual方法。</li>
+</ul>
+</li>
+<li><p>==与isEqual的应用场景的区分在：</p>
+<ul>
+<li>==是比较对象地址</li>
+<li>isEqual是比较对象，判等</li>
+</ul>
+</li>
+<li><p><strong>为什么要重写isEqual？？？</strong></p>
+<ul>
+<li>看上面描述的应用场景，可以看出，如果你想比较对象地址直接用==，isEqual的最佳实践通常是比较对象，判断对象是否相等，而系统默认的isEqual实现不能满足要求。这也是为什么isEqual有比较规范的写法，有所谓的最佳实践这一说</li>
+<li>判断对象是否相等：比如以下应用场景：一个Person对象，有creditId，身份证号码属性，如果new了两个对象，都是Person类型，creditId值也相等，那我们认为这两个对象是相等的。就需要去重写isEqual来实现该场景</li>
+</ul>
+</li>
+<li><p>isEqual的重写思路(关心对象的内容(类型以及对象属性一致)):</p>
+<ul>
+<li>1、判断两指针地址，一致，返回YES；否则2</li>
+<li>2、判断指针指向对象是否为空以及对象类型是否相同。若有一个为空，或两者不是同类型对象 直接返回NO；否则3</li>
+<li>3、都不为空，且属于同类对象，而且对象的属性也相等，则返回YES</li>
+</ul>
+</li>
+<li>当然你也可以有isEqual其他的实现，视具体应用场景</li>
+</ul>
+<h3 id="hash方法"><a href="#hash方法" class="headerlink" title="hash方法"></a>hash方法</h3><ul>
+<li>提高查找效率</li>
+<li><p>依然以添加person到集合类中，重写Person类的hash方法，看是否有调用到</p>
+</li>
+<li><p><strong>hash方法调用时机：</strong></p>
+<ul>
+<li>hash方法只在对象被添加至NSSet和设置为NSDictionary的key时会调用<ul>
+<li>NSSet添加新成员，会根据hash值，快速查找成员，保证集合中是否存在该成员</li>
+<li>NSDictionary在查找key时，会利用key的hash值来提高查找的效率</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>系统默认的hash实现：</strong></p>
+<ul>
+<li>直接返回对象地址（可验证的）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 拿Person举例，有参数name，和birthday；已经重写了isEqual方法</span></span><br><span class="line">Person *person1 = [Person personWithName:kName1 birthday:self.date1];</span><br><span class="line">Person *person2 = [Person personWithName:kName1 birthday:self.date1];</span><br><span class="line">NSLog(@<span class="string">"[person1 isEqual:person2] = %@"</span>, [person1 isEqual:person2] ? @<span class="string">"YES"</span> : @<span class="string">"NO"</span>);	<span class="comment">//YES，比到最后是同类对象且对象属性相等，所以对象相等</span></span><br><span class="line"></span><br><span class="line">NSMutableSet *set = [NSMutableSet set];</span><br><span class="line">[set addObject:person1];</span><br><span class="line">[set addObject:person2];</span><br><span class="line">NSLog(@<span class="string">"set count = %ld"</span>, set.count);	<span class="comment">//值为2</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>所以很明显hash方法在此处的应用，明显就是不相等的，还是系统默认实现</li>
+<li><p>但是，我们已经重写了，isEqual方法，期待符合判等的规则。那么在添加到set中的场景，person1和person2我们期望是要相等的</p>
+</li>
+<li><p>重写hash方法的最佳实践，来符合我们的应用场景：</p>
+<ul>
+<li>如下代码的else部分：对关键属性的hash值进行位或运算作为hash值<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (NSUInteger)hash &#123;</span><br><span class="line">    BOOL isCareAddress = NO;</span><br><span class="line">    NSUInteger hashValue = 0;</span><br><span class="line">    if (isCareAddress) &#123;</span><br><span class="line">        // 如果期望对地址不同、但是内容相同的对象做区分</span><br><span class="line">        // 结果：两个地址不同，但是内容相同的对象添加到NSMutableSet中，set.count是2</span><br><span class="line">        hashValue = [super hash];</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        // 不关心地址是否相同，只对内容进行区分（对关键属性的hash值进行按位异或运算作为hash值）</span><br><span class="line">        // 结果：两个地址不同，但是内容相同的对象添加到NSMutableSet中，set.count是1</span><br><span class="line">        hashValue = [self.name hash] ^ [self.birthday hash];</span><br><span class="line">    &#125;</span><br><span class="line">    return hashValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
 
       
 
