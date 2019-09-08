@@ -256,7 +256,15 @@
 <li>pod install/update –verbose：verbose表示显示详细的冗长的过程，没什么特殊的功能性的意义，只是把详细的过程列出来给你看，更有助于了解底层运行</li>
 </ul>
 <hr>
-<h4 id="podfile-和-podspec"><a href="#podfile-和-podspec" class="headerlink" title="podfile 和 podspec"></a>podfile 和 podspec</h4><hr>
+<h4 id="podfile-和-podspec"><a href="#podfile-和-podspec" class="headerlink" title="podfile 和 podspec"></a>podfile 和 podspec</h4><ul>
+<li>高度定制所需要的三方库</li>
+<li>描述文件，描述pod库的版本。描述一个库怎么被添加到工程中，支持：列出源文件、依赖库、编译选项和其他第三方库需要的配置。<ul>
+<li>拿三方库举例，pod项目的podspec都托管在“<a href="https://github.com/CocoaPods/Specs”这个远程索引库" target="_blank" rel="noopener">https://github.com/CocoaPods/Specs”这个远程索引库</a></li>
+<li>pod setup时，CocoaPods会将这些podspec索引文件更新到本地”~/.cocoapods/”目录下</li>
+</ul>
+</li>
+</ul>
+<hr>
 <h4 id="pod-install-–verbose"><a href="#pod-install-–verbose" class="headerlink" title="pod install –verbose"></a>pod install –verbose</h4><ul>
 <li>Analyzing dependencies：依赖解析<ul>
 <li>Inspecting targets to integrate：检查要集成的目标</li>
