@@ -12,11 +12,11 @@
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="isEqual和hash的关系">
-<meta property="og:url" content="https://nongchaozhe.github.io/2019/09/03/isEqual和hash的关系/index.html">
+<meta property="og:url" content="https://nongchaozhe.github.io/2019/09/08/isEqual和hash的关系/index.html">
 <meta property="og:site_name" content="NCZ的博客">
 <meta property="og:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，多了点个人的白话理解  ==和isEqual ==  基本类型，==，比较">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-08T04:35:38.604Z">
+<meta property="og:updated_time" content="2019-09-08T04:39:47.550Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="isEqual和hash的关系">
 <meta name="twitter:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，多了点个人的白话理解  ==和isEqual ==  基本类型，==，比较">
@@ -155,8 +155,8 @@
   
 
         
-        <a href="/2019/09/03/isEqual和hash的关系/" class="archive-article-date">
-  	<time datetime="2019-09-03T15:53:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+        <a href="/2019/09/08/isEqual和hash的关系/" class="archive-article-date">
+  	<time datetime="2019-09-08T04:28:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-08</time>
 </a>
         
       </header>
@@ -233,7 +233,7 @@
 </li>
 </ul>
 <h3 id="isEqual和hash方法"><a href="#isEqual和hash方法" class="headerlink" title="isEqual和hash方法"></a>isEqual和hash方法</h3><ul>
-<li>根据上面的描述，大概应该能知道两者的关系了，注意这两者的关系并不是因为两者内部方法实现调用了彼此，纯粹在当前应用场景下，为了达到判等的最佳时间：<ul>
+<li>根据上面的描述，大概应该能知道两者的关系了，<strong>注意这两者的关系并不是因为两者内部方法实现调用了彼此，纯粹在当前应用场景下，为了达到判等的最佳实践</strong>：<ul>
 <li>hash值是对象判等的必要非充分条件<ul>
 <li>如果isEqual==YES，对象相等，hash值以定向等</li>
 <li>如果两个对象hash返回相等，不一定相等，需要继续通过isEqual来判等(hash可能重复的，hash冲突)</li>
@@ -261,11 +261,11 @@
 </li>
 <li><p>为什么系统都已经实现了hash，我们还要去重写？</p>
 <ul>
-<li>因为hash算法本身就是不完美的，并不是系统的实现就是百分百对的，只是系统采用了这样的实现方法。（想想会有hash冲突处理）</li>
+<li>因为hash算法本身就是不完美的，并不是系统的实现就是百分百对的，只是系统采用了这样的实现方法。（想想为什么会有hash冲突处理）</li>
 <li>使用hash方法是为了提高查找效率，最好设计的hash返回的值是唯一的。或者有特定的场景需求，去设计hash方法实现。这里重写，只是在判等的场景下，默认的hash实现，不是我们想要的罢了</li>
 </ul>
 </li>
-<li><p>本文，加入了很多自己的理解，应该清晰了很多。</p>
+<li><p>本文，加入了很多自己的理解，应该清晰了很多。欢迎交流😁</p>
 </li>
 <li>参考文章：  </li>
 </ul>
@@ -357,7 +357,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2019/09/03/isEqual和hash的关系/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2019/09/08/isEqual和hash的关系/" alt="微信分享二维码">
     </div>
 </div>
 
