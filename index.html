@@ -230,6 +230,47 @@
 </ul>
 </li>
 </ul>
+<h3 id="isEqual和hash方法"><a href="#isEqual和hash方法" class="headerlink" title="isEqual和hash方法"></a>isEqual和hash方法</h3><ul>
+<li>根据上面的描述，大概应该能知道两者的关系了，注意这两者的关系并不是因为两者内部方法实现调用了彼此，纯粹在当前应用场景下，为了达到判等的最佳时间：<ul>
+<li>hash值是对象判等的必要非充分条件<ul>
+<li>如果isEqual==YES，对象相等，hash值以定向等</li>
+<li>如果两个对象hash返回相等，不一定相等，需要继续通过isEqual来判等(hash可能重复的，hash冲突)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="收个尾："><a href="#收个尾：" class="headerlink" title="收个尾："></a>收个尾：</h3><ul>
+<li><p>isEqual和hash的关系</p>
+<ul>
+<li><p>在一定的场景下，hash是isEqual的必要非充分条件</p>
+<ul>
+<li>isEqual相等，hash值相等</li>
+<li>hash值相等，isEqual不一定相等，需要继续通过isEqual判等</li>
+</ul>
+</li>
+<li><p>场景：对象判等</p>
+<ul>
+<li>当我们自定义对象，去重写isEqual的实现的时候，我们期望在进行对象判等的时候，当对象类型及属性值相等时，认为两个对象相等。区别于直接比较对象地址。(因为直接比较用==就好了，我们重写isEqual就是为了达到判等的目的，比如类似isEqualToString就是专门用来比较字符串的，是isEqual的衍生方法.还有isEqualToSet，isEqualToDictionary都是这样的场景)</li>
+<li>在NSSet添加新成员，NSDictionary作为key的hash方法的应用中，会比较两个对象的hash值来判断是否相等，系统默认直接返回对象地址，不符合对象判等的场景。通常会去重写其实现，对关键属性的hash值进行位或运算作为hash值，来达到对象判等的效果。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>为什么系统都已经实现了hash，我们还要去重写？</p>
+<ul>
+<li>因为hash算法本身就是不完美的，并不是系统的实现就是百分百对的，只是系统采用了这样的实现方法。（想想会有hash冲突处理）</li>
+<li>使用hash方法是为了提高查找效率，最好设计的hash返回的值是唯一的。或者有特定的场景需求，去设计hash方法实现。这里重写，只是在判等的场景下，默认的hash实现，不是我们想要的罢了</li>
+</ul>
+</li>
+<li><p>本文，加入了很多自己的理解，应该清晰了很多。</p>
+</li>
+<li>参考文章：  </li>
+</ul>
+<ol>
+<li><a href="https://www.jianshu.com/p/915356e280fc" target="_blank" rel="noopener">iOS开发 之 不要告诉我你真的懂isEqual与hash!</a> </li>
+<li><a href="https://juejin.im/post/5bf4269df265da6134380660" target="_blank" rel="noopener">iOS笔记：进一步认识 ==、isEqual、hash</a></li>
+</ol>
 
       
 
