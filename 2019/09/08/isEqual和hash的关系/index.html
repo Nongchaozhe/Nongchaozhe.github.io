@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
   <title>白话isEqual和hash的关系 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些">
+  <meta name="description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些  ==和isEqual ==  基本">
 <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
 <meta property="og:type" content="article">
 <meta property="og:title" content="白话isEqual和hash的关系">
 <meta property="og:url" content="https://nongchaozhe.github.io/2019/09/08/isEqual和hash的关系/index.html">
 <meta property="og:site_name" content="NCZ的博客">
-<meta property="og:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些">
+<meta property="og:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些  ==和isEqual ==  基本">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-08T10:39:39.415Z">
+<meta property="og:updated_time" content="2019-09-09T01:01:51.831Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="白话isEqual和hash的关系">
-<meta name="twitter:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些">
+<meta name="twitter:description" content="出发点：isEqual和hash的关系 看到这个点，上网搜一下，首先出现的就是这篇文iOS开发 之 不要告诉我你真的懂isEqual与hash! 第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题 本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些  ==和isEqual ==  基本">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -168,7 +168,6 @@
 <li>第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题</li>
 <li>本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些</li>
 </ul>
-<a id="more"></a>
 <h3 id="和isEqual"><a href="#和isEqual" class="headerlink" title="==和isEqual"></a>==和isEqual</h3><ul>
 <li><p>==</p>
 <ul>
@@ -202,6 +201,7 @@
 </li>
 <li>当然你也可以有isEqual其他的实现，视具体应用场景</li>
 </ul>
+<a id="more"></a>
 <h3 id="hash方法"><a href="#hash方法" class="headerlink" title="hash方法"></a>hash方法</h3><ul>
 <li>提高查找效率</li>
 <li><p>依然以添加person到集合类中，重写Person类的hash方法，看是否有调用到</p>

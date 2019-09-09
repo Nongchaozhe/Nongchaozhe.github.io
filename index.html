@@ -166,6 +166,39 @@
 <li>第一次看完了，确实出现了一些问号以及看了评论区的提问：isEqual和hash都重写了来得出这两者的关系？hash都有默认的实现了，为什么要重写？等等问题</li>
 <li>本文，简单的做了下梳理，补充了些个人的白话理解，更通俗易懂些</li>
 </ul>
+<h3 id="和isEqual"><a href="#和isEqual" class="headerlink" title="==和isEqual"></a>==和isEqual</h3><ul>
+<li><p>==</p>
+<ul>
+<li>基本类型，==，比较是否相等</li>
+<li>对象类型，==，只是比较对象地址即是否为同一对象</li>
+</ul>
+</li>
+<li><p>默认的isEqual实现，就是self==object</p>
+<ul>
+<li>对于自定义类，通常需要自行去重写isEqual方法。</li>
+</ul>
+</li>
+<li><p>==与isEqual的应用场景的区分在：</p>
+<ul>
+<li>==是比较对象地址</li>
+<li>isEqual是比较对象，判等</li>
+</ul>
+</li>
+<li><p><strong>为什么要重写isEqual？？？</strong></p>
+<ul>
+<li>看上面描述的应用场景，可以看出，如果你想比较对象地址直接用==，isEqual的最佳实践通常是比较对象，判断对象是否相等，而系统默认的isEqual实现不能满足要求。这也是为什么isEqual有比较规范的写法，有所谓的最佳实践这一说</li>
+<li>判断对象是否相等：比如以下应用场景：一个Person对象，有creditId，身份证号码属性，如果new了两个对象，都是Person类型，creditId值也相等，那我们认为这两个对象是相等的。就需要去重写isEqual来实现该场景</li>
+</ul>
+</li>
+<li><p>isEqual的重写思路(关心对象的内容(类型以及对象属性一致)):</p>
+<ul>
+<li>1、判断两指针地址，一致，返回YES；否则2</li>
+<li>2、判断指针指向对象是否为空以及对象类型是否相同。若有一个为空，或两者不是同类型对象 直接返回NO；否则3</li>
+<li>3、都不为空，且属于同类对象，而且对象的属性也相等，则返回YES</li>
+</ul>
+</li>
+<li>当然你也可以有isEqual其他的实现，视具体应用场景</li>
+</ul>
         
           <a class="article-more-a" href="/2019/09/08/isEqual和hash的关系/#more">more >></a>
         
@@ -272,164 +305,15 @@
 <li>Comparing resolved specification to the sandbox manifest</li>
 </ul>
 </li>
-<li><p>Downloading dependencies：下载依赖</p>
-<ul>
+<li>Downloading dependencies：下载依赖<ul>
 <li>如下，installing是会下载到~/Library/Caches/CocoaPods/Pods/Release/…下，然后copy到当前工程的Pods目录下<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-&gt; Installing AFNetworking (<span class="number">2.5</span>.<span class="number">4.1</span>)</span><br><span class="line">&gt; Copying AFNetworking from</span><br><span class="line"><span class="string">`/Users/username/Library/Caches/CocoaPods/Pods/Release/AFNetworking/2.5.4.1-313e5`</span></span><br><span class="line">to <span class="string">`Pods/AFNetworking`</span></span><br><span class="line"></span><br><span class="line">也可能已存在，就是using</span><br><span class="line">-&gt; Using AFNetworking (<span class="number">2.5</span>.<span class="number">4.1</span>)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
-<li><p>Generating Pods project</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Generating Pods project</span><br><span class="line">  - Creating Pods project</span><br><span class="line">  - Adding source files to Pods project</span><br><span class="line">  - Adding frameworks to Pods project</span><br><span class="line">  - Adding libraries to Pods project</span><br><span class="line">  - Adding resources to Pods project</span><br><span class="line">  - Linking headers</span><br><span class="line">  - Installing targets</span><br><span class="line">    - Installing target <span class="string">`AFNetworking`</span> iOS <span class="number">7.0</span></span><br><span class="line">    - Installing target <span class="string">`Pods-testTaggedPointer`</span> iOS <span class="number">8.0</span></span><br><span class="line">  - Running post install hooks</span><br><span class="line">  - Writing Xcode project file to <span class="string">`Pods/Pods.xcodeproj`</span></span><br><span class="line">    - Generating deterministic UUIDs</span><br><span class="line">  - Writing Lockfile <span class="keyword">in</span> <span class="string">`Podfile.lock`</span></span><br><span class="line">  - Writing Manifest <span class="keyword">in</span> <span class="string">`Pods/Manifest.lock`</span></span><br></pre></td></tr></table></figure>
-</li>
 </ul>
-<p>主要做了：</p>
-<ol>
-<li>生成Pods.xcodeproj工程：检测到改动，就更新Pods.xcodeproj；如果Pods.xcodeproj不存在，默认配置生成</li>
-<li>将依赖中的文件/依赖库/资源加入工程：</li>
-<li>设置目标依赖（Target Dependencies）<ol>
-<li>不只是代码加入，还有另外的几个文件：(<strong>配置文件、编译所需的文件、资源写入文件、许可文件等</strong>)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_0ahge8alk0a4dlicg21e9f6d2dbkb_1904x344.jpg" alt=""><ol>
-<li>包含编译选项的xcconfig/同时拥有编译设置和CPS默认配置的私有xcconfig文件；编译所需prefix.pch文件；编译必须的dummy.m文件</li>
-<li>如果源代码含有资源bundle，向app中添加bundle的方式将写入Pods-Resources.sh(该脚本会将所有三方库的resource文件copy到目标目录中)<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_4kcib48i07299c62dhhaaek15fbaf_1898x322.jpg" alt=""></li>
-<li>markdown、plist为用户许可文件</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>lockfile、manifest编写：写入到磁盘</li>
-</ol>
-<ul>
-<li><p>Integrating(集成) client project：集成工程所需的target</p>
-<ul>
-<li><strong>生成workspace，管理多个工程</strong></li>
-</ul>
-</li>
-<li><p>(CocoaPods将所有依赖库都放到一个Pods的项目中，然后主项目依赖Pods项目，这样，源码管理工作从主项目移到Pods项目中。Pods项目，最终会编译成一个名为libPods.a的文件，主项目只需要依赖这个.a文件即可)</p>
-</li>
-</ul>
-<hr>
-<ul>
-<li>pod update –verbose<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Update all pods</span><br><span class="line">Updating local specs repositories</span><br><span class="line">Analyzing dependencies</span><br><span class="line">    - Inspecting targets to integrate</span><br><span class="line">    - !!!=&gt;Finding Podfile changes</span><br><span class="line">    - Resolving dependencies of <span class="string">`Podfile`</span></span><br><span class="line">    - Comparing resolved specification to the sandbox manifest</span><br><span class="line">Downloading dependencies</span><br><span class="line">Generating Pods project</span><br><span class="line">Integrating client project</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<ul>
-<li><strong>Updating local specs repositories</strong><ul>
-<li>细心的会发现pod install没有这个过程，pod update有！这一点在下文的讲pod install和update的过程中，会提到。<strong>主要跟底层实现的默认值有关</strong></li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="看点CocoaPods源码"><a href="#看点CocoaPods源码" class="headerlink" title="看点CocoaPods源码"></a>看点CocoaPods源码</h4><p>简单的抽一些源码看一下</p>
-<ul>
-<li>pod install的过程<ul>
-<li>在CPS中，所有命令都会由Command类派发到对应的类，而真正执行pod install的类是Install</li>
-<li>Install类-Installer实例-执行install!方法</li>
-</ul>
-</li>
-<li>Installer的实例方法install!就会使用这些信息安装当前工程的依赖：分4部分<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def install!</span><br><span class="line">  resolve_dependencies    <span class="comment">// 解析Podfile中的依赖：会创建一个Analyzer类的实例</span></span><br><span class="line">  download_dependencies   <span class="comment">// 下载依赖</span></span><br><span class="line">  generate_pods_project   <span class="comment">// 创建 Pods.xcodeproj工程</span></span><br><span class="line">  integrate_user_project  <span class="comment">// 集成workspace</span></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<ol>
-<li>resolve_dependencies<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resolve_dependencies</span></span></span><br><span class="line">  analyzer = create_analyzer</span><br><span class="line"></span><br><span class="line">  plugin_sources = run_source_provider_hooks</span><br><span class="line">  analyzer.sources.insert(<span class="number">0</span>, *plugin_sources)</span><br><span class="line"></span><br><span class="line">  UI.section <span class="string">'Updating local specs repositories'</span> <span class="keyword">do</span></span><br><span class="line">    analyzer.update_repositories</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">if</span> repo_update?</span><br><span class="line"></span><br><span class="line">  UI.section <span class="string">'Analyzing dependencies'</span> <span class="keyword">do</span></span><br><span class="line">    analyze(analyzer)</span><br><span class="line">    validate_build_configurations</span><br><span class="line">    clean_sandbox</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li>内部有一个Analyzer类</li>
-<li><strong>看到if repo_update?，是否需要更新本地local spec文件有关</strong></li>
-<li>同时，会对podfile中的依赖进行分析。内部采用<strong>Milinillo依赖关系的解决算法</strong>，算法核心是回溯及向前检查。最后会返回一个依赖图，CocoaPods拿到后，会在specs_by_target中按照target(一般工程都会有多个target)将所有的specification分组</li>
-<li>specification包含当前工程依赖的三方库：名字、版本、源，用于依赖的下载</li>
-</ul>
-<hr>
-<ol start="2">
-<li>download_dependencies<br>我们经常会看到如下状态<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-&gt; Using AFNetworking (<span class="number">1.8</span>.<span class="number">8</span>)</span><br><span class="line">-&gt; Using AFNetworking (<span class="number">1.8</span>.<span class="number">8</span>) was (<span class="number">1.8</span>.<span class="number">6</span>)</span><br><span class="line">-&gt; Installing AFNetworking (<span class="number">1.8</span>.<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li>不同的状态，调用不同的方法<ul>
-<li>create_pod_installer：只创建一个PodSourceInstaller实例，然后加入到pod_installers数组中，依赖的版本没变，无需重新下载</li>
-<li>nstall_source_of_pod：调用栈非常庞大，在调用栈末端Downloader.download_Source会执行CocoaPods组件CocoaPods-Download，方法中调用的for_target会根据不同的源创建一个下载器，因为依赖可能会通过不同的协议/方式进行下载，如git/http/svn等，CocoaPods-Downloader会根据依赖的参数选项使用不同的方式下载</li>
-</ul>
-</li>
-<li>大部分依赖会被下载到~/Library/Caches/CocoaPods/Pods/Release/ 文件夹中，然后从这里复制到项目工程目录下的./Pods中，完成了整个CPS的下载流程<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_3j5acekhea8b5025ljalihlcc4e14_1782x480.jpg" alt=""></li>
-</ul>
-<hr>
-<ol start="3">
-<li>generate_pods_project<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate_pods_project</span><span class="params">(generator = create_generator)</span></span></span><br><span class="line">  UI.section <span class="string">'Generating Pods project'</span> <span class="keyword">do</span></span><br><span class="line">    generator.generate!</span><br><span class="line">    @pods_project = generator.project</span><br><span class="line">    run_podfile_post_install_hooks</span><br><span class="line">    generator.write</span><br><span class="line">    generator.share_development_pod_schemes</span><br><span class="line">    write_lockfiles   ==&gt;lockfile是在生成Pods.xcodeproj这一步产生的</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>上面调用到了PodsProjectGenerator实例方法generate!<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generate!</span></span></span><br><span class="line">  prepare</span><br><span class="line">  install_file_references</span><br><span class="line">  install_libraries</span><br><span class="line">  set_target_dependencies</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>主要做的事情：<ul>
-<li>生成Pods.xcodeproj工程</li>
-<li>将依赖的文件、library加入工程</li>
-<li>设置目标依赖，target dependencies</li>
-</ul>
-</li>
-<li>这些操作主要依赖CocoaPods/Xcodeproj组件，该组件负责所有工程文件的整合</li>
-</ul>
-<hr>
-<ol start="4">
-<li>integrate_user_project：生成workspace，管理多个工程</li>
-</ol>
-<ul>
-<li><p>UserProjectIntegrator类，调用integrate!，集成工程所需的target</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">integrate!</span></span></span><br><span class="line">  create_workspace</span><br><span class="line">  integrate_user_targets</span><br><span class="line">  warn_about_xcconfig_overrides</span><br><span class="line">  save_projects</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>生成workspace，获取需要集成的taget，调用他们的integrate(下面附了过程代码)（跟之前描述的一样，各种配置、资源拷贝、检查manifest），将target加入到工程，使用Xcodeproj修改copy Resource Script Phrase等设置，保存project.pbxproj，整个pod install过程结束</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">integrate!</span></span></span><br><span class="line">  UI.section(integration_message) <span class="keyword">do</span></span><br><span class="line">    XCConfigIntegrator.integrate(target, native_targets)</span><br><span class="line"></span><br><span class="line">    add_pods_library</span><br><span class="line">    add_embed_frameworks_script_phase</span><br><span class="line">    remove_embed_frameworks_script_phase_from_embedded_targets</span><br><span class="line">    add_copy_resources_script_phase</span><br><span class="line">    add_check_manifest_lock_script_phase</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h4 id="Podfile-lock-和-Manifest-lock"><a href="#Podfile-lock-和-Manifest-lock" class="headerlink" title="Podfile.lock 和 Manifest.lock"></a>Podfile.lock 和 Manifest.lock</h4><ul>
-<li>生成Pods.xcodeproj中有write_lockfiles这一步</li>
-<li>生成Pods.xcodeproj之前的大多工作是在内存中进行的，为了能让这些成果被重复利用，需要将结果所有结果保存到一个文件，Pods.xcodeproj文件被写入磁盘，另外生成两个重要的文件Podfile.lock，Mainfest.lock都被写入磁盘<ul>
-<li>Podfile.lock：记录每个需要被安装的pod的每个已安装的版本(查看安装的版本)。需要加入git版本控制</li>
-<li>Manifest.lock：<strong>每次执行pod install时创建的Podfile.lock文件的副本</strong>。如果遇到The sandbox is not in sync with the Podfile.lock，沙盒文件与Podfile.lock文件不同步，就是因为这俩文件不一致引起。由于Pods所在的目录并不总在版本控制下，这样可以保证开发者运行app之前，都能更新他们的pods，否则app可能会crash，或者一些不太明显的地方编译失败</li>
-</ul>
-</li>
-</ul>
-<h4 id="pod-install-和-update的区别"><a href="#pod-install-和-update的区别" class="headerlink" title="pod install 和 update的区别"></a>pod install 和 update的区别</h4><ul>
-<li><p>Command类会派发给Install or Update类</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Pod</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Command</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Install</span> &lt; Command</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">run</span></span></span><br><span class="line">        verify_podfile_exists!</span><br><span class="line">        installer = installer_for_config</span><br><span class="line">        installer.repo_update = repo_update?(<span class="symbol">:default</span> =&gt; <span class="literal">false</span>)</span><br><span class="line">        installer.update = <span class="literal">false</span></span><br><span class="line">        installer.install!</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Pod</span></span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Command</span></span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Update</span> &lt; Command</span></span><br><span class="line">      <span class="function"><span class="keyword">def</span> <span class="title">run</span></span></span><br><span class="line">        ...</span><br><span class="line">        installer = installer_for_config</span><br><span class="line">        installer.repo_update = repo_update?(<span class="symbol">:default</span> =&gt; <span class="literal">true</span>)</span><br><span class="line">        installer.update = <span class="literal">true</span></span><br><span class="line">        installer.install!</span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>非常关键的，看内部的installer的实例对象的配置，<strong>一个repo_update，install默认值是false不更新podspec索引，update默认值是true。</strong>，这也是为什么上文在执行pod install –verbose的时候，没有<code>Updating local specs repositories</code>过程的原因</p>
-</li>
-<li>同时还有一个update的属性，这一点我觉得应该是影响了后续的一些行为不一样的关键</li>
-<li>最大区别：<ul>
-<li>install默认不更新本地podspec索引，update默认会更新</li>
-<li>install并不会修改Podfile.lock中显示指定的版本<ul>
-<li>一般在添加/移除库，首次使用。对于.lock已存在的库，会下载明确的版本</li>
-<li>不会检查是否有新的版本。不在的，会找podfile描述的版本</li>
-<li>只会解决pods里但不在.lock里的库之间的依赖</li>
-</ul>
-</li>
-<li>update会无视已有的Podfile.lock文件，只要符合podfile的限制，重新对依赖进行分析，尝试将所有pod更新到最新版</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="常见的目录-amp-指令"><a href="#常见的目录-amp-指令" class="headerlink" title="常见的目录&amp;指令"></a>常见的目录&amp;指令</h4><p>目录</p>
-<ul>
-<li>~/.cocoapods/repos</li>
-<li>~/Library/Caches/CocoaPods/Pods</li>
-<li>三方库在Pods目录下，同时还有Pods.xcodeproj，Manifest.lock<br><img src="https://s10.mogucdn.com/mlcdn/c45406/190908_355ffk57684ah9h03d36eikfcjia2_2888x492.jpg" alt=""></li>
-</ul>
-<hr>
-<p>指令</p>
-<ul>
-<li>pod env：查看CPS版本</li>
-<li>pod outdated：查看Podfile文件中的依赖库的最新版本</li>
-<li>pod search xx：查找所有可用的库</li>
-<li>pod update PODNAME：忽略.lock，只更新这个库的新版本。只要符合podfile的限制</li>
-</ul>
-<hr>
-<p>参考：</p>
-<ul>
-<li><a href="https://guides.cocoapods.org/" target="_blank" rel="noopener">https://guides.cocoapods.org/</a></li>
-<li><a href="https://mp.weixin.qq.com/s/VKGWwXpTfvVpYPh11DVSvg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/VKGWwXpTfvVpYPh11DVSvg</a></li>
-</ul>
-
+        
+          <a class="article-more-a" href="/2019/09/01/CocoaPods深入一点/#more">more >></a>
+        
       
 
       
