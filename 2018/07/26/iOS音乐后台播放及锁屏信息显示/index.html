@@ -6,16 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://nongchaozhe.github.io">
-  <title>Archives | NCZ的博客</title>
+  <title>iOS音乐后台播放及锁屏信息显示 | NCZ的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NCZ的博客">
-<meta property="og:url" content="https://nongchaozhe.github.io/archives/page/3/index.html">
+  <meta name="description" content="原来博客迁移过来的  实现音乐的后台播放，以及播放时，可以控制其暂停，下一首等操作，以及锁屏图片歌曲名等的显示此实例需要真机调试，效果图如下：  工程下载：github工程下载  实现步骤：1、首先修改info.plist  2、其次引入两个需要的框架 12#import &amp;lt;AVFoundation/AVFoundation.h&amp;gt;#import &amp;lt;MediaPlayer/Medi">
+<meta name="keywords" content="iOS,前端,OC,Swift,Javascript,Developer,HTML,CSS,支付金融">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS音乐后台播放及锁屏信息显示">
+<meta property="og:url" content="https://nongchaozhe.github.io/2018/07/26/iOS音乐后台播放及锁屏信息显示/index.html">
 <meta property="og:site_name" content="NCZ的博客">
+<meta property="og:description" content="原来博客迁移过来的  实现音乐的后台播放，以及播放时，可以控制其暂停，下一首等操作，以及锁屏图片歌曲名等的显示此实例需要真机调试，效果图如下：  工程下载：github工程下载  实现步骤：1、首先修改info.plist  2、其次引入两个需要的框架 12#import &amp;lt;AVFoundation/AVFoundation.h&amp;gt;#import &amp;lt;MediaPlayer/Medi">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUwODA2MTc1MTQzMzgz?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUwODA2MTc0OTM4NDc0?x-oss-process=image/format,png">
+<meta property="og:updated_time" content="2019-09-09T01:07:04.985Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NCZ的博客">
+<meta name="twitter:title" content="iOS音乐后台播放及锁屏信息显示">
+<meta name="twitter:description" content="原来博客迁移过来的  实现音乐的后台播放，以及播放时，可以控制其暂停，下一首等操作，以及锁屏图片歌曲名等的显示此实例需要真机调试，效果图如下：  工程下载：github工程下载  实现步骤：1、首先修改info.plist  2、其次引入两个需要的框架 12#import &amp;lt;AVFoundation/AVFoundation.h&amp;gt;#import &amp;lt;MediaPlayer/Medi">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUwODA2MTc1MTQzMzgz?x-oss-process=image/format,png">
   
     <link rel="alternative" href="/atom.xml" title="NCZ的博客" type="application/atom+xml">
   
@@ -139,79 +146,186 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-iOS音乐后台播放及锁屏信息显示" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      iOS音乐后台播放及锁屏信息显示
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/26/iOS音乐后台播放及锁屏信息显示/" class="archive-article-date">
+
+        
+        <a href="/2018/07/26/iOS音乐后台播放及锁屏信息显示/" class="archive-article-date">
   	<time datetime="2018-07-26T01:04:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-26</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/26/iOS音乐后台播放及锁屏信息显示/">iOS音乐后台播放及锁屏信息显示</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原来博客迁移过来的</p>
+<hr>
+<p>实现音乐的后台播放，以及播放时，可以控制其暂停，下一首等操作，以及锁屏图片歌曲名等的显示<br>此实例需要真机调试，效果图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUwODA2MTc1MTQzMzgz?x-oss-process=image/format,png" alt="调试"></p>
+<hr>
+<p>工程下载：<a href="https://github.com/Nongchaozhe/MusicRemoteControl" target="_blank" rel="noopener">github工程下载</a></p>
+<hr>
+<p>实现步骤：<br>1、首先修改info.plist<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUwODA2MTc0OTM4NDc0?x-oss-process=image/format,png" alt="info"></p>
+<hr>
+<p>2、其次引入两个需要的框架</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</span><br><span class="line">#import &lt;MediaPlayer/MediaPlayer.h&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>3、设置播放器及后台播放</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">//    设置后台播放</span><br><span class="line">    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];</span><br><span class="line">    </span><br><span class="line">//    设置播放器</span><br><span class="line">    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@&quot;那些花儿&quot; ofType:@&quot;mp3&quot;] ];</span><br><span class="line">    _player = [[AVPlayer alloc] initWithURL:url];</span><br><span class="line">    [_player play];</span><br><span class="line">    _isPlayingNow = YES;</span><br><span class="line">    </span><br><span class="line">    //后台播放显示信息设置</span><br><span class="line">    [self setPlayingInfo];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - 接收方法的设置</span><br><span class="line">- (void)remoteControlReceivedWithEvent:(UIEvent *)event &#123;</span><br><span class="line">    if (event.type == UIEventTypeRemoteControl) &#123;  //判断是否为远程控制</span><br><span class="line">        switch (event.subtype) &#123;</span><br><span class="line">            case  UIEventSubtypeRemoteControlPlay:</span><br><span class="line">                if (!_isPlayingNow) &#123;</span><br><span class="line">                    [_player play];</span><br><span class="line">                &#125;</span><br><span class="line">                _isPlayingNow = !_isPlayingNow;</span><br><span class="line">                break;</span><br><span class="line">            case UIEventSubtypeRemoteControlPause:</span><br><span class="line">                if (_isPlayingNow) &#123;</span><br><span class="line">                    [_player pause];</span><br><span class="line">                &#125;</span><br><span class="line">                _isPlayingNow = !_isPlayingNow;</span><br><span class="line">                break;</span><br><span class="line">            case UIEventSubtypeRemoteControlNextTrack:</span><br><span class="line">                NSLog(@&quot;下一首&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case UIEventSubtypeRemoteControlPreviousTrack:</span><br><span class="line">                NSLog(@&quot;上一首 &quot;);</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>4、设置后台播放时显示的东西，例如歌曲名字，图片等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)setPlayingInfo &#123;</span><br><span class="line">//    &lt;MediaPlayer/MediaPlayer.h&gt;</span><br><span class="line">    MPMediaItemArtwork *artWork = [[MPMediaItemArtwork alloc] initWithImage:[UIImage imageNamed:@&quot;pushu.jpg&quot;]];</span><br><span class="line">    </span><br><span class="line">    NSDictionary *dic = @&#123;MPMediaItemPropertyTitle:@&quot;那些花儿&quot;,</span><br><span class="line">                          MPMediaItemPropertyArtist:@&quot;朴树&quot;,</span><br><span class="line">                          MPMediaItemPropertyArtwork:artWork</span><br><span class="line">                          &#125;;</span><br><span class="line">    [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dic];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>5、远程控制设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidAppear:(BOOL)animated &#123;</span><br><span class="line">//    接受远程控制</span><br><span class="line">    [self becomeFirstResponder];</span><br><span class="line">    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)viewDidDisappear:(BOOL)animated &#123;</span><br><span class="line">//    取消远程控制</span><br><span class="line">    [self resignFirstResponder];</span><br><span class="line">    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>晚饭加鸡腿🍗<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://nongchaozhe.github.io/2018/07/26/iOS音乐后台播放及锁屏信息显示/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/25/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-25T13:50:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-25</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Method Swizzling与JSPatch探究（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/25/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/25/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span>
-    </nav>
+  
+
   
 
 
@@ -235,8 +349,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

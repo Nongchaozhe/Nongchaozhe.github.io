@@ -141,6 +141,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-iOS音乐后台播放及锁屏信息显示" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/26/iOS音乐后台播放及锁屏信息显示/">iOS音乐后台播放及锁屏信息显示</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/26/iOS音乐后台播放及锁屏信息显示/" class="archive-article-date">
+  	<time datetime="2018-07-26T01:04:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原来博客迁移过来的</p>
+<hr>
+<p>实现音乐的后台播放，以及播放时，可以控制其暂停，下一首等操作，以及锁屏图片歌曲名等的显示<br>此实例需要真机调试，效果图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUwODA2MTc1MTQzMzgz?x-oss-process=image/format,png" alt="调试"></p>
+<hr>
+<p>工程下载：<a href="https://github.com/Nongchaozhe/MusicRemoteControl" target="_blank" rel="noopener">github工程下载</a></p>
+<hr>
+<p>实现步骤：<br>1、首先修改info.plist<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUwODA2MTc0OTM4NDc0?x-oss-process=image/format,png" alt="info"></p>
+<hr>
+<p>2、其次引入两个需要的框架</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;AVFoundation/AVFoundation.h&gt;</span><br><span class="line">#import &lt;MediaPlayer/MediaPlayer.h&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>3、设置播放器及后台播放</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">//    设置后台播放</span><br><span class="line">    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];</span><br><span class="line">    </span><br><span class="line">//    设置播放器</span><br><span class="line">    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@&quot;那些花儿&quot; ofType:@&quot;mp3&quot;] ];</span><br><span class="line">    _player = [[AVPlayer alloc] initWithURL:url];</span><br><span class="line">    [_player play];</span><br><span class="line">    _isPlayingNow = YES;</span><br><span class="line">    </span><br><span class="line">    //后台播放显示信息设置</span><br><span class="line">    [self setPlayingInfo];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - 接收方法的设置</span><br><span class="line">- (void)remoteControlReceivedWithEvent:(UIEvent *)event &#123;</span><br><span class="line">    if (event.type == UIEventTypeRemoteControl) &#123;  //判断是否为远程控制</span><br><span class="line">        switch (event.subtype) &#123;</span><br><span class="line">            case  UIEventSubtypeRemoteControlPlay:</span><br><span class="line">                if (!_isPlayingNow) &#123;</span><br><span class="line">                    [_player play];</span><br><span class="line">                &#125;</span><br><span class="line">                _isPlayingNow = !_isPlayingNow;</span><br><span class="line">                break;</span><br><span class="line">            case UIEventSubtypeRemoteControlPause:</span><br><span class="line">                if (_isPlayingNow) &#123;</span><br><span class="line">                    [_player pause];</span><br><span class="line">                &#125;</span><br><span class="line">                _isPlayingNow = !_isPlayingNow;</span><br><span class="line">                break;</span><br><span class="line">            case UIEventSubtypeRemoteControlNextTrack:</span><br><span class="line">                NSLog(@&quot;下一首&quot;);</span><br><span class="line">                break;</span><br><span class="line">            case UIEventSubtypeRemoteControlPreviousTrack:</span><br><span class="line">                NSLog(@&quot;上一首 &quot;);</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>4、设置后台播放时显示的东西，例如歌曲名字，图片等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)setPlayingInfo &#123;</span><br><span class="line">//    &lt;MediaPlayer/MediaPlayer.h&gt;</span><br><span class="line">    MPMediaItemArtwork *artWork = [[MPMediaItemArtwork alloc] initWithImage:[UIImage imageNamed:@&quot;pushu.jpg&quot;]];</span><br><span class="line">    </span><br><span class="line">    NSDictionary *dic = @&#123;MPMediaItemPropertyTitle:@&quot;那些花儿&quot;,</span><br><span class="line">                          MPMediaItemPropertyArtist:@&quot;朴树&quot;,</span><br><span class="line">                          MPMediaItemPropertyArtwork:artWork</span><br><span class="line">                          &#125;;</span><br><span class="line">    [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dic];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>5、远程控制设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidAppear:(BOOL)animated &#123;</span><br><span class="line">//    接受远程控制</span><br><span class="line">    [self becomeFirstResponder];</span><br><span class="line">    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)viewDidDisappear:(BOOL)animated &#123;</span><br><span class="line">//    取消远程控制</span><br><span class="line">    [self resignFirstResponder];</span><br><span class="line">    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/26/iOS音乐后台播放及锁屏信息显示/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
