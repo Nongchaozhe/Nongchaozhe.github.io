@@ -141,6 +141,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-O-n-的排序算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/28/O-n-的排序算法/">O(n)的排序算法-(计数排序、桶排序及其js实现)</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/28/O-n-的排序算法/" class="archive-article-date">
+  	<time datetime="2019-08-28T13:25:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>总结一下，常见时间复杂度为O(n)的排序算法，以及给出js实现</li>
+<li>非比较排序，比较排序的时间复杂度下界为O(n*logn)</li>
+</ul>
+<h3 id="计数排序-Counting-sort"><a href="#计数排序-Counting-sort" class="headerlink" title="计数排序(Counting sort)"></a>计数排序(Counting sort)</h3><ul>
+<li>适用范围：待排数组arr[N]，元素处在某一范围[min,max]</li>
+<li>核心：假设元素为整数，空间换时间，需要空间大小为O(max-min)的空间，来存储所有元素出现的次数<ul>
+<li>如果元素个数多，但是数值范围较窄时，计数排序是很节省空间的</li>
+</ul>
+</li>
+<li>步骤：<ul>
+<li>遍历arr[N]，使用计数数组count[max-min]，对每个元素进行计数</li>
+<li>遍历count[]，还原arr[N]，结束</li>
+</ul>
+</li>
+<li>补充：数组index肯定≥0的，待排元素的min不一定为0，需要引入一个offset来修正数值在计数数组count[]中的位置</li>
+<li>时间复杂度为O(n)，更准确的将是O(k+n),k表示输入数组元素范围为[0,k]，空间复杂度O(k+n)</li>
+</ul>
+        
+          <a class="article-more-a" href="/2019/08/28/O-n-的排序算法/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/28/O-n-的排序算法/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dispatch-barrier-async-sync异同点" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -324,84 +406,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/07/02/iOS内存管理方案之一-TaggedPointer/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-MLeaksFinder学习记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/06/30/MLeaksFinder学习记录/">MLeaksFinder学习记录</a>
-    </h1>
-  
-
-        
-        <a href="/2019/06/30/MLeaksFinder学习记录/" class="archive-article-date">
-  	<time datetime="2019-06-30T13:06:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>不久之前的学习笔记了，整理下~</li>
-<li>结合源码看更佳~</li>
-</ul>
-<hr>
-<h2 id="内存泄露检测"><a href="#内存泄露检测" class="headerlink" title="内存泄露检测"></a>内存泄露检测</h2><ul>
-<li>Leaks检测leaded memory，Allocations通过MarkGeneration检测abandoned memory(仍然被引用但是没用的内存)，操作麻烦，不够及时精准定位</li>
-<li>MLeaksFinder：无侵入，即时，无需为了检测内存泄露重复操作某个场景。精准定位是哪个对象没释放。有白名单机制；目前只检测ViewController和View对象(可扩展，MLCheck())</li>
-</ul>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="入口"><a href="#入口" class="headerlink" title="入口"></a>入口</h3><ul>
-<li>[MLeaksFinder start]; //进行swizzle</li>
-<li>[MLeaksFinder stop]; //设置静态局部参数，为NO，hook的函数不会执行到关键代码</li>
-<li><img src="https://s10.mogucdn.com/mlcdn/c45406/190630_01i705b0i150hld3a2iee5g7hk8hd_888x290.jpg" style="zoom:30%"></li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/06/30/MLeaksFinder学习记录/">展开全文 >></a>
         </p>
       
 

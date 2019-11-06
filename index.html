@@ -141,6 +141,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-一道关于老鼠繁衍的算法题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/06/一道关于老鼠繁衍的算法题/">一道关于老鼠繁衍的算法题</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/06/一道关于老鼠繁衍的算法题/" class="archive-article-date">
+  	<time datetime="2019-11-05T23:15:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="题目源头"><a href="#题目源头" class="headerlink" title="题目源头"></a>题目源头</h4><p>这道题目是前些日子，面试阿里的时候，给的一道在线测评算法题</p>
+<h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">大海中央的一座孤岛，上面本来没有老鼠。有一艘路过的船只在附近沉没了，船上 x 对 新出生的老鼠，顺着船只残骸漂流到小岛上。</span><br><span class="line">1. 每两个月一次生产，每次出生 2对 老鼠 </span><br><span class="line">2. 老鼠的寿命是 5个月，也就是说一辈子可以生产 2次</span><br><span class="line">3. 这个岛上，每个月因为神秘原因，假如存在 3个月大的老鼠，会死去一对</span><br><span class="line"> </span><br><span class="line">问 n个月后，岛上有多少只老鼠 (假设存活率 100% )</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/11/06/一道关于老鼠繁衍的算法题/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-isEqual和hash的关系" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -401,88 +464,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/08/30/O-n-的排序算法-基数排序/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-O-n-的排序算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/28/O-n-的排序算法/">O(n)的排序算法-(计数排序、桶排序及其js实现)</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/28/O-n-的排序算法/" class="archive-article-date">
-  	<time datetime="2019-08-28T13:25:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>总结一下，常见时间复杂度为O(n)的排序算法，以及给出js实现</li>
-<li>非比较排序，比较排序的时间复杂度下界为O(n*logn)</li>
-</ul>
-<h3 id="计数排序-Counting-sort"><a href="#计数排序-Counting-sort" class="headerlink" title="计数排序(Counting sort)"></a>计数排序(Counting sort)</h3><ul>
-<li>适用范围：待排数组arr[N]，元素处在某一范围[min,max]</li>
-<li>核心：假设元素为整数，空间换时间，需要空间大小为O(max-min)的空间，来存储所有元素出现的次数<ul>
-<li>如果元素个数多，但是数值范围较窄时，计数排序是很节省空间的</li>
-</ul>
-</li>
-<li>步骤：<ul>
-<li>遍历arr[N]，使用计数数组count[max-min]，对每个元素进行计数</li>
-<li>遍历count[]，还原arr[N]，结束</li>
-</ul>
-</li>
-<li>补充：数组index肯定≥0的，待排元素的min不一定为0，需要引入一个offset来修正数值在计数数组count[]中的位置</li>
-<li>时间复杂度为O(n)，更准确的将是O(k+n),k表示输入数组元素范围为[0,k]，空间复杂度O(k+n)</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/08/28/O-n-的排序算法/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/28/O-n-的排序算法/">展开全文 >></a>
         </p>
       
 

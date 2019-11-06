@@ -141,6 +141,74 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Cordova源码学习-二-Native回调JS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">Cordova源码学习(二)-Native回调JS</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/06/Cordova源码学习-二-Native回调JS/" class="archive-article-date">
+  	<time datetime="2018-09-06T10:27:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文只对JS与Native之间的交互进行源码阅读。至于Cordova如何开发插件等等，请参考Cordova官方文档：<a href="https://cordova.apache.org/docs/en/latest/" target="_blank" rel="noopener">https://cordova.apache.org/docs/en/latest/</a></p>
+</blockquote>
+<h1 id="Native回调JS"><a href="#Native回调JS" class="headerlink" title="Native回调JS"></a>Native回调JS</h1><h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://s10.mogucdn.com/mlcdn/c45406/180906_54298cb7ai5lgfiec9f1eg267ik2f_1304x890.png" style="zoom:30%;"></p>
+        
+          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/06/Cordova源码学习-二-Native回调JS/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Cordova源码学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -329,79 +397,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/08/02/Method-Swizzling与JSPatch探究（二）/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Method-Swizzling与JSPatch探究（一）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">Method Swizzling与JSPatch探究（一）</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/" class="archive-article-date">
-  	<time datetime="2018-08-01T15:19:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>以下笔记整理于2017-03-22<br>当时作为无埋点预研的学习整理，由于小组是客户端和前端混合的小组，所以下面尽可能以偏简单的文字在组内分享。</p>
-<hr>
-<ul>
-<li>用最简单的文字，来简单说明Method Swizzling和JSPatch hook selector的原理。并试验当两者共用时，兼容情况。(无埋点预研)</li>
-<li>如果看此文之前，对这两者有些概念那就最好啦😝</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录：</span><br><span class="line">1、从[receiver message]说起</span><br><span class="line">2、Method Swizzling hook过程</span><br><span class="line">3、JSPatch hook过程</span><br><span class="line">4、各种case兼容性</span><br><span class="line">5、结论</span><br><span class="line">6、拓展</span><br><span class="line">7、也许你有疑问的地方(主要针对3中可能产生的问题)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>写完之后表示：本来没想写这么长，越写越多，醉了。记录下来主要也是让自己查出一些知识漏洞
-        
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/01/Method-Swizzling与JSPatch探究（一）/">展开全文 >></a>
         </p>
       
 
