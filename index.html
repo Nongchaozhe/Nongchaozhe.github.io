@@ -163,6 +163,24 @@
       
         <h4 id="题目源头"><a href="#题目源头" class="headerlink" title="题目源头"></a>题目源头</h4><p>这道题目是前些日子，面试阿里的时候，给的一道在线测评算法题</p>
 <h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">大海中央的一座孤岛，上面本来没有老鼠。有一艘路过的船只在附近沉没了，船上 x 对 新出生的老鼠，顺着船只残骸漂流到小岛上。</span><br><span class="line">1. 每两个月一次生产，每次出生 2对 老鼠 </span><br><span class="line">2. 老鼠的寿命是 5个月，也就是说一辈子可以生产 2次</span><br><span class="line">3. 这个岛上，每个月因为神秘原因，假如存在 3个月大的老鼠，会死去一对</span><br><span class="line"> </span><br><span class="line">问 n个月后，岛上有多少只老鼠 (假设存活率 100% )</span><br></pre></td></tr></table></figure>
+<h4 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h4><h5 id="1"><a href="#1" class="headerlink" title="1"></a>1</h5><ul>
+<li>如果只看第一个条件，颇有一点斐波那契数列的样子。但是这个题目，老鼠不是单纯的生，还有死、意外死，还有生的限制</li>
+</ul>
+<h5 id="2"><a href="#2" class="headerlink" title="2"></a>2</h5><ul>
+<li>进一步，可以看到，这个题目似乎老鼠是有几个状态的：新生的老鼠，意外死亡，正常死亡的老鼠等</li>
+<li>最开始，是不是可以存在几个状态转移方程，譬如fn=nx，n个月时该状态下的老鼠数量，多个状态转移与岛上的老鼠有什么关系，去寻找这种关系</li>
+<li>但是，想了一会儿，发现这种思路，偏复杂，比如意外死亡是需要考虑老鼠的年龄的，并不是单纯的将现存的老鼠直接-1就可以的，必须是年龄到3个月的时候才可-1。那就说明，这种状态方程计算数目的时候，必须要引入老鼠的年龄的概念。</li>
+<li>这里的动态转移方程：已经想到这个题目应该是可以利用动态规划的思想去解决的</li>
+</ul>
+<h5 id="3"><a href="#3" class="headerlink" title="3"></a>3</h5><ul>
+<li>从老鼠年龄的角度出发，记录不同的月份的老鼠的有多少只，岛上的老鼠数目，就是当前n个月，不同月份的老鼠数目和</li>
+</ul>
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><ul>
+<li>阿里的测评，对面试者，并没有类似leetcode提交代码，看是否ac。而是给出思路，手写代码。所以这边只提供思路，不提供解题代码~</li>
+<li>大家可以用自己熟悉的语言写写看</li>
+</ul>
+<h4 id="last"><a href="#last" class="headerlink" title="last"></a>last</h4><p>欢迎提供不一样的解题思路呀~</p>
+
       
 
       
