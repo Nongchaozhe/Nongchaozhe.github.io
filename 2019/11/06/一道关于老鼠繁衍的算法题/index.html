@@ -19,7 +19,10 @@
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/191108_0ai5fl8d014kh3cilf6geja12eg78_484x388.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/191108_4fh9dajh588i5g0a41948l2722h5h_664x396.jpg">
 <meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/191108_7hi4976jj5k0ec1b5cb8lchfjkih2_904x394.jpg">
-<meta property="og:updated_time" content="2019-11-08T15:21:24.458Z">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/191108_8a67a8a6hki9e14fdhikfg4j3gh60_1154x390.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/191108_399a3fhfe3egbkbh5f440ahjl8gca_1396x396.jpg">
+<meta property="og:image" content="https://s10.mogucdn.com/mlcdn/c45406/191108_239hde5c750c29gj3a8d105ga4jhg_1642x396.jpg">
+<meta property="og:updated_time" content="2019-11-08T15:23:01.963Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一道关于老鼠繁衍的算法题">
 <meta name="twitter:description" content="题目源头这道题目是前些日子，面试阿里的时候，给的一道在线测评算法题 题目描述123456大海中央的一座孤岛，上面本来没有老鼠。有一艘路过的船只在附近沉没了，船上 x 对 新出生的老鼠，顺着船只残骸漂流到小岛上。1. 每两个月一次生产，每次出生 2对 老鼠 2. 老鼠的寿命是 5个月，也就是说一辈子可以生产 2次3. 这个岛上，每个月因为神秘原因，假如存在 3个月大的老鼠，会死去一对 问 n个月后，">
@@ -203,7 +206,8 @@
 </ul>
 </li>
 </ul>
-<h4 id="3个月时"><a href="#3个月时" class="headerlink" title="3个月时"></a>3个月时</h4><ul>
+<h4 id="3个月时"><a href="#3个月时" class="headerlink" title="3个月时"></a>3个月时</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/191108_8a67a8a6hki9e14fdhikfg4j3gh60_1154x390.jpg" style="zoom:36%"></p>
+<ul>
 <li>约束：<ul>
 <li>岛上开始出现3个月的老鼠，出现意外死亡，(3,3)=(2,2)-1</li>
 <li>(3,0)为0，因为(2,1)为0，不存在具备生育能力的老鼠</li>
@@ -211,13 +215,15 @@
 </ul>
 </li>
 </ul>
-<h4 id="4个月时"><a href="#4个月时" class="headerlink" title="4个月时"></a>4个月时</h4><ul>
+<h4 id="4个月时"><a href="#4个月时" class="headerlink" title="4个月时"></a>4个月时</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/191108_399a3fhfe3egbkbh5f440ahjl8gca_1396x396.jpg" style="zoom:36%"></p>
+<ul>
 <li>约束：<ul>
 <li>(3,3)经过一个月的成长，又具备生育能力了(每两个月)，因此(4,0)=2<em>(3,1)+2</em>(3,3)</li>
 </ul>
 </li>
 </ul>
-<h4 id="5个月时"><a href="#5个月时" class="headerlink" title="5个月时"></a>5个月时</h4><ul>
+<h4 id="5个月时"><a href="#5个月时" class="headerlink" title="5个月时"></a>5个月时</h4><p><img src="https://s10.mogucdn.com/mlcdn/c45406/191108_239hde5c750c29gj3a8d105ga4jhg_1642x396.jpg" style="zoom:36%"></p>
+<ul>
 <li>约束：<ul>
 <li>正常死亡，(5,5)由(4,4)成长而来，但是会死亡，所以(5，5)为0</li>
 <li>其实这个状态是可以没有的，因为(n,5)恒为0，不存在5个月的老鼠，但是这里为了体现死亡状态，特地把这一行写出来</li>
